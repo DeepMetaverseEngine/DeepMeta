@@ -135,21 +135,23 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeepCore.Console", "DeepCor
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "6.Editor", "6.Editor", "{6539DA06-5CA5-4DF8-8EF8-5B66492AB840}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeepGameEditor3D.Main", "DeepEditorMain\DeepGameEditor3D.Main\DeepGameEditor3D.Main.csproj", "{A7009F6D-256D-DFCF-7225-9A4C1E46DF56}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeepGameEditor3D.Main", "..\DeepEditorMain\DeepGameEditor3D.Main\DeepGameEditor3D.Main.csproj", "{A7009F6D-256D-DFCF-7225-9A4C1E46DF56}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeepGameEditor3D.MMO", "DeepEditorMain\DeepGameEditor3D.MMO\DeepGameEditor3D.MMO.csproj", "{1B8C2985-3CC5-94EA-76C4-C235EA36847E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeepGameEditor3D.MMO", "..\DeepEditorMain\DeepGameEditor3D.MMO\DeepGameEditor3D.MMO.csproj", "{1B8C2985-3CC5-94EA-76C4-C235EA36847E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeepGameEditor3D.MMOServer", "DeepEditorMain\DeepGameEditor3D.MMOServer\DeepGameEditor3D.MMOServer.csproj", "{6D09E497-893B-C170-7C72-72EB5116B11F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeepGameEditor3D.MMOServer", "..\DeepEditorMain\DeepGameEditor3D.MMOServer\DeepGameEditor3D.MMOServer.csproj", "{6D09E497-893B-C170-7C72-72EB5116B11F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeepGameEditor3D.Packages", "DeepEditorMain\DeepGameEditor3D.Packages\DeepGameEditor3D.Packages.csproj", "{EE439E8E-EF3F-3A9F-4DBB-7AE4357C2766}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeepGameEditor3D.Packages", "..\DeepEditorMain\DeepGameEditor3D.Packages\DeepGameEditor3D.Packages.csproj", "{EE439E8E-EF3F-3A9F-4DBB-7AE4357C2766}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeepGameEditor3D.Plugin3D", "DeepEditorMain\DeepGameEditor3D.Plugin3D\DeepGameEditor3D.Plugin3D.csproj", "{451666AA-9990-E821-5320-6A5407CD40F5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeepGameEditor3D.Plugin3D", "..\DeepEditorMain\DeepGameEditor3D.Plugin3D\DeepGameEditor3D.Plugin3D.csproj", "{451666AA-9990-E821-5320-6A5407CD40F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeepGameEditor3D.Unity3D", "DeepEditorMain\DeepGameEditor3D.Unity3D\DeepGameEditor3D.Unity3D.csproj", "{FB3AFFD9-AB08-64F6-3132-4BA1CEF42935}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeepGameEditor3D.Unity3D", "..\DeepEditorMain\DeepGameEditor3D.Unity3D\DeepGameEditor3D.Unity3D.csproj", "{FB3AFFD9-AB08-64F6-3132-4BA1CEF42935}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeepGameEditor3D.Unity3D.Ipc", "DeepEditorMain\DeepGameEditor3D.Unity3D.Ipc\DeepGameEditor3D.Unity3D.Ipc.csproj", "{1FBB8310-BF03-D3EB-F2D7-C482891DD4D6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeepGameEditor3D.Unity3D.Ipc", "..\DeepEditorMain\DeepGameEditor3D.Unity3D.Ipc\DeepGameEditor3D.Unity3D.Ipc.csproj", "{1FBB8310-BF03-D3EB-F2D7-C482891DD4D6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "6.EditorBuild", "6.EditorBuild", "{DB87B92A-FD3C-481F-9051-B9FE42DEB107}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeepCore.Unity3D.Win32", "DeepCore.Unity3D.Win32\DeepCore.Unity3D.Win32.csproj", "{5AE02515-84E4-4C46-253B-2E443E96804B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -424,6 +426,10 @@ Global
 		{1FBB8310-BF03-D3EB-F2D7-C482891DD4D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1FBB8310-BF03-D3EB-F2D7-C482891DD4D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1FBB8310-BF03-D3EB-F2D7-C482891DD4D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5AE02515-84E4-4C46-253B-2E443E96804B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5AE02515-84E4-4C46-253B-2E443E96804B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5AE02515-84E4-4C46-253B-2E443E96804B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5AE02515-84E4-4C46-253B-2E443E96804B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -496,6 +502,7 @@ Global
 		{451666AA-9990-E821-5320-6A5407CD40F5} = {6539DA06-5CA5-4DF8-8EF8-5B66492AB840}
 		{FB3AFFD9-AB08-64F6-3132-4BA1CEF42935} = {6539DA06-5CA5-4DF8-8EF8-5B66492AB840}
 		{1FBB8310-BF03-D3EB-F2D7-C482891DD4D6} = {6539DA06-5CA5-4DF8-8EF8-5B66492AB840}
+		{5AE02515-84E4-4C46-253B-2E443E96804B} = {40704725-46AC-4365-8F16-4221FBC7B954}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BC30BA1E-E6FB-4891-9406-124A66B79398}
