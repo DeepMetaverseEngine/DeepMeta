@@ -555,7 +555,7 @@ namespace DeepCore.Game3D.Host.Instance
         protected virtual void OnPickEnd(InstanceUnit u)
         {
         }
-        public bool HasNearPlayer => this.SpaceUserTag.HasNearPlayer;
+        public virtual bool HasNearPlayer => this.SpaceUserTag.HasNearPlayer;
 
 
         #region _ViewTrigger_
