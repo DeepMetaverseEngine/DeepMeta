@@ -1,0 +1,290 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v9.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v9.0": {
+      "vox/1.2.14": {
+        "dependencies": {
+          "DeepMeta.DeepCore": "1.2.28",
+          "DeepMeta.DeepCore.GUI": "1.2.17",
+          "DeepMeta.DeepCore.SharpZipLib": "1.2.15",
+          "DeepMeta.DeepCore.Voxel": "1.2.15",
+          "DeepMeta.DeepCore.VoxelWorld": "1.2.14",
+          "SharpZipLib": "1.4.2",
+          "DeepCore": "1.2.28.0",
+          "DeepCore.Geometry": "1.2.18.0",
+          "DeepCore.GUI": "1.2.17.0",
+          "DeepCore.MPQ": "1.2.26.0",
+          "DeepCore.Net": "1.2.28.0",
+          "DeepCore.SharpZipLib": "1.2.15.0",
+          "DeepCore.Voxel": "1.2.15.0",
+          "DeepCore.VoxelWorld": "1.2.14.0"
+        },
+        "runtime": {
+          "vox.dll": {}
+        }
+      },
+      "SharpZipLib/1.4.2": {
+        "runtime": {
+          "lib/net6.0/ICSharpCode.SharpZipLib.dll": {
+            "assemblyVersion": "1.4.2.13",
+            "fileVersion": "1.4.2.13"
+          }
+        }
+      },
+      "DeepMeta.DeepCore/1.2.28": {
+        "runtime": {
+          "DeepCore.dll": {
+            "assemblyVersion": "1.2.28.0",
+            "fileVersion": "1.2.28.0"
+          }
+        }
+      },
+      "DeepMeta.DeepCore.Geometry/1.2.18": {
+        "dependencies": {
+          "DeepMeta.DeepCore": "1.2.28"
+        },
+        "runtime": {
+          "DeepCore.Geometry.dll": {
+            "assemblyVersion": "1.2.18.0",
+            "fileVersion": "1.2.18.0"
+          }
+        }
+      },
+      "DeepMeta.DeepCore.GUI/1.2.17": {
+        "dependencies": {
+          "DeepMeta.DeepCore": "1.2.28",
+          "DeepMeta.DeepCore.Geometry": "1.2.18"
+        },
+        "runtime": {
+          "DeepCore.GUI.dll": {
+            "assemblyVersion": "1.2.17.0",
+            "fileVersion": "1.2.17.0"
+          }
+        }
+      },
+      "DeepMeta.DeepCore.MPQ/1.2.26": {
+        "dependencies": {
+          "DeepMeta.DeepCore": "1.2.28",
+          "DeepMeta.DeepCore.Net": "1.2.28"
+        },
+        "runtime": {
+          "DeepCore.MPQ.dll": {
+            "assemblyVersion": "1.2.26.0",
+            "fileVersion": "1.2.26.0"
+          }
+        }
+      },
+      "DeepMeta.DeepCore.Net/1.2.28": {
+        "dependencies": {
+          "DeepMeta.DeepCore": "1.2.28"
+        },
+        "runtime": {
+          "DeepCore.Net.dll": {
+            "assemblyVersion": "1.2.28.0",
+            "fileVersion": "1.2.28.0"
+          }
+        }
+      },
+      "DeepMeta.DeepCore.SharpZipLib/1.2.15": {
+        "dependencies": {
+          "DeepMeta.DeepCore": "1.2.28",
+          "DeepMeta.DeepCore.MPQ": "1.2.26",
+          "SharpZipLib": "1.4.2"
+        },
+        "runtime": {
+          "DeepCore.SharpZipLib.dll": {
+            "assemblyVersion": "1.2.15.0",
+            "fileVersion": "1.2.15.0"
+          }
+        }
+      },
+      "DeepMeta.DeepCore.Voxel/1.2.15": {
+        "dependencies": {
+          "DeepMeta.DeepCore": "1.2.28",
+          "DeepMeta.DeepCore.Geometry": "1.2.18"
+        },
+        "runtime": {
+          "DeepCore.Voxel.dll": {
+            "assemblyVersion": "1.2.15.0",
+            "fileVersion": "1.2.15.0"
+          }
+        }
+      },
+      "DeepMeta.DeepCore.VoxelWorld/1.2.14": {
+        "dependencies": {
+          "DeepMeta.DeepCore": "1.2.28",
+          "DeepMeta.DeepCore.Geometry": "1.2.18",
+          "DeepMeta.DeepCore.Voxel": "1.2.15"
+        },
+        "runtime": {
+          "DeepCore.VoxelWorld.dll": {
+            "assemblyVersion": "1.2.14.0",
+            "fileVersion": "1.2.14.0"
+          }
+        }
+      },
+      "DeepCore/1.2.28.0": {
+        "runtime": {
+          "DeepCore.dll": {
+            "assemblyVersion": "1.2.28.0",
+            "fileVersion": "1.2.28.0"
+          }
+        }
+      },
+      "DeepCore.Geometry/1.2.18.0": {
+        "runtime": {
+          "DeepCore.Geometry.dll": {
+            "assemblyVersion": "1.2.18.0",
+            "fileVersion": "1.2.18.0"
+          }
+        }
+      },
+      "DeepCore.GUI/1.2.17.0": {
+        "runtime": {
+          "DeepCore.GUI.dll": {
+            "assemblyVersion": "1.2.17.0",
+            "fileVersion": "1.2.17.0"
+          }
+        }
+      },
+      "DeepCore.MPQ/1.2.26.0": {
+        "runtime": {
+          "DeepCore.MPQ.dll": {
+            "assemblyVersion": "1.2.26.0",
+            "fileVersion": "1.2.26.0"
+          }
+        }
+      },
+      "DeepCore.Net/1.2.28.0": {
+        "runtime": {
+          "DeepCore.Net.dll": {
+            "assemblyVersion": "1.2.28.0",
+            "fileVersion": "1.2.28.0"
+          }
+        }
+      },
+      "DeepCore.SharpZipLib/1.2.15.0": {
+        "runtime": {
+          "DeepCore.SharpZipLib.dll": {
+            "assemblyVersion": "1.2.15.0",
+            "fileVersion": "1.2.15.0"
+          }
+        }
+      },
+      "DeepCore.Voxel/1.2.15.0": {
+        "runtime": {
+          "DeepCore.Voxel.dll": {
+            "assemblyVersion": "1.2.15.0",
+            "fileVersion": "1.2.15.0"
+          }
+        }
+      },
+      "DeepCore.VoxelWorld/1.2.14.0": {
+        "runtime": {
+          "DeepCore.VoxelWorld.dll": {
+            "assemblyVersion": "1.2.14.0",
+            "fileVersion": "1.2.14.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "vox/1.2.14": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "SharpZipLib/1.4.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-yjj+3zgz8zgXpiiC3ZdF/iyTBbz2fFvMxZFEBPUcwZjIvXOf37Ylm+K58hqMfIBt5JgU/Z2uoUS67JmTLe973A==",
+      "path": "sharpziplib/1.4.2",
+      "hashPath": "sharpziplib.1.4.2.nupkg.sha512"
+    },
+    "DeepMeta.DeepCore/1.2.28": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DeepMeta.DeepCore.Geometry/1.2.18": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DeepMeta.DeepCore.GUI/1.2.17": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DeepMeta.DeepCore.MPQ/1.2.26": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DeepMeta.DeepCore.Net/1.2.28": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DeepMeta.DeepCore.SharpZipLib/1.2.15": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DeepMeta.DeepCore.Voxel/1.2.15": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DeepMeta.DeepCore.VoxelWorld/1.2.14": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DeepCore/1.2.28.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DeepCore.Geometry/1.2.18.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DeepCore.GUI/1.2.17.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DeepCore.MPQ/1.2.26.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DeepCore.Net/1.2.28.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DeepCore.SharpZipLib/1.2.15.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DeepCore.Voxel/1.2.15.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DeepCore.VoxelWorld/1.2.14.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

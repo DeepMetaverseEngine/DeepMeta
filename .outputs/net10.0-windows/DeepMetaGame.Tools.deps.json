@@ -1,0 +1,922 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v10.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v10.0": {
+      "DeepMetaGame.Tools/1.2.22": {
+        "dependencies": {
+          "CsvHelper": "33.1.0",
+          "DeepMeta.DeepCore": "1.2.28",
+          "DeepMeta.DeepCore.Console": "1.2.28",
+          "DeepMeta.DeepCore.Event": "1.2.21",
+          "DeepMeta.DeepCore.GUI": "1.2.17",
+          "DeepMeta.DeepCore.GUI.Display": "1.2.19",
+          "DeepMeta.DeepCore.GUI.FairyGUI": "1.2.17",
+          "DeepMeta.DeepCore.Geometry": "1.2.18",
+          "DeepMeta.DeepCore.Net": "1.2.28",
+          "DeepMeta.DeepCore.Template.NewtonJson": "1.2.16",
+          "DeepMeta.DeepCore.Voxel": "1.2.15",
+          "DeepMeta.DeepMetaGame.Data": "1.2.19",
+          "DeepMeta.DeepMetaGame.Display": "1.2.15",
+          "DeepMeta.DeepMetaGame.Host": "1.2.25",
+          "DeepMeta.DeepMetaGame.Slave": "1.2.19",
+          "DeepMeta.DeepTools.CodeGen": "1.2.18",
+          "DeepMeta.DeepTools.XLS2Lang": "1.2.15",
+          "Newtonsoft.Json": "13.0.4",
+          "codegen": "1.2.18.0",
+          "DeepCore.Console": "1.2.28.0",
+          "DeepCore": "1.2.28.0",
+          "DeepCore.Event": "1.2.21.0",
+          "DeepCore.Geometry": "1.2.18.0",
+          "DeepCore.GUI.Display": "1.2.19.0",
+          "DeepCore.GUI": "1.2.17.0",
+          "DeepCore.GUI.FairyGUI": "1.2.17.0",
+          "DeepCore.Net": "1.2.28.0",
+          "DeepCore.Template.NewtonJson": "1.2.16.0",
+          "DeepCore.Voxel": "1.2.15.0",
+          "DeepMetaGame.Data": "1.2.19.0",
+          "DeepMetaGame.Display": "1.2.15.0",
+          "DeepMetaGame.Host": "1.2.25.0",
+          "DeepMetaGame.Slave": "1.2.19.0",
+          "xlslang": "1.2.15.0"
+        },
+        "runtime": {
+          "DeepMetaGame.Tools.dll": {}
+        }
+      },
+      "BouncyCastle.Cryptography/2.6.2": {
+        "runtime": {
+          "lib/net6.0/BouncyCastle.Cryptography.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.6.2.46322"
+          }
+        }
+      },
+      "CsvHelper/33.1.0": {
+        "runtime": {
+          "lib/net9.0/CsvHelper.dll": {
+            "assemblyVersion": "33.0.0.0",
+            "fileVersion": "33.1.0.26"
+          }
+        }
+      },
+      "Enums.NET/5.0.0": {
+        "runtime": {
+          "lib/net7.0/Enums.NET.dll": {
+            "assemblyVersion": "5.0.0.0",
+            "fileVersion": "5.0.0.0"
+          }
+        }
+      },
+      "ExtendedNumerics.BigDecimal/2025.1001.2.129": {
+        "runtime": {
+          "lib/net8.0/ExtendedNumerics.BigDecimal.dll": {
+            "assemblyVersion": "2025.1001.2.129",
+            "fileVersion": "2025.1001.2.129"
+          }
+        }
+      },
+      "MathNet.Numerics.Signed/5.0.0": {
+        "runtime": {
+          "lib/net6.0/MathNet.Numerics.dll": {
+            "assemblyVersion": "5.0.0.0",
+            "fileVersion": "5.0.0.0"
+          }
+        }
+      },
+      "Microsoft.Build.Framework/18.4.0": {
+        "runtime": {
+          "lib/net10.0/Microsoft.Build.Framework.dll": {
+            "assemblyVersion": "15.1.0.0",
+            "fileVersion": "18.4.0.7901"
+          }
+        }
+      },
+      "Microsoft.Build.Utilities.Core/18.4.0": {
+        "dependencies": {
+          "Microsoft.Build.Framework": "18.4.0",
+          "Microsoft.NET.StringTools": "18.4.0",
+          "System.Configuration.ConfigurationManager": "10.0.1",
+          "System.Diagnostics.EventLog": "10.0.1",
+          "System.Security.Cryptography.ProtectedData": "10.0.1"
+        },
+        "runtime": {
+          "lib/net10.0/Microsoft.Build.Utilities.Core.dll": {
+            "assemblyVersion": "15.1.0.0",
+            "fileVersion": "18.4.0.7901"
+          }
+        }
+      },
+      "Microsoft.IO.RecyclableMemoryStream/3.0.1": {
+        "runtime": {
+          "lib/net6.0/Microsoft.IO.RecyclableMemoryStream.dll": {
+            "assemblyVersion": "3.0.1.0",
+            "fileVersion": "3.0.1.0"
+          }
+        }
+      },
+      "Microsoft.NET.StringTools/18.4.0": {
+        "runtime": {
+          "lib/net10.0/Microsoft.NET.StringTools.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "18.4.0.7901"
+          }
+        }
+      },
+      "Newtonsoft.Json/13.0.4": {
+        "runtime": {
+          "lib/net6.0/Newtonsoft.Json.dll": {
+            "assemblyVersion": "13.0.0.0",
+            "fileVersion": "13.0.4.30916"
+          }
+        }
+      },
+      "NPOI/2.7.6": {
+        "dependencies": {
+          "BouncyCastle.Cryptography": "2.6.2",
+          "Enums.NET": "5.0.0",
+          "ExtendedNumerics.BigDecimal": "2025.1001.2.129",
+          "MathNet.Numerics.Signed": "5.0.0",
+          "Microsoft.IO.RecyclableMemoryStream": "3.0.1",
+          "NSax": "1.0.2",
+          "SharpZipLib": "1.4.2",
+          "SixLabors.Fonts": "1.0.1",
+          "SixLabors.ImageSharp": "2.1.11",
+          "System.Security.Cryptography.Xml": "8.0.2",
+          "ZString": "2.6.0"
+        },
+        "runtime": {
+          "lib/net8.0/NPOI.Core.dll": {
+            "assemblyVersion": "2.7.6.0",
+            "fileVersion": "2.7.6.0"
+          },
+          "lib/net8.0/NPOI.OOXML.dll": {
+            "assemblyVersion": "2.7.6.0",
+            "fileVersion": "2.7.6.0"
+          },
+          "lib/net8.0/NPOI.OpenXml4Net.dll": {
+            "assemblyVersion": "2.7.6.0",
+            "fileVersion": "2.7.6.0"
+          },
+          "lib/net8.0/NPOI.OpenXmlFormats.dll": {
+            "assemblyVersion": "2.7.6.0",
+            "fileVersion": "2.7.6.0"
+          }
+        }
+      },
+      "NSax/1.0.2": {
+        "runtime": {
+          "lib/net6.0/NSax.dll": {
+            "assemblyVersion": "1.0.2.0",
+            "fileVersion": "1.0.2.0"
+          }
+        }
+      },
+      "SharpZipLib/1.4.2": {
+        "runtime": {
+          "lib/net6.0/ICSharpCode.SharpZipLib.dll": {
+            "assemblyVersion": "1.4.2.13",
+            "fileVersion": "1.4.2.13"
+          }
+        }
+      },
+      "SixLabors.Fonts/1.0.1": {
+        "runtime": {
+          "lib/netcoreapp3.1/SixLabors.Fonts.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.1.0"
+          }
+        }
+      },
+      "SixLabors.ImageSharp/2.1.11": {
+        "runtime": {
+          "lib/netcoreapp3.1/SixLabors.ImageSharp.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.1.11.0"
+          }
+        }
+      },
+      "System.Configuration.ConfigurationManager/10.0.1": {
+        "dependencies": {
+          "System.Diagnostics.EventLog": "10.0.1",
+          "System.Security.Cryptography.ProtectedData": "10.0.1"
+        },
+        "runtime": {
+          "lib/net10.0/System.Configuration.ConfigurationManager.dll": {
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.125.57005"
+          }
+        }
+      },
+      "System.Diagnostics.EventLog/10.0.1": {
+        "runtime": {
+          "lib/net10.0/System.Diagnostics.EventLog.dll": {
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.125.57005"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/win/lib/net10.0/System.Diagnostics.EventLog.Messages.dll": {
+            "rid": "win",
+            "assetType": "runtime",
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/win/lib/net10.0/System.Diagnostics.EventLog.dll": {
+            "rid": "win",
+            "assetType": "runtime",
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.125.57005"
+          }
+        }
+      },
+      "System.Security.Cryptography.Pkcs/8.0.1": {
+        "runtime": {
+          "lib/net8.0/System.Security.Cryptography.Pkcs.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.1024.46610"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/win/lib/net8.0/System.Security.Cryptography.Pkcs.dll": {
+            "rid": "win",
+            "assetType": "runtime",
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.1024.46610"
+          }
+        }
+      },
+      "System.Security.Cryptography.ProtectedData/10.0.1": {
+        "runtime": {
+          "lib/net10.0/System.Security.Cryptography.ProtectedData.dll": {
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.125.57005"
+          }
+        }
+      },
+      "System.Security.Cryptography.Xml/8.0.2": {
+        "dependencies": {
+          "System.Security.Cryptography.Pkcs": "8.0.1"
+        },
+        "runtime": {
+          "lib/net8.0/System.Security.Cryptography.Xml.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.1024.46610"
+          }
+        }
+      },
+      "ZString/2.6.0": {
+        "runtime": {
+          "lib/net7.0/ZString.dll": {
+            "assemblyVersion": "2.6.0.0",
+            "fileVersion": "2.6.0.0"
+          }
+        }
+      },
+      "DeepMeta.DeepCore/1.2.28": {
+        "runtime": {
+          "DeepCore.dll": {
+            "assemblyVersion": "1.2.28.0",
+            "fileVersion": "1.2.28.0"
+          }
+        }
+      },
+      "DeepMeta.DeepCore.Console/1.2.28": {
+        "dependencies": {
+          "DeepMeta.DeepCore": "1.2.28"
+        },
+        "runtime": {
+          "DeepCore.Console.dll": {
+            "assemblyVersion": "1.2.28.0",
+            "fileVersion": "1.2.28.0"
+          }
+        }
+      },
+      "DeepMeta.DeepCore.Event/1.2.21": {
+        "dependencies": {
+          "DeepMeta.DeepCore": "1.2.28"
+        },
+        "runtime": {
+          "DeepCore.Event.dll": {
+            "assemblyVersion": "1.2.21.0",
+            "fileVersion": "1.2.21.0"
+          }
+        }
+      },
+      "DeepMeta.DeepCore.Geometry/1.2.18": {
+        "dependencies": {
+          "DeepMeta.DeepCore": "1.2.28"
+        },
+        "runtime": {
+          "DeepCore.Geometry.dll": {
+            "assemblyVersion": "1.2.18.0",
+            "fileVersion": "1.2.18.0"
+          }
+        }
+      },
+      "DeepMeta.DeepCore.GUI/1.2.17": {
+        "dependencies": {
+          "DeepMeta.DeepCore": "1.2.28",
+          "DeepMeta.DeepCore.Geometry": "1.2.18"
+        },
+        "runtime": {
+          "DeepCore.GUI.dll": {
+            "assemblyVersion": "1.2.17.0",
+            "fileVersion": "1.2.17.0"
+          }
+        }
+      },
+      "DeepMeta.DeepCore.GUI.Display/1.2.19": {
+        "dependencies": {
+          "DeepMeta.DeepCore": "1.2.28",
+          "DeepMeta.DeepCore.GUI": "1.2.17",
+          "DeepMeta.DeepCore.Geometry": "1.2.18"
+        },
+        "runtime": {
+          "DeepCore.GUI.Display.dll": {
+            "assemblyVersion": "1.2.19.0",
+            "fileVersion": "1.2.19.0"
+          }
+        }
+      },
+      "DeepMeta.DeepCore.GUI.FairyGUI/1.2.17": {
+        "dependencies": {
+          "DeepMeta.DeepCore": "1.2.28",
+          "DeepMeta.DeepCore.GUI": "1.2.17",
+          "DeepMeta.DeepCore.Geometry": "1.2.18"
+        },
+        "runtime": {
+          "DeepCore.GUI.FairyGUI.dll": {
+            "assemblyVersion": "1.2.17.0",
+            "fileVersion": "1.2.17.0"
+          }
+        }
+      },
+      "DeepMeta.DeepCore.Net/1.2.28": {
+        "dependencies": {
+          "DeepMeta.DeepCore": "1.2.28"
+        },
+        "runtime": {
+          "DeepCore.Net.dll": {
+            "assemblyVersion": "1.2.28.0",
+            "fileVersion": "1.2.28.0"
+          }
+        }
+      },
+      "DeepMeta.DeepCore.Template.NewtonJson/1.2.16": {
+        "dependencies": {
+          "DeepMeta.DeepCore": "1.2.28",
+          "DeepMeta.DeepCore.Geometry": "1.2.18",
+          "Newtonsoft.Json": "13.0.4"
+        },
+        "runtime": {
+          "DeepCore.Template.NewtonJson.dll": {
+            "assemblyVersion": "1.2.16.0",
+            "fileVersion": "1.2.16.0"
+          }
+        }
+      },
+      "DeepMeta.DeepCore.Voxel/1.2.15": {
+        "dependencies": {
+          "DeepMeta.DeepCore": "1.2.28",
+          "DeepMeta.DeepCore.Geometry": "1.2.18"
+        },
+        "runtime": {
+          "DeepCore.Voxel.dll": {
+            "assemblyVersion": "1.2.15.0",
+            "fileVersion": "1.2.15.0"
+          }
+        }
+      },
+      "DeepMeta.DeepMetaGame.Data/1.2.19": {
+        "dependencies": {
+          "DeepMeta.DeepCore": "1.2.28",
+          "DeepMeta.DeepCore.Event": "1.2.21",
+          "DeepMeta.DeepCore.GUI": "1.2.17",
+          "DeepMeta.DeepCore.Geometry": "1.2.18"
+        },
+        "runtime": {
+          "DeepMetaGame.Data.dll": {
+            "assemblyVersion": "1.2.19.0",
+            "fileVersion": "1.2.19.0"
+          }
+        }
+      },
+      "DeepMeta.DeepMetaGame.Display/1.2.15": {
+        "dependencies": {
+          "DeepMeta.DeepCore": "1.2.28",
+          "DeepMeta.DeepCore.Event": "1.2.21",
+          "DeepMeta.DeepCore.GUI": "1.2.17",
+          "DeepMeta.DeepCore.GUI.Display": "1.2.19",
+          "DeepMeta.DeepCore.Geometry": "1.2.18",
+          "DeepMeta.DeepMetaGame.Data": "1.2.19",
+          "DeepMeta.DeepMetaGame.Host": "1.2.25",
+          "DeepMeta.DeepMetaGame.Slave": "1.2.19"
+        },
+        "runtime": {
+          "DeepMetaGame.Display.dll": {
+            "assemblyVersion": "1.2.15.0",
+            "fileVersion": "1.2.15.0"
+          }
+        }
+      },
+      "DeepMeta.DeepMetaGame.Host/1.2.25": {
+        "dependencies": {
+          "DeepMeta.DeepCore": "1.2.28",
+          "DeepMeta.DeepCore.Event": "1.2.21",
+          "DeepMeta.DeepCore.Geometry": "1.2.18",
+          "DeepMeta.DeepMetaGame.Data": "1.2.19",
+          "DeepMeta.DeepMetaGame.Slave": "1.2.19"
+        },
+        "runtime": {
+          "DeepMetaGame.Host.dll": {
+            "assemblyVersion": "1.2.25.0",
+            "fileVersion": "1.2.25.0"
+          }
+        }
+      },
+      "DeepMeta.DeepMetaGame.Slave/1.2.19": {
+        "dependencies": {
+          "DeepMeta.DeepCore": "1.2.28",
+          "DeepMeta.DeepCore.Geometry": "1.2.18",
+          "DeepMeta.DeepMetaGame.Data": "1.2.19"
+        },
+        "runtime": {
+          "DeepMetaGame.Slave.dll": {
+            "assemblyVersion": "1.2.19.0",
+            "fileVersion": "1.2.19.0"
+          }
+        }
+      },
+      "DeepMeta.DeepTools.CodeGen/1.2.18": {
+        "dependencies": {
+          "DeepMeta.DeepCore": "1.2.28",
+          "Microsoft.Build.Framework": "18.4.0",
+          "Microsoft.Build.Utilities.Core": "18.4.0"
+        },
+        "runtime": {
+          "codegen.dll": {
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "DeepMeta.DeepTools.XLS2Lang/1.2.15": {
+        "dependencies": {
+          "DeepMeta.DeepCore": "1.2.28",
+          "DeepMeta.DeepTools.CodeGen": "1.2.18",
+          "NPOI": "2.7.6"
+        },
+        "runtime": {
+          "xlslang.dll": {
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "codegen/1.2.18.0": {
+        "runtime": {
+          "codegen.dll": {
+            "assemblyVersion": "1.2.18.0",
+            "fileVersion": "1.2.18.0"
+          }
+        }
+      },
+      "DeepCore.Console/1.2.28.0": {
+        "runtime": {
+          "DeepCore.Console.dll": {
+            "assemblyVersion": "1.2.28.0",
+            "fileVersion": "1.2.28.0"
+          }
+        }
+      },
+      "DeepCore/1.2.28.0": {
+        "runtime": {
+          "DeepCore.dll": {
+            "assemblyVersion": "1.2.28.0",
+            "fileVersion": "1.2.28.0"
+          }
+        }
+      },
+      "DeepCore.Event/1.2.21.0": {
+        "runtime": {
+          "DeepCore.Event.dll": {
+            "assemblyVersion": "1.2.21.0",
+            "fileVersion": "1.2.21.0"
+          }
+        }
+      },
+      "DeepCore.Geometry/1.2.18.0": {
+        "runtime": {
+          "DeepCore.Geometry.dll": {
+            "assemblyVersion": "1.2.18.0",
+            "fileVersion": "1.2.18.0"
+          }
+        }
+      },
+      "DeepCore.GUI.Display/1.2.19.0": {
+        "runtime": {
+          "DeepCore.GUI.Display.dll": {
+            "assemblyVersion": "1.2.19.0",
+            "fileVersion": "1.2.19.0"
+          }
+        }
+      },
+      "DeepCore.GUI/1.2.17.0": {
+        "runtime": {
+          "DeepCore.GUI.dll": {
+            "assemblyVersion": "1.2.17.0",
+            "fileVersion": "1.2.17.0"
+          }
+        }
+      },
+      "DeepCore.GUI.FairyGUI/1.2.17.0": {
+        "runtime": {
+          "DeepCore.GUI.FairyGUI.dll": {
+            "assemblyVersion": "1.2.17.0",
+            "fileVersion": "1.2.17.0"
+          }
+        }
+      },
+      "DeepCore.Net/1.2.28.0": {
+        "runtime": {
+          "DeepCore.Net.dll": {
+            "assemblyVersion": "1.2.28.0",
+            "fileVersion": "1.2.28.0"
+          }
+        }
+      },
+      "DeepCore.Template.NewtonJson/1.2.16.0": {
+        "runtime": {
+          "DeepCore.Template.NewtonJson.dll": {
+            "assemblyVersion": "1.2.16.0",
+            "fileVersion": "1.2.16.0"
+          }
+        }
+      },
+      "DeepCore.Voxel/1.2.15.0": {
+        "runtime": {
+          "DeepCore.Voxel.dll": {
+            "assemblyVersion": "1.2.15.0",
+            "fileVersion": "1.2.15.0"
+          }
+        }
+      },
+      "DeepMetaGame.Data/1.2.19.0": {
+        "runtime": {
+          "DeepMetaGame.Data.dll": {
+            "assemblyVersion": "1.2.19.0",
+            "fileVersion": "1.2.19.0"
+          }
+        }
+      },
+      "DeepMetaGame.Display/1.2.15.0": {
+        "runtime": {
+          "DeepMetaGame.Display.dll": {
+            "assemblyVersion": "1.2.15.0",
+            "fileVersion": "1.2.15.0"
+          }
+        }
+      },
+      "DeepMetaGame.Host/1.2.25.0": {
+        "runtime": {
+          "DeepMetaGame.Host.dll": {
+            "assemblyVersion": "1.2.25.0",
+            "fileVersion": "1.2.25.0"
+          }
+        }
+      },
+      "DeepMetaGame.Slave/1.2.19.0": {
+        "runtime": {
+          "DeepMetaGame.Slave.dll": {
+            "assemblyVersion": "1.2.19.0",
+            "fileVersion": "1.2.19.0"
+          }
+        }
+      },
+      "xlslang/1.2.15.0": {
+        "runtime": {
+          "xlslang.dll": {
+            "assemblyVersion": "1.2.15.0",
+            "fileVersion": "1.2.15.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "DeepMetaGame.Tools/1.2.22": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "BouncyCastle.Cryptography/2.6.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-7oWOcvnntmMKNzDLsdxAYqApt+AjpRpP2CShjMfIa3umZ42UQMvH0tl1qAliYPNYO6vTdcGMqnRrCPmsfzTI1w==",
+      "path": "bouncycastle.cryptography/2.6.2",
+      "hashPath": "bouncycastle.cryptography.2.6.2.nupkg.sha512"
+    },
+    "CsvHelper/33.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-kqfTOZGrn7NarNeXgjh86JcpTHUoeQDMB8t9NVa/ZtlSYiV1rxfRnQ49WaJsob4AiGrbK0XDzpyKkBwai4F8eg==",
+      "path": "csvhelper/33.1.0",
+      "hashPath": "csvhelper.33.1.0.nupkg.sha512"
+    },
+    "Enums.NET/5.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-NfGq1iLJZ15XZPgBhjk4Ns1XZ+beaGk6cog6B4LxcROdGoSMdgCJqYXF70P6VTd3dz/vFRY4h1u1lAMqW/DC2w==",
+      "path": "enums.net/5.0.0",
+      "hashPath": "enums.net.5.0.0.nupkg.sha512"
+    },
+    "ExtendedNumerics.BigDecimal/2025.1001.2.129": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-+woGT1lsBtwkntOpx2EZbdbySv0aWPefE0vrfvclxVdbi4oa2bbtphFPWgMiQe+kRCPICbfFJwp6w1DuR7Ge2Q==",
+      "path": "extendednumerics.bigdecimal/2025.1001.2.129",
+      "hashPath": "extendednumerics.bigdecimal.2025.1001.2.129.nupkg.sha512"
+    },
+    "MathNet.Numerics.Signed/5.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-PSrHBVMf41SjbhlnpOMnoir8YgkyEJ6/nwxvjYpH+vJCexNcx2ms6zRww5yLVqLet1xLJgZ39swtKRTLhWdnAw==",
+      "path": "mathnet.numerics.signed/5.0.0",
+      "hashPath": "mathnet.numerics.signed.5.0.0.nupkg.sha512"
+    },
+    "Microsoft.Build.Framework/18.4.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-oq6UxPfzz5S5hCC9hTRBt1r99BwEzCP/h/DadMl/m6RSGTUUXjoblsTTrokYks0SzZ2Cvx0fk4TvuEpxuXxPbw==",
+      "path": "microsoft.build.framework/18.4.0",
+      "hashPath": "microsoft.build.framework.18.4.0.nupkg.sha512"
+    },
+    "Microsoft.Build.Utilities.Core/18.4.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-k0nCnZRs4r/y0pJNLKYGXYyzToaBV2JM0XFidRyEuRUhtZGcIvWKnK7dzXA8MGs4ah4pzYh6/7EJLlmPyjHTnA==",
+      "path": "microsoft.build.utilities.core/18.4.0",
+      "hashPath": "microsoft.build.utilities.core.18.4.0.nupkg.sha512"
+    },
+    "Microsoft.IO.RecyclableMemoryStream/3.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-s/s20YTVY9r9TPfTrN5g8zPF1YhwxyqO6PxUkrYTGI2B+OGPe9AdajWZrLhFqXIvqIW23fnUE4+ztrUWNU1+9g==",
+      "path": "microsoft.io.recyclablememorystream/3.0.1",
+      "hashPath": "microsoft.io.recyclablememorystream.3.0.1.nupkg.sha512"
+    },
+    "Microsoft.NET.StringTools/18.4.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-iQWOKi3L5QStmWqDjDubcr1KlTDy88qBTe88I0etlUUo1l0zSNebGJXl1Xetyl+ACA+ujP3YUtxo3Nz54JPriw==",
+      "path": "microsoft.net.stringtools/18.4.0",
+      "hashPath": "microsoft.net.stringtools.18.4.0.nupkg.sha512"
+    },
+    "Newtonsoft.Json/13.0.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-pdgNNMai3zv51W5aq268sujXUyx7SNdE2bj1wZcWjAQrKMFZV260lbqYop1d2GM67JI1huLRwxo9ZqnfF/lC6A==",
+      "path": "newtonsoft.json/13.0.4",
+      "hashPath": "newtonsoft.json.13.0.4.nupkg.sha512"
+    },
+    "NPOI/2.7.6": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-itLDt6M2VFcWjTGpzeRNy7Axmp2cVjHpTtf4zVLm6XQvuINlkHFBabBd4s8iCRAupx/NBSzqPxqe7+5fJOY8NQ==",
+      "path": "npoi/2.7.6",
+      "hashPath": "npoi.2.7.6.nupkg.sha512"
+    },
+    "NSax/1.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-7txlId2RJTQBL3YdSGO7x70+r3HUOCw725lu0OoBgThRl/e3RhAZ2QKYxW2y9dPRtqbFZYHVa8siIeB8+L//Cg==",
+      "path": "nsax/1.0.2",
+      "hashPath": "nsax.1.0.2.nupkg.sha512"
+    },
+    "SharpZipLib/1.4.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-yjj+3zgz8zgXpiiC3ZdF/iyTBbz2fFvMxZFEBPUcwZjIvXOf37Ylm+K58hqMfIBt5JgU/Z2uoUS67JmTLe973A==",
+      "path": "sharpziplib/1.4.2",
+      "hashPath": "sharpziplib.1.4.2.nupkg.sha512"
+    },
+    "SixLabors.Fonts/1.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ljezRHWc7N0azdQViib7Aa5v+DagRVkKI2/93kEbtjVczLs+yTkSq6gtGmvOcx4IqyNbO3GjLt7SAQTpLkySNw==",
+      "path": "sixlabors.fonts/1.0.1",
+      "hashPath": "sixlabors.fonts.1.0.1.nupkg.sha512"
+    },
+    "SixLabors.ImageSharp/2.1.11": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-tUvsejgzUmEbES114yLseRxmFiYlQbH5RyaYXUQsEL7ksDo1/kW+ZL1EfD6iSUfxj7LHU8p110oFvSrRfsaWSQ==",
+      "path": "sixlabors.imagesharp/2.1.11",
+      "hashPath": "sixlabors.imagesharp.2.1.11.nupkg.sha512"
+    },
+    "System.Configuration.ConfigurationManager/10.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-HfOAIlSA8OuaxBZD6xjsUWhtB0KdKSWEfRId8gSGveLUjuP6G8IxfiFgJNxaiRIEC1kx4pSvz3Em5xW/J6LLxA==",
+      "path": "system.configuration.configurationmanager/10.0.1",
+      "hashPath": "system.configuration.configurationmanager.10.0.1.nupkg.sha512"
+    },
+    "System.Diagnostics.EventLog/10.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-xfaHEHVDkMOOZR5S6ZGezD0+vekdH1Nx/9Ih8/rOqOGSOk1fxiN3u94bYkBW/wigj0Uw2Wt3vvRj9mtYdgwEjw==",
+      "path": "system.diagnostics.eventlog/10.0.1",
+      "hashPath": "system.diagnostics.eventlog.10.0.1.nupkg.sha512"
+    },
+    "System.Security.Cryptography.Pkcs/8.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-CoCRHFym33aUSf/NtWSVSZa99dkd0Hm7OCZUxORBjRB16LNhIEOf8THPqzIYlvKM0nNDAPTRBa1FxEECrgaxxA==",
+      "path": "system.security.cryptography.pkcs/8.0.1",
+      "hashPath": "system.security.cryptography.pkcs.8.0.1.nupkg.sha512"
+    },
+    "System.Security.Cryptography.ProtectedData/10.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-9SqHNq+lAjZeyPcm69FTQEjr+wsRYvkS3aW8yxoEndVYwDRkCrsP/44QPqpWHwzevoX26rkOoQ6kr7GZWngw2A==",
+      "path": "system.security.cryptography.protecteddata/10.0.1",
+      "hashPath": "system.security.cryptography.protecteddata.10.0.1.nupkg.sha512"
+    },
+    "System.Security.Cryptography.Xml/8.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-aDM/wm0ZGEZ6ZYJLzgqjp2FZdHbDHh6/OmpGfb7AdZ105zYmPn/83JRU2xLIbwgoNz9U1SLUTJN0v5th3qmvjA==",
+      "path": "system.security.cryptography.xml/8.0.2",
+      "hashPath": "system.security.cryptography.xml.8.0.2.nupkg.sha512"
+    },
+    "ZString/2.6.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-XE8a+11nZg0LRaf+RGABEWaHIf8yGd5w8v/Ra1iWxMBmAVzwuKbW7G21mS0U7w7sh1lYcgckInWGgnz4qyET8A==",
+      "path": "zstring/2.6.0",
+      "hashPath": "zstring.2.6.0.nupkg.sha512"
+    },
+    "DeepMeta.DeepCore/1.2.28": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DeepMeta.DeepCore.Console/1.2.28": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DeepMeta.DeepCore.Event/1.2.21": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DeepMeta.DeepCore.Geometry/1.2.18": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DeepMeta.DeepCore.GUI/1.2.17": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DeepMeta.DeepCore.GUI.Display/1.2.19": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DeepMeta.DeepCore.GUI.FairyGUI/1.2.17": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DeepMeta.DeepCore.Net/1.2.28": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DeepMeta.DeepCore.Template.NewtonJson/1.2.16": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DeepMeta.DeepCore.Voxel/1.2.15": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DeepMeta.DeepMetaGame.Data/1.2.19": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DeepMeta.DeepMetaGame.Display/1.2.15": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DeepMeta.DeepMetaGame.Host/1.2.25": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DeepMeta.DeepMetaGame.Slave/1.2.19": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DeepMeta.DeepTools.CodeGen/1.2.18": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DeepMeta.DeepTools.XLS2Lang/1.2.15": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "codegen/1.2.18.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DeepCore.Console/1.2.28.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DeepCore/1.2.28.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DeepCore.Event/1.2.21.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DeepCore.Geometry/1.2.18.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DeepCore.GUI.Display/1.2.19.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DeepCore.GUI/1.2.17.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DeepCore.GUI.FairyGUI/1.2.17.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DeepCore.Net/1.2.28.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DeepCore.Template.NewtonJson/1.2.16.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DeepCore.Voxel/1.2.15.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DeepMetaGame.Data/1.2.19.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DeepMetaGame.Display/1.2.15.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DeepMetaGame.Host/1.2.25.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DeepMetaGame.Slave/1.2.19.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "xlslang/1.2.15.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

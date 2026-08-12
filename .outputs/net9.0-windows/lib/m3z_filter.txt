@@ -1,0 +1,6 @@
++.(png|jpg)$;
+-.(activity\.png)$;
+-.(new_npc\.png)$;
+-.(shop\.png)$;
+
+

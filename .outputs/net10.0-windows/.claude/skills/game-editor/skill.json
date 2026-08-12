@@ -1,0 +1,9 @@
+{
+  "name": "game-editor",
+  "version": "1.0.0",
+  "description": "梳理编辑器数据结构，编辑器功能模块划分，编辑器开发流程。",
+  "author": "Claude",
+  "triggers": [
+    "解释编辑器数据结构"
+  ]
+}

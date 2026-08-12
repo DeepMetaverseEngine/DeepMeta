@@ -1,0 +1,3 @@
++\\output\\(\w+).xml$;
++\\(\w+).xml$;
+-\\(\w+).gui.xml$

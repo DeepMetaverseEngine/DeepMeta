@@ -1,0 +1,23 @@
+PVR4	= .\bin\PVRTexTool -fOGLPVRTC4 -p -pvrtciterations8 -i"<in_path>" -o"<dir>/<in_pre>.pvr" -> <dir>/<in_pre>.pvr
+PVR2	= .\bin\PVRTexTool -fOGLPVRTC2 -p -pvrtciterations8 -i"<in_path>" -o"<dir>/<in_pre>.pvr" -> <dir>/<in_pre>.pvr
+
+PVR1	= .\bin\astcenc.exe -c "<in_path>" "<dir>/<in_pre>.astc" 4x4 -fast -> <dir>/<in_pre>.astc
+PVRA	= .\bin\PVRTexTool -fOGLPVRTC4 -p -pvrtciterations8 -i"<in_path>" -o"<dir>/<in_pre>.pvr" -> <dir>/<in_pre>.pvr
+
+ATCE	= .\bin\Convert2ATITC "<in_path>" "<dir>/<in_pre>.dds" -> <dir>/<in_pre>.dds
+ATCI	= .\bin\Convert2ATITC "<in_path>" "<dir>/<in_pre>.dds" -> <dir>/<in_pre>.dds
+ATC3	= .\bin\Convert2ATITC "<in_path>" "<dir>/<in_pre>.dds" -> <dir>/<in_pre>.dds
+
+ETC1	= etcpack "<in_path>" "<dir>" -c etc2 -f RGBA8 -> <dir>/<in_pre>.pkm
+ETCA	= .\bin\astcenc.exe -c "<in_path>" "<dir>/<in_pre>.astc" 4x4  -fast -silentmode -> <dir>/<in_pre>.astc
+
+ETC2	= etcpack "<in_path>" "<dir>" -c etc2 -f RGBA8 -> <dir>/<in_pre>.pkm
+
+ASTC	= .\bin\astcenc.exe -c "<in_path>" "<dir>/<in_pre>.astc" 4x4  -fast -silentmode -> <dir>/<in_pre>.astc
+
+PKM1	= etc1tool "<in_path>" --encode -> <dir>/<in_pre>.pkm
+PKMA	= etc1tool "<in_path>" --encode -> <dir>/<in_pre>.pkm
+
+DXT3	= ..\lib\bin\texconv.exe -f BC2_UNORM -ft dds -m 1 "<in_path>" -o "<dir>\<in_pre>.dds" -> <dir>\<in_pre>.dds
+
+RGBA	=
