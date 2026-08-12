@@ -1,0 +1,76 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFrameworks>net9.0-windows;net10.0-windows</TargetFrameworks>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <StartupObject>DeepGameEditor.Common.Program</StartupObject>
+    <Version>1.2.22</Version>
+    <Deterministic>true</Deterministic>
+    <NoWarn>$(NoWarn);WFO1000</NoWarn>
+    <Configurations>Debug;Release;Source</Configurations>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>DeepMeta.$(AssemblyName)</PackageId>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="BattleServer\ServerTest\**" />
+    <Compile Remove="BattleServer\ZoneServer\**" />
+    <EmbeddedResource Remove="BattleServer\ServerTest\**" />
+    <EmbeddedResource Remove="BattleServer\ZoneServer\**" />
+    <None Remove="BattleServer\ServerTest\**" />
+    <None Remove="BattleServer\ZoneServer\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="BattleServer\Host\ServerNode.cs" />
+    <Compile Remove="BattleServer\Host\ServerNode.Main.cs" />
+    <Compile Remove="BattleServer\Slave\BattleClient.cs" />
+    <Compile Remove="BattleServer\Slave\BattleClientDirect.cs" />
+    <Compile Remove="BattleServer\Slave\BattleClientProxy.cs" />
+    <Compile Remove="BattleServer\Slave\NetTestClient.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\DeepCore\DeepCore.Event.Debug\DeepCore.Event.Debug.csproj" />
+    <ProjectReference Include="..\..\DeepCore\DeepCore.Event\DeepCore.Event.csproj" />
+    <ProjectReference Include="..\..\DeepCore\DeepCore.Geometry\DeepCore.Geometry.csproj" />
+    <ProjectReference Include="..\..\DeepCore\DeepCore.GUI.Display\DeepCore.GUI.Display.csproj" />
+    <ProjectReference Include="..\..\DeepCore\DeepCore.GUI\DeepCore.GUI.csproj" />
+    <ProjectReference Include="..\..\DeepCore\DeepCore.Net\DeepCore.Net.csproj" />
+    <ProjectReference Include="..\..\DeepCore\DeepCore.Voxel\DeepCore.Voxel.csproj" />
+    <ProjectReference Include="..\..\DeepCore\DeepCore\DeepCore.csproj" />
+    <ProjectReference Include="..\..\DeepCore\DeepCrystal\DeepCrystal.csproj" />
+    <ProjectReference Include="..\..\DeepCore\DeepEditor.Common\DeepEditor.Common.csproj" />
+    <ProjectReference Include="..\..\DeepFrozen\DeepFrozen.Server.NetUV\DeepFrozen.Server.NetUV.csproj" />
+    <ProjectReference Include="..\..\DeepGame3D\DeepMetaGame.Data\DeepMetaGame.Data.csproj" />
+    <ProjectReference Include="..\..\DeepGame3D\DeepMetaGame.Host\DeepMetaGame.Host.csproj" />
+    <ProjectReference Include="..\..\DeepGame3D\DeepMetaGame.Slave\DeepMetaGame.Slave.csproj" />
+    <ProjectReference Include="..\..\DeepGame3D\DeepMetaGame.ZoneServer\DeepMetaGame.ZoneServer.csproj" />
+    <ProjectReference Include="..\DeepMetaGame.Display\DeepMetaGame.Display.csproj" />
+    <ProjectReference Include="..\DeepMetaGame.Tools\DeepMetaGame.Tools.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="BattleClient\FormBattleView3D.cs" />
+    <Compile Update="BattleClient\PanelBattleView3D.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="BattleServer\Host\FormMsgBytes.cs" />
+    <Compile Update="BattleServer\Host\FormServer.cs" />
+    <Compile Update="BattleServer\Slave\FormClient.cs" />
+    <Compile Update="BattleServer\Slave\FormLauncher.cs" />
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>

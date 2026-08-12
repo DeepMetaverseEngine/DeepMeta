@@ -1,0 +1,325 @@
+{% extends "base.nunjucks" %}
+
+{% block js %}
+        <script src="/public/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="/public/assets/plugins/datatables/dataTables.bootstrap4.min.js"></script>
+        <script src="/public/assets/plugins/datatables/dataTables.buttons.min.js"></script>
+        <script src="/public/assets/plugins/datatables/buttons.bootstrap4.min.js"></script>
+        <script src="/public/assets/plugins/datatables/dataTables.select.min.js"></script>
+        <script src="/public/assets/plugins/switchery/switchery.min.js"></script>
+        <script src="/public/assets/plugins/datatables-editor/dataTables.editor.min.js"></script>
+        <script src="/public/assets/plugins/datatables-editor/editor.bootstrap4.min.js"></script>
+        <script src="/public/assets/plugins/select2/js/select2.min.js" type="text/javascript"></script>
+        <script src="/public/js/moment.min.js"></script>
+{% endblock %}
+
+{% block css %}
+        <link href="/public/assets/plugins/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+        <link href="/public/assets/plugins/datatables/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+        <link href="/public/assets/plugins/datatables/select.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+        <link href="/public/assets/plugins/datatables-editor/editor.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+        <link href="/public/assets/plugins/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+        <link href="/public/assets/plugins/switchery/switchery.min.css" rel="stylesheet" />
+{% endblock %}
+
+{% block style %}
+<style type="text/css">
+.modal-fix {
+    width: 1000px; /* respsonsive width */
+    margin-left:-40%; /* width/2) */ 
+}
+
+div.DTE_Field_Type_textarea textarea {
+        height: 350px !important;
+}
+
+div.DTE_Field_Type_radio div.DTE_Field_InputControl > div > div {
+  float: left;
+  width: 15%; /* change as needed */
+}
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+                            <div class="col-12">
+                                <div class="card-box table-responsive">
+                                    <div class="col-md-1">
+                                        <button  type="button" class="btn btn-info dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="false">{{ __('common_instructions_filter_by_realm') }} <span class="caret"></span></button>
+                                        <div id="filter" class="dropdown-menu"><a href="javascript:void(0);" class="dropdown-item" id="">{{ __('common_instructions_show_all') }}</a></div>
+
+                                    </div>
+                                    <table id="datatable" class="table table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>{{ __('common_instructions_realm_name') }}</th>
+                                            <th>{{ __('common_instructions_server_name') }}</th>
+                                            <th class="datetime">{{ __('page_notice_started_time') }}</th>
+                                            <th class="datetime">{{ __('page_notice_ended_time') }}</th>
+                                            <th>{{ __('common_instructions_interval') }}</th>
+                                            <th>{{ __('page_broadcast_content') }}</th>
+                                            <th class="bool">{{ __('common_instructions_status') }}</th>
+                                        </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                                <div class="card-box">
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <div class="p-20">
+                                                <form action="#" id="form" data-parsley-validate>
+                                                    
+                                                    <div class="form-group row">
+                                                        <label class="col-2 col-form-label">{{ __('page_realmlist_title') }}</label>
+                                                        <div class="col-10">
+                                                           <select id="realm_list" class="select2">
+                                                                <option value="" selected="selected">{{ __('page_gmt_select_realm_first') }}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <label class="col-2 col-form-label">{{ __('common_instructions_server_group') }}</label>
+                                                        <div class="col-10">
+                                                           <select id="server_list" class="select2">
+                                                                <option value="" selected="selected">{{ __('common_instructions_please_select') }}{{ __('common_instructions_server_group') }}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <label class="col-2 col-form-label">{{ __('page_broadcast_select_channel') }}</label>
+                                                        <div class="col-10" style="padding-top:8px;">
+                                                            <div class="checkbox form-check-inline checkbox-primary">
+                                                                <input type="checkbox" name="checkbox_channel" id="inlineCheckbox1" value="6" checked>
+                                                                <label for="inlineCheckbox1"> {{ __('page_broadcast_system_channel') }} </label>
+                                                            </div>
+
+                                                            <div class="checkbox form-check-inline checkbox-primary">
+                                                                <input type="checkbox" name="checkbox_channel" id="inlineCheckbox2" value="1">
+                                                                <label for="inlineCheckbox2"> {{ __('page_broadcast_world_channel') }} </label>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                    </div>
+
+
+
+                                                    <div class="form-group row">
+                                                        <label class="col-2 col-form-label">{{ __('page_broadcast_style') }}</label>
+                                                        <div class="col-10" style="padding-top:8px;">
+                                                            <div class="radio radio-info form-check-inline">
+                                                                <input type="radio" id="radio1" value="3" name="radio_style" checked>
+                                                                <label for="radio1"> {{ __('page_broadcast_style_horse_race_lamp') }} </label>
+                                                            </div>
+                                                            <div class="radio radio-info form-check-inline">
+                                                                <input type="radio" id="radio2" value="2" name="radio_style">
+                                                                <label for="radio2"> {{ __('page_broadcast_style_float') }} </label>
+                                                            </div>
+                                                            <div class="radio radio-info form-check-inline">
+                                                                <input type="radio" id="radio3" value="1" name="radio_style">
+                                                                <label for="radio3"> {{ __('page_broadcast_style_static') }} </label>
+                                                            </div>
+                                                            <div class="radio radio-info form-check-inline">
+                                                                <input type="radio" id="radio4" value="0" name="radio_style">
+                                                                <label for="radio4"> {{ __('page_broadcast_style_none') }} </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                      
+                                                    <div id="group_list" class="form-group row">
+                                                        <label class="col-2 col-form-label">{{ __('common_instructions_server_group') }}</label>
+                                                        <div class="col-10">
+                                                            <select id="group_selector" multiple="multiple" class="multi-select" name="my_multi_select1[]" data-plugin="multiselect">
+                                                        </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-2 col-form-label">{{ __('page_broadcast_content') }}</label>
+                                                        <div class="col-10">
+                                                            <textarea id="content" class="form-control" rows="15" parsley-trigger="change" required
+ Placeholder="{{ __('common_instructions_content_tip') }}"></textarea>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <div class="col-10">
+                                                            <button id="confirm" type="button" class="btn btn-success waves-effect w-md waves-light">{{ __('common_instructions_send') }}</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                                        </div>
+                                                    </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <!-- end row -->
+
+
+                                </div>
+                            </div>
+                        </div> <!-- end row -->
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+    var editor;
+    $(document).ready(function () {
+        $('#realm_list').select2({
+          minimumResultsForSearch: -1,
+          ajax: {
+            url: '/api/backend/get_all_realms',
+            dataType: 'json',
+            type: "GET",
+            processResults: function(data) {
+              return {
+                results: data
+              };
+            }
+          }
+        });
+
+
+        editor = new $.fn.dataTable.Editor( {
+            ajax: "/api/backend/system_broadcast",
+            table: "#datatable",
+            idSrc:  'id',
+            fields: [ {
+                    label: "ID:",
+                    name: "id",
+                    type:  "hidden"
+                },{
+                    label: "{{ __('common_instructions_realm_name') }}:",
+                    name: "realm_id"
+                },{
+                    label: "{{ __('common_instructions_server_name') }}:",
+                    name: "servers"
+                }, {
+                    label: "{{ __('page_broadcast_select_channel') }}:",
+                    name:  "channel",
+                    type:  "radio",
+                    options: [
+                        { label: "{{ __('page_broadcast_system_channel') }}", value: 6 },
+                        { label: "{{ __('page_broadcast_world_channel') }}",  value: 1 }
+                    ],
+                    def: 6
+                }, {
+                    label: "{{ __('page_broadcast_style') }}:",
+                    name:  "type",
+                    type:  "radio",
+                    options: [
+                        { label: "{{ __('page_broadcast_style_horse_race_lamp') }}", value: 3 },
+                        { label: "{{ __('page_broadcast_style_float') }}",  value: 2 },
+                        { label: "{{ __('page_broadcast_style_static') }}",  value: 1 },
+                        { label: "{{ __('page_broadcast_style_none') }}",  value: 0 }
+                    ],
+                    def: 3
+                },{
+                    label: "{{ __('page_notice_content') }}:",
+                    name: "content",
+                    type:  "textarea"
+                },{
+                    label: "{{ __('page_notice_started_time') }}:",
+                    name: "start_time",
+                    type:  "datetime",
+                    def:   function () { return new Date(); },
+                    format:"YYYY-MM-DD HH:mm",
+                }, {
+                    label: "{{ __('page_notice_ended_time') }}:",
+                    name: "end_time",
+                    type:  "datetime",
+                    def:   function () { return new Date(); },
+                    format:"YYYY-MM-DD HH:mm",
+                },{
+                    label: "{{ __('page_notice_switch') }}:",
+                    name: "enable",
+                    type: "checkbox",
+                    def:   function () { return 0; },
+                    options:   [
+                        { label: '', value: 1 }
+                    ]
+                }
+            ]
+        } );
+        // editor.
+
+          $('#datatable').DataTable( {
+            scrollY: 300,
+            paging: false,
+            "ordering": false,
+            dom: "Bfrtip",
+            "ajax": {
+            "url": '/api/backend/system_broadcast',
+            "dataSrc": ""
+            },
+            "columns": [
+                { "data": "realm_id" },
+                { "data": "servers" },
+                { "data": "start_time" },
+                { "data": "end_time" },
+                { "data": "interval" },
+                { "data": "content" },
+                { "data": "enable" },
+            ],
+            select: true,
+            buttons: [
+                { extend: "create", editor: editor },
+               // { extend: "edit",   editor: editor },
+                { extend: "remove", editor: editor }
+            ],
+            columnDefs : [
+                { targets : 'bool',
+                  render : function (data, type, row) {
+                     return data == '1' ? '{{ __('common_instructions_open') }}' : '{{ __('common_instructions_close') }}'
+                  }
+                },
+                { targets : 'datetime',
+                  render : function (data, type, row) {
+                     return def_format(data);
+                  }
+                }
+            ],
+            initComplete: function (settings, json) {
+                //筛选
+                var editor_fields = get_columns_name(settings)
+                this.api().column(editor_fields.indexOf('sdk_name')).every( function () {
+                    var column = this;
+                    $('#filter').on("click","a", function(e){
+                        e.preventDefault();
+                        var val = $.fn.dataTable.util.escapeRegex(
+                                $(this).attr('id')
+                            );
+                            column
+                                .search( val ? '^'+val+'$' : '', true, false )
+                                .draw();
+                    });
+                    column.data().unique().sort().each( function ( d, j ) {
+                        $('#filter').append('<a href="javascript:void(0);" class="dropdown-item" id="' + d + '">' + d + '</a>')
+                    } );
+                } );
+            }
+        } );
+
+        //   editor.on( 'initCreate', function (e) {
+        // } );
+
+        //   editor.on( 'initEdit', function (e ) {
+        //     var field = e.target.field( 'start_time' )
+        //     field.set(def_format(field.get()));
+        //     field = e.target.field( 'end_time' )
+        //     field.set(def_format(field.get()));
+        // } );
+    });
+
+    function get_columns_name(settings) {
+        var columns = settings.oInit.columns;
+        var names = []
+        for(var col in columns) {
+            names.push(columns[col].data)
+        }
+        return names
+    }
+</script>
+{% endblock %}

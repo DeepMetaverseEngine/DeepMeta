@@ -1,0 +1,125 @@
+1.安装.Net Core SDK 2.0
+
+
+1)首先准备好先决条件
+
+yum install libunwind libicu
+
+2)下载.net Core SDK二进制文件
+
+# https://github.com/dotnet/core/blob/master/release-notes/download-archives/2.0.0-download.md
+
+wget https://download.microsoft.com/download/1/B/4/1B4DE605-8378-47A5-B01B-2C79D6C55519/dotnet-sdk-2.0.0-linux-x64.tar.gz
+
+3)解压
+
+mkdir -p /usr/local/dotnet 
+tar zxf dotnet-sdk-2.0.0-linux-x64.tar.gz -C /usr/local/dotnet
+
+4)dotnet添加链接文件。
+
+ln -s /usr/local/dotnet/dotnet /usr/local/bin
+
+2. 初始化代码
+
+初始化一个webapi应用程序样例!
+
+
+1)创建目录
+
+mkdir /hy/hyapp
+
+
+
+2）进入目录（重要：所有下面的dotnet命令操作都在此工程目录之下）
+
+cd /hy/hyapp
+
+
+
+3）创建webapi工程
+
+dotnet new webapi
+
+
+
+3. 运行程序
+
+1）根据工程还原指定的包文件：
+
+dotnet restore
+
+2）实际启动程序
+
+dotnet run
+
+
+
+3）发布
+
+dotnet publish
+
+
+
+4) nuget 增加类库引用(https://www.nuget.org/),以mysql为例子
+
+dotnet add package MySql.Data --version 8.0.8-dmr
+
+
+
+4.准备就绪!
+
+dotnet run 之后 .NET core 2.0 就运行在您的机器上！ 默认地址：http://localhost:5000
+
+
+
+更多资料 https://github.com/dotnet/core/
+
+5.需要工具
+
+Visual Studio Code 可以运行在Linux 或 mac 上，并且全面支持.NET Core。 
+下载免费的 Visual Studio Code 并安装从市场下载 C# extension ，以便开始最佳体验。
+
+--------------------- 
+作者：ronmy 
+来源：CSDN 
+原文：https://blog.csdn.net/ronmy/article/details/78039900 
+版权声明：本文为博主原创文章，转载请附上博文链接！
+
+
+
+-------------------------------------------------------------------------------------------
+1、去除防火墙
+
+执行命令：
+
+systemctl stop firewalld.service
+
+systemctl disable firewalld.service
+
+2、安装wget命令
+
+执行命令：yum install -y wget
+
+3安装zerocice
+
+安装ZerocIce：
+执行命令：
+
+cd /etc/yum.repos.d
+
+wget https://zeroc.com/download/Ice/3.7/el7/zeroc-ice3.7.repo
+
+yum install ice-all-runtime ice-all-devel -y
+
+yum install libfreeze-c++-devel freeze-utils -y
+
+
+
+
+
+-------------------------------------------------------------------------------------------
+
+sudo rpm -Uvh https://packages.microsoft.com/config/rhel/7/packages-microsoft-prod.rpm
+sudo yum update
+sudo yum install dotnet-runtime-2.1

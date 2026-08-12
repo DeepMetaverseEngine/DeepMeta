@@ -1,0 +1,124 @@
+{% extends "base.nunjucks" %}
+
+{% block realms %}
+{% endblock %}
+
+{% block js %}
+        <script src="/public/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="/public/assets/plugins/datatables/dataTables.bootstrap4.min.js"></script>
+        <script src="/public/assets/plugins/datatables/dataTables.buttons.min.js"></script>
+        <script src="/public/assets/plugins/datatables/buttons.bootstrap4.min.js"></script>
+        <script src="/public/assets/plugins/datatables/dataTables.select.min.js"></script>
+        <script src="/public/assets/plugins/datatables-editor/dataTables.editor.min.js"></script>
+        <script src="/public/assets/plugins/datatables-editor/editor.bootstrap4.min.js"></script>
+{% endblock %}
+
+{% block css %}
+        <link href="/public/assets/plugins/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+        <link href="/public/assets/plugins/datatables/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+        <link href="/public/assets/plugins/datatables/select.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+        <link href="/public/assets/plugins/datatables-editor/editor.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+<div class="row">
+                            <div class="col-12">
+                                <div class="card-box">
+                                    <table id="datatable" class="table table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>{{ __('common_instructions_user_id') }}</th>
+                                            <th>{{ __('common_instructions_account') }}</th>
+                                            <th>{{ __('common_instructions_privilege') }}</th>
+                                            <th class="is_enable">{{ __('common_instructions_status') }}</th>
+                                            <th>{{ __('common_instructions_current_login') }}</th>
+                                            <th>{{ __('common_instructions_last_login') }}</th>
+                                        </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </div> <!-- end row -->
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+    var editor;
+    $(document).ready(function () {
+        editor = new $.fn.dataTable.Editor( {
+            ajax: "/api/backend/whitelist",
+            table: "#datatable",
+            idSrc:  'id',
+            fields: [ {
+                    label: "{{ __('common_instructions_user_id') }}:",
+                    name: "id"
+                },{
+                    label: "{{ __('common_instructions_account') }}:",
+                    name: "username"
+                }, {
+                    label: "{{ __('common_instructions_privilege') }}:",
+                    name: "privilege",
+                    type:  "select"
+                },{
+                    label: "{{ __('common_instructions_status') }}:",
+                    name: "is_enable",
+                    type:  "select",
+                    options: [
+                        { label: "{{ __('common_instructions_enabled') }}", value: "1" },
+                        { label: "{{ __('common_instructions_disabled') }}", value: "0" }
+                    ]
+                },{
+                    label: "{{ __('common_instructions_password') }}:",
+                    name: "password",
+                    type:  "password"
+                }
+            ]
+        } );
+
+          $('#datatable').DataTable( {
+            dom: "Bfrtip",
+            "ajax": {
+            "url": '/api/backend/whitelist',
+            //"dataSrc": ""
+            },
+            "columns": [
+                { "data": "id" },
+                { "data": "username" },
+                { "data": "title" },
+                { "data": "is_enable" },
+                { "data": "current_login_time" },
+                { "data": "last_login_time" }
+            ],
+            select: true,
+            buttons: [
+                { extend: "create", editor: editor },
+                { extend: "edit",   editor: editor },
+                { extend: "remove", editor: editor }
+            ],
+            columnDefs : [
+                { targets : 'is_enable',
+                  render : function (data, type, row) {
+                     return data == '1' ? '{{ __('common_instructions_enabled') }}' : '{{ __('common_instructions_disabled') }}'
+                  }
+                }
+            ],
+            initComplete: function (settings, json) {
+                editor.disable( 'id' );
+                //editor.disable( 'username' );
+            }
+        } );
+          editor.on( 'initCreate', function (e) {
+            e.target.field( 'username' ).enable();
+            editor.field( 'password' ).label("{{ __('common_instructions_password') }}" )
+            editor.field( 'password' ).input().attr('placeholder', "{{ __('common_instructions_reset_pwd_tip') }}" )
+        } );
+
+          editor.on( 'initEdit', function (e ) {
+            e.target.field( 'username' ).disable();
+            editor.field( 'password' ).label("{{ __('common_instructions_reset_pwd') }}" )
+            editor.field( 'password' ).input().attr('placeholder', "{{ __('common_instructions_not_reset_pwd_tip') }}" )
+        } );
+          
+    });
+</script>
+{% endblock %}

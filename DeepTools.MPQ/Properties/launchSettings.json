@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "DeepTools.MPQ": {
+      "commandName": "Project",
+      "commandLineArgs": "D:\\dev\\KBD\\OpenCards\\data\\mpq\\windows\\mpq_20220408160047.mpq"
+    }
+  }
+}

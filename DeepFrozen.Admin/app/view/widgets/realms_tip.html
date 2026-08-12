@@ -1,0 +1,7 @@
+
+                                <p id="realm_selected" class="text-custom mb-1 font-14"{% if not ctx.session.realm_id %}style=" display: none;{% endif %}">
+                                    {{ __('common_instructions_current_select') }}<span id="realm_name_show" class="text-pink">[{{ctx.session.realm_name}}]</span> {{ __('common_instructions_realm_id') }}: <span id="realm_id_show" class="text-pink">[{{ctx.session.realm_id}}]</span> <span class="text-danger">{{ __('common_instructions_operation_carefully') }}</span>
+                                </p>
+                                <p id="realm_not_selected" class="text-custom mb-1 font-14"{% if ctx.session.realm_id %} style="display: none;{% endif %}">
+                                    {{ __('page_realmlist_not_select') }}<span class="text-pink">[{{ __('page_realmlist_righttop_select') }}]</span><i class="mdi mdi-arrow-top-right"></i>
+                                </p>

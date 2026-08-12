@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "DeepTools.CodeGen": {
+      "commandName": "Project",
+      "commandLineArgs": "-ns:Gate.Server -wd:D:\\dev\\KBD\\DeepModules\\Gate.ServerTest\\\\..\\Gate.ServerLauncher\\bin\\Debug\\netstandard2.0 -if:D:\\dev\\KBD\\DeepModules\\Gate.ServerTest\\\\..\\Gate.ServerLauncher\\bin\\Debug\\netstandard2.0\\DeepCore.dll;D:\\dev\\KBD\\DeepModules\\Gate.ServerTest\\\\..\\Gate.ServerLauncher\\bin\\Debug\\netstandard2.0\\Gate.Data.dll;D:\\dev\\KBD\\DeepModules\\Gate.ServerTest\\\\..\\Gate.ServerLauncher\\bin\\Debug\\netstandard2.0\\Gate.Server.dll -od:D:\\dev\\KBD\\DeepModules\\Gate.ServerTest\\\\gen_server -t:csharp-code.xml"
+    }
+  }
+}

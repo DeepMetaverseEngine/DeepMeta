@@ -1,0 +1,487 @@
+                   <!--- Sidemenu -->
+                   <div id="sidebar-menu">
+                        <ul>
+                                <li class="text-muted menu-title">{{ __('common_nevigate_title') }}</li>
+
+                            <li>
+                                <a href="index" class="waves-effect"><i class="mdi mdi-view-dashboard"></i> <span> {{ __('common_nevigate_field_dashboard') }} </span> </a>
+                            </li>
+
+                            {% macro sub_item(items) %}
+                                {% for item in items %}
+                                    {% if item.disable %}
+                                        {# <li><a href="#" style="color: #CCCCCC">{{ __(item.name) }}</a></li> #}
+                                    {% else %}
+                                        <li><a href="{{ item.href }}">{{ __(item.name) }}</a></li>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endmacro %}
+
+                            {% set sub_items = [] %}
+
+                            
+
+                            {% if (sub_items | length) > 0 %}
+                                <li class="has_sub">
+                                    <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-information"></i> <span> {{ __('common_nevigate_field_notice') }} </span> <span class="menu-arrow"></span></a>
+                                    <ul class="list-unstyled">
+                                        {{ sub_item(items=sub_items) }}
+                                    </ul>
+                                </li>
+                            {% endif %}
+
+
+                            {% set sub_items = [] %}
+
+                            {% if helper.get_detail_permission('page_sdk_title') %}
+                                {% set sub_items = (sub_items.push({name: 'page_sdk_title', href: 'sdk_manage'}), sub_items) %}
+                            {% endif %}
+
+                            {% if helper.get_detail_permission('page_update_title') %}
+                                {% set sub_items = (sub_items.push({name: 'page_update_title', href: 'update_manage'}), sub_items) %}
+                            {% endif %}
+
+                            {% if helper.get_detail_permission('page_mpq_title') %}
+                                {% set sub_items = (sub_items.push({name: 'page_mpq_title', href: 'mpq_manage'}), sub_items) %}
+                            {% endif %}
+
+                            {% if (sub_items | length) > 0 %}
+                                <li class="has_sub">
+                                    <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-information"></i> <span> {{ __('common_nevigate_field_update') }} </span> <span class="menu-arrow"></span></a>
+                                    <ul class="list-unstyled">
+                                       {{ sub_item(items=sub_items) }}
+                                    </ul>
+                                </li>
+                            {% endif %}
+
+                            
+                            {% set sub_items = [] %}
+
+                            
+
+                            {% if (sub_items | length) > 0 %}
+                            <li class="has_sub">
+                                <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-coin"></i> <span> {{ __('common_nevigate_field_recharge') }} </span> <span class="menu-arrow"></span></a>
+                                <ul class="list-unstyled">
+                                    {{ sub_item(items=sub_items) }}
+                                </ul>
+                            </li>
+                            {% endif %}
+
+
+
+                            {% set sub_items = [] %}
+
+                            
+
+                            {% if (sub_items | length) > 0 %}
+                                <li class="has_sub">
+                                    <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-account-multiple-outline"></i> <span> {{ __('common_nevigate_field_account') }} </span> <span class="menu-arrow"></span></a>
+                                    <ul class="list-unstyled">
+                                        {{ sub_item(items=sub_items) }}
+                                    </ul>
+                                </li>
+                            {% endif %}
+
+                            {% set sub_items = [] %}
+
+                            {% if helper.get_detail_permission('page_realmlist_title') %}
+                                {% set sub_items = (sub_items.push({name: 'page_realmlist_title', href: 'realmlist'}), sub_items) %}
+                            {% endif %}
+
+                            {% if helper.get_detail_permission('page_serverlist_title') %}
+                                {% set sub_items = (sub_items.push({name: 'page_serverlist_title', href: 'serverlist'}), sub_items) %}
+                            {% endif %}
+
+                            {% if helper.get_detail_permission('page_realmlist_op') %}
+                                {% set sub_items = (sub_items.push({name: 'page_realmlist_op', href: 'realmop'}), sub_items) %}
+                            {% endif %}
+
+                            {% if (sub_items | length) > 0 %}
+                                <li class="has_sub">
+                                    <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-view-list"></i> <span> {{ __('common_nevigate_field_servers') }} </span> <span class="menu-arrow"></span></a>
+                                    <ul class="list-unstyled">
+                                        {{ sub_item(items=sub_items) }}
+                                    </ul>
+                                </li>
+                            {% endif %}
+
+         {% set sub_items = [] %}
+
+
+         {# 
+         {% if helper.get_detail_permission('page_role_bag_title') %}
+             {% set sub_items = (sub_items.push({name: 'page_role_bag_title', href: 'role_bag'}), sub_items) %}
+         {% endif %}
+         #}
+
+
+         {% if helper.get_detail_permission('page_player_query') %}
+             {% set sub_items = (sub_items.push({name: 'page_player_query', href: 'player_query'}), sub_items) %}
+         {% endif %}
+
+         {% if helper.get_detail_permission('page_player_rolequery') %}
+             {% set sub_items = (sub_items.push({name: 'page_player_rolequery', href: 'player_query_role'}), sub_items) %}
+         {% endif %}
+
+         {% if helper.get_detail_permission('page_player_charge') %}
+             {% set sub_items = (sub_items.push({name: 'page_player_charge', href: 'player_charge'}), sub_items) %}
+         {% endif %}
+
+         {% if helper.get_detail_permission('page_player_attr') %}
+             {% set sub_items = (sub_items.push({name: 'page_player_attr', href: 'player_attr', disable:true}), sub_items) %}
+         {% endif %}
+
+         {% if helper.get_detail_permission('page_player_abilityquery') %}
+             {% set sub_items = (sub_items.push({name: 'page_player_abilityquery', href: 'player_ability'}), sub_items) %}
+         {% endif %}
+
+         {% if helper.get_detail_permission('page_player_item') %}
+             {% set sub_items = (sub_items.push({name: 'page_player_item', href: 'player_item'}), sub_items) %}
+         {% endif %}
+
+         {% if helper.get_detail_permission('page_player_yuanbao') %}
+             {% set sub_items = (sub_items.push({name: 'page_player_yuanbao', href: 'player_yuanbao'}), sub_items) %}
+         {% endif %}
+
+         {% if helper.get_detail_permission('page_player_yinliang') %}
+             {% set sub_items = (sub_items.push({name: 'page_player_yinliang', href: 'player_yinliang'}), sub_items) %}
+         {% endif %}
+
+         {% if helper.get_detail_permission('page_player_tb') %}
+             {% set sub_items = (sub_items.push({name: 'page_player_tb', href: 'player_tongbi'}), sub_items) %}
+         {% endif %}
+
+         {% if helper.get_detail_permission('page_player_levelup') %}
+             {% set sub_items = (sub_items.push({name: 'page_player_levelup', href: 'player_levelup'}), sub_items) %}
+         {% endif %}
+
+         {% if helper.get_detail_permission('page_player_chat') %}
+             {% set sub_items = (sub_items.push({name: 'page_player_chat', href: 'player_chat'}), sub_items) %}
+         {% endif %}
+
+         {% if helper.get_detail_permission('page_player_device') %}
+             {% set sub_items = (sub_items.push({name: 'page_player_device', href: 'player_device'}), sub_items) %}
+         {% endif %}
+{#
+         {% if helper.get_detail_permission('page_player_roledetail') %}
+             {% set sub_items = (sub_items.push({name: 'page_player_roledetail', href: 'player_roledetail'}), sub_items) %}
+         {% endif %}
+#}
+         {% if helper.get_detail_permission('page_player_online') %}
+             {% set sub_items = (sub_items.push({name: 'page_player_online', href: 'player_online'}), sub_items) %}
+         {% endif %}
+
+         {% if (sub_items | length) > 0 %}
+       <li class="has_sub">
+           <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-account-search"></i> <span> {{ __('common_nevigate_field_player') }} </span> <span class="menu-arrow"></span></a>
+           <ul class="list-unstyled">
+               {{ sub_item(items=sub_items) }}
+           </ul>
+       </li>
+         {% endif %}
+
+
+         {% set sub_items = [] %}
+
+         {% if helper.get_detail_permission('page_server_data_view5m') %}
+             {% set sub_items = (sub_items.push({name: 'page_server_data_view5m', href: 'server_data_view5m'}), sub_items) %}
+         {% endif %}
+
+         {% if helper.get_detail_permission('page_server_data_LTV') %}
+             {% set sub_items = (sub_items.push({name: 'page_server_data_LTV', href: 'server_data_LTV'}), sub_items) %}
+         {% endif %}
+
+         {% if helper.get_detail_permission('page_server_data_remain') %}
+             {% set sub_items = (sub_items.push({name: 'page_server_data_remain', href: 'server_data_remain'}), sub_items) %}
+         {% endif %}
+
+         {% if helper.get_detail_permission('page_server_data_active') %}
+             {% set sub_items = (sub_items.push({name: 'page_server_data_active', href: 'server_data_active'}), sub_items) %}
+         {% endif %}
+
+         {% if helper.get_detail_permission('page_server_data_today') %}
+             {% set sub_items = (sub_items.push({name: 'page_server_data_today', href: 'server_data_today'}), sub_items) %}
+         {% endif %}
+
+         {% if helper.get_detail_permission('page_server_data_detail') %}
+             {% set sub_items = (sub_items.push({name: 'page_server_data_detail', href: 'server_data_detail', disable:true}), sub_items) %}
+         {% endif %}
+
+         {% if helper.get_detail_permission('page_server_data_chargelist') %}
+             {% set sub_items = (sub_items.push({name: 'page_server_data_chargelist', href: 'server_data_chargelist'}), sub_items) %}
+         {% endif %}
+
+         {% if helper.get_detail_permission('page_server_data_avg7d') %}
+             {% set sub_items = (sub_items.push({name: 'page_server_data_avg7d', href: 'server_data_avg7d', disable:true}), sub_items) %}
+         {% endif %}
+
+         {% if helper.get_detail_permission('page_server_data_ybremain') %}
+             {% set sub_items = (sub_items.push({name: 'page_server_data_ybremain', href: 'server_data_ybremain', disable:true}), sub_items) %}
+         {% endif %}
+
+         {% if helper.get_detail_permission('page_server_data_open7d') %}
+             {% set sub_items = (sub_items.push({name: 'page_server_data_open7d', href: 'server_data_open7d', disable:true}), sub_items) %}
+         {% endif %}
+
+         {% if helper.get_detail_permission('page_server_data_singleability') %}
+             {% set sub_items = (sub_items.push({name: 'page_server_data_singleability', href: 'server_data_singleability'}), sub_items) %}
+         {% endif %}
+
+         {% if helper.get_detail_permission('page_server_data_singledata') %}
+             {% set sub_items = (sub_items.push({name: 'page_server_data_singledata', href: 'server_data_singledata'}), sub_items) %}
+         {% endif %}
+
+         {% if helper.get_detail_permission('page_server_xiaohao_yuanbao') %}
+             {% set sub_items = (sub_items.push({name: 'page_server_xiaohao_yuanbao', href: 'server_data_yuanbao'}), sub_items) %}
+         {% endif %}
+
+         {% if helper.get_detail_permission('page_server_xiaohao_tongbi') %}
+             {% set sub_items = (sub_items.push({name: 'page_server_xiaohao_tongbi', href: 'server_data_tongbi'}), sub_items) %}
+         {% endif %}
+
+         {% if (sub_items | length) > 0 %}
+      <li class="has_sub">
+          <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-server"></i> <span> {{ __('common_nevigate_field_server_data') }} </span> <span class="menu-arrow"></span></a>
+          <ul class="list-unstyled">
+             {{ sub_item(items=sub_items) }}
+          </ul>
+      </li>
+         {% endif %}
+
+         {% set sub_items = [] %}
+
+         {% if helper.get_detail_permission('page_operate_forbidip') %}
+             {% set sub_items = (sub_items.push({name: 'page_operate_forbidip', href: 'operate_forbidip'}), sub_items) %}
+         {% endif %}
+
+         {% if helper.get_detail_permission('page_operate_forbidmac') %}
+             {% set sub_items = (sub_items.push({name: 'page_operate_forbidmac', href: 'operate_forbidmac'}), sub_items) %}
+         {% endif %}
+
+         {% if helper.get_detail_permission('page_role_blacklist_title') %}
+             {% set sub_items = (sub_items.push({name: 'page_role_blacklist_title', href: 'role_blacklist'}), sub_items) %}
+         {% endif %}
+
+         {% if helper.get_detail_permission('page_role_ban_title') %}
+             {% set sub_items = (sub_items.push({name: 'page_role_ban_title', href: 'role_ban'}), sub_items) %}
+         {% endif %}
+
+         {% if helper.get_detail_permission('page_operate_changename') %}
+             {% set sub_items = (sub_items.push({name: 'page_operate_changename', href: 'operate_changename'}), sub_items) %}
+         {% endif %}
+
+         {% if helper.get_detail_permission('page_operate_changeqianming') %}
+             {% set sub_items = (sub_items.push({name: 'page_operate_changeqianming', href: 'operate_changeqianming'}), sub_items) %}
+         {% endif %}
+
+         {% if helper.get_detail_permission('page_role_bag_title') %}
+             {% set sub_items = (sub_items.push({name: 'page_role_bag_title', href: 'role_bag'}), sub_items) %}
+         {% endif %}
+
+         {% if helper.get_detail_permission('page_operate_kick') %}
+             {% set sub_items = (sub_items.push({name: 'page_operate_kick', href: 'operate_kick'}), sub_items) %}
+         {% endif %}
+
+         {% if helper.get_detail_permission('page_operate_changescene') %}
+             {% set sub_items = (sub_items.push({name: 'page_operate_changescene', href: 'operate_changescene'}), sub_items) %}
+         {% endif %}
+
+         {% if helper.get_detail_permission('page_operate_changeguild') %}
+             {% set sub_items = (sub_items.push({name: 'page_operate_changeguild', href: 'operate_changeguild'}), sub_items) %}
+         {% endif %}
+
+         {% if helper.get_detail_permission('page_operate_changeguildnotice') %}
+             {% set sub_items = (sub_items.push({name: 'page_operate_changeguildnotice', href: 'operate_changeguildnotice'}), sub_items) %}
+         {% endif %}
+
+         {% if (sub_items | length) > 0 %}
+      <li class="has_sub">
+          <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-account-edit"></i> <span> {{ __('common_nevigate_field_operate') }} </span> <span class="menu-arrow"></span></a>
+          <ul class="list-unstyled">
+              {{ sub_item(items=sub_items) }}
+          </ul>
+      </li>
+         {% endif %}
+
+         {% set sub_items = [] %}
+
+         {% if helper.get_detail_permission('page_email_apply_title') %}
+             {% set sub_items = (sub_items.push({name: 'page_email_apply_title', href: 'server_mail_apply'}), sub_items) %}
+         {% endif %}
+
+         {% if helper.get_detail_permission('page_email_review') %}
+             {% set sub_items = (sub_items.push({name: 'page_email_review', href: 'server_mail_review'}), sub_items) %}
+         {% endif %}
+
+
+         {% if helper.get_detail_permission('page_email_record') %}
+             {% set sub_items = (sub_items.push({name: 'page_email_record', href: 'server_mail_record'}), sub_items) %}
+         {% endif %}
+
+         {% if helper.get_detail_permission('page_im_broadcast_title') %}
+            {% set sub_items = (sub_items.push({name: 'page_im_broadcast_title', href: 'server_im_broadcast'}), sub_items) %}
+        {% endif %}
+
+         {% if helper.get_detail_permission('page_notice_title') %}
+            {% set sub_items = (sub_items.push({name: 'page_notice_title', href: 'server_notice'}), sub_items) %}
+        {% endif %}
+
+        
+
+         {% if (sub_items | length) > 0 %}
+          <li class="has_sub">
+              <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-email"></i> <span> {{ __('common_nevigate_field_email') }} </span> <span class="menu-arrow"></span></a>
+              <ul class="list-unstyled">
+                  {{ sub_item(items=sub_items) }}
+              </ul>
+          </li>
+             {% endif %}
+
+
+
+              {% set sub_items = [] %}
+
+             {% if helper.get_detail_permission('page_account_whitelist_title') %}
+             {% set sub_items = (sub_items.push({name: 'page_account_whitelist_title', href: 'white_list'}), sub_items) %}
+             {% endif %}
+
+             {% if helper.get_detail_permission('page_resource_gm_apply') %}
+                 {% set sub_items = (sub_items.push({name: 'page_resource_gm_apply', href: 'resource_gm_apply'}), sub_items) %}
+             {% endif %}
+
+             {% if helper.get_detail_permission('page_resource_gm_review') %}
+                 {% set sub_items = (sub_items.push({name: 'page_resource_gm_review', href: 'resource_gm_review'}), sub_items) %}
+             {% endif %}
+
+             {% if helper.get_detail_permission('page_resource_gm_record') %}
+                 {% set sub_items = (sub_items.push({name: 'page_resource_gm_record', href: 'resource_gm_record'}), sub_items) %}
+             {% endif %}
+
+
+             {% if helper.get_detail_permission('page_resource_order_relay_apply') %}
+                 {% set sub_items = (sub_items.push({name: 'page_resource_order_relay_apply', href: 'resource_order_relay_apply'}), sub_items) %}
+             {% endif %}
+
+             {% if helper.get_detail_permission('page_resource_order_relay_review') %}
+                 {% set sub_items = (sub_items.push({name: 'page_resource_order_relay_review', href: 'resource_order_relay_review'}), sub_items) %}
+             {% endif %}
+
+             {% if helper.get_detail_permission('page_resource_order_relay_record') %}
+                 {% set sub_items = (sub_items.push({name: 'page_resource_order_relay_record', href: 'resource_order_relay_record'}), sub_items) %}
+             {% endif %}
+
+            {% if helper.get_detail_permission('page_account_iplist_title') %}
+                {% set sub_items = (sub_items.push({name: 'page_account_iplist_title', href: 'ip_list'}), sub_items) %}
+            {% endif %}
+
+            {% if helper.get_detail_permission('page_recharge_list_title') %}
+                {% set sub_items = (sub_items.push({name: 'page_recharge_list_title', href: 'recharge_list'}), sub_items) %}
+            {% endif %}
+
+            {% if helper.get_detail_permission('page_hot_plug_title') %}
+                {% set sub_items = (sub_items.push({name: 'page_hot_plug_title', href: 'hot_plug'}), sub_items) %}
+            {% endif %}
+
+{#
+            {% if helper.get_detail_permission('page_order_grant_title') %}
+                {% set sub_items = (sub_items.push({name: 'page_order_grant_title', href: 'order_grant'}), sub_items) %}
+            {% endif %}
+
+            {% if helper.get_detail_permission('page_order_resend_title') %}
+                {% set sub_items = (sub_items.push({name: 'page_order_resend_title', href: 'resend_order'}), sub_items) %}
+            {% endif %}
+#}
+
+              {% if (sub_items | length) > 0 %}
+          <li class="has_sub">
+              <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-sitemap"></i> <span> {{ __('common_nevigate_field_resource') }} </span> <span class="menu-arrow"></span></a>
+              <ul class="list-unstyled">
+                  {{ sub_item(items=sub_items) }}
+              </ul>
+          </li>
+             {% endif %}
+
+
+              {% set sub_items = [] %}
+
+            {% if helper.get_detail_permission('page_gmactivity_title') %}
+                {% set sub_items = (sub_items.push({name: 'page_gmactivity_title', href: 'server_gmactivity'}), sub_items) %}
+            {% endif %} 
+
+            {% if helper.get_detail_permission('page_activity_title') %}
+                {% set sub_items = (sub_items.push({name: 'page_activity_title', href: 'server_activity'}), sub_items) %}
+            {% endif %}
+
+            {% if helper.get_detail_permission('page_cdkey_title') %}
+                {% set sub_items = (sub_items.push({name: 'page_cdkey_title', href: 'server_cdkey'}), sub_items) %}
+            {% endif %}
+
+            {% if (sub_items | length) > 0 %}
+            <li class="has_sub">
+                <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-layers"></i> <span> {{ __('common_nevigate_field_activity') }} </span> <span class="menu-arrow"></span></a>
+                <ul class="list-unstyled">
+                    {{ sub_item(items=sub_items) }}
+                </ul>
+            </li>
+            {% endif %}
+
+
+
+
+             {% set sub_items = [] %}
+
+             {% if helper.get_detail_permission('page_early_warning_setting') %}
+                 {% set sub_items = (sub_items.push({name: 'page_early_warning_setting', href: 'early_warning_setting'}), sub_items) %}
+             {% endif %}
+
+             {% if helper.get_detail_permission('page_early_warning_record') %}
+                 {% set sub_items = (sub_items.push({name: 'page_early_warning_record', href: 'early_warning_record'}), sub_items) %}
+             {% endif %}
+
+             {% if helper.get_detail_permission('page_early_warning_mailist') %}
+                 {% set sub_items = (sub_items.push({name: 'page_early_warning_mailist', href: 'warning_mail_list'}), sub_items) %}
+             {% endif %}
+
+        {% if (sub_items | length) > 0 %}
+          <li class="has_sub">
+              <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-alert"></i> <span> {{ __('common_nevigate_field_monitor') }} </span> <span class="menu-arrow"></span></a>
+              <ul class="list-unstyled">
+                  {{ sub_item(items=sub_items) }}
+              </ul>
+          </li>
+         {% endif %}
+
+
+         {% set sub_items = [] %}
+
+         {% if helper.get_detail_permission('page_users_title') %}
+             {% set sub_items = (sub_items.push({name: 'page_users_title', href: 'users'}), sub_items) %}
+         {% endif %}
+
+         {% if helper.get_detail_permission('page_logs_title') %}
+             {% set sub_items = (sub_items.push({name: 'page_logs_title', href: 'logs'}), sub_items) %}
+         {% endif %}
+
+         {% if (sub_items | length) > 0 %}
+       <li class="has_sub">
+           <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-settings"></i><span>{{ __('common_nevigate_field_system') }} </span> <span class="menu-arrow"></span></a>
+           <ul class="list-unstyled">
+              {{ sub_item(items=sub_items) }}
+           </ul>
+       </li>
+         {% endif %}
+                            <li>
+                                <a href="logout" class="waves-effect"><i class="mdi mdi-logout"></i> <span> {{ __('common_nevigate_field_logout') }} </span> </a>
+                            </li>
+
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <!-- Sidebar -->
+                    <div class="clearfix"></div>
+
+                </div>
+
+            </div>
+            <!-- Left Sidebar End -->

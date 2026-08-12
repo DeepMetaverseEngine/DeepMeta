@@ -1,0 +1,336 @@
+{% extends "base.nunjucks" %}
+{% block js %}
+        <script src="/public/assets/plugins/multiselect/js/jquery.multi-select.js"></script>
+        <script src="/public/assets/plugins/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
+        <script src="/public/assets/plugins/parsleyjs/dist/parsley.min.js"></script>
+        <script src="/public/assets/plugins/toastr/toastr.min.js"></script>
+        <script src="/public/assets/plugins/select2/js/select2.min.js" type="text/javascript"></script>
+        <script src="/public/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="/public/assets/plugins/datatables/dataTables.bootstrap4.min.js"></script>
+        <script src="/public/assets/plugins/datatables/dataTables.buttons.min.js"></script>
+        <script src="/public/assets/plugins/datatables/buttons.bootstrap4.min.js"></script>
+        <script src="/public/assets/plugins/datatables/dataTables.select.min.js"></script>
+        <script src="/public/assets/plugins/datatables-editor/dataTables.editor.min.js"></script>
+        <script src="/public/assets/plugins/datatables-editor/editor.bootstrap4.min.js"></script>
+        <script src="/public/assets/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+        <script src="/public/js/moment.min.js"></script>
+{% endblock %}
+
+{% block css %}
+        <link href="/public/assets/plugins/multiselect/css/multi-select.css"  rel="stylesheet" type="text/css" />
+        <link href="/public/assets/plugins/bootstrap-tagsinput/dist/bootstrap-tagsinput.css" rel="stylesheet" />
+        <link href="/public/assets/plugins/toastr/toastr.min.css" rel="stylesheet" type="text/css" />
+        <link href="/public/assets/plugins/switchery/switchery.min.css" rel="stylesheet" />
+        <link href="/public/assets/plugins/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+        <link href="/public/assets/plugins/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+        <link href="/public/assets/plugins/datatables/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+        <link href="/public/assets/plugins/datatables/select.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+        <link href="/public/assets/plugins/datatables-editor/editor.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+        <link href="/public/assets/plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block realms %}
+{% endblock %}
+
+{% block style %}
+        <style type="text/css">
+                    
+        </style>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card-box">
+            <form action="#" id="form" data-parsley-validate>
+                <div class="form-group row">
+                    <label class="col-2 col-form-label">{{ __('page_notice_started_time') }}</label>
+                    <div class="col-2">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="datepicker1">
+                            <div class="input-group-append">
+                            <span class="input-group-text"><i class="ti-calendar"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <label class="col-form-label">&nbsp;&nbsp;&nbsp;{{ __('page_notice_ended_time') }}&nbsp;&nbsp;&nbsp;</label>
+                    <div class="col-2">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="datepicker2">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="ti-calendar"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-2 col-form-label">{{ __('common_instructions_channel') }}</label>
+                    <div class="col-6">
+                        <select id="channel" class="select2" multiple="multiple">
+                            <option value="-1" selected>{{ __('page_bi_remain_select_all_channel') }}</option>
+                            {% for channel in channel_list %}
+                            <option value="{{ channel.id }}">{{ channel.sdk_name }}({{ channel.id }})</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-2 col-form-label">{{ __('common_nevigate_field_servers') }}</label>
+                    <div class="col-6">
+                        <select id="server_list" class="select2" multiple="multiple">
+                        <option value="-1" selected>{{ __('page_bi_remain_select_all_server') }}</option>
+                        {% for server in server_list %}
+                            {% if server.flag == 1 %}
+                        <optgroup label="{{ server.realm_name }}">
+                            {% endif %}
+                        <option value="{{ server.id }}">{{ server.name }}({{ server.id }})</option>
+                            {% if server.flag == 1 %}
+                            </optgroup>
+                            {% endif %}
+                        {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-2 col-form-label">{{ __('common_data_combine') }}</label>
+                    <div class="col-6">
+                        <div class="checkbox checkbox-primary form-check-inline">
+                            <input type="checkbox" id="channel_combine">
+                            <label for="channel_combine"> {{ __('common_instructions_channel') }} </label>
+                        </div>
+
+                        <div class="checkbox checkbox-primary form-check-inline">
+                            <input type="checkbox" id="server_combine">
+                            <label for="server_combine"> {{ __('common_nevigate_field_servers') }} </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-10">
+                        <button id="confirm" type="button" class="btn btn-success waves-effect w-md waves-light">{{ __('common_instructions_confirm') }}</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div id="table" class="card-box table-responsive">
+            <table id="datatable" class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>{{ __('common_instructions_date')}}</th>
+                    <th class="channel">{{ __('common_instructions_channel') }}</th>
+                    <th class="server">{{ __('common_nevigate_field_servers') }}</th>
+                    <th>{{ __('page_bi_preview_reg')}}</th>
+                    <th>{{ __('page_bi_preview_active')}}{{ __('page_bi_preview_person')}}({{ __('common_instructions_previous')}})</th>
+                    <th>{{ __('page_bi_preview_active')}}{{ __('page_bi_preview_person')}}</th>
+                    <th>{{ __('page_bi_preview_pay_num')}}</th>
+                    <th>{{ __('page_bi_preview_total_pay')}}</th>
+                    <th class="rato">{{ __('page_bi_preview_active')}}{{ __('page_bi_preview_pay_rato')}}</th>
+                    <th>{{ __('page_bi_preview_active')}}ARPU</th>
+                    <th>{{ __('page_bi_preview_pay')}}ARPU</th>
+
+                    <th>{{ __('page_bi_preview_pay_num')}}({{ __('common_instructions_new')}})</th>
+                    <th class="rato">{{ __('page_bi_preview_pay_rato')}}({{ __('common_instructions_new')}})</th>
+                    <th>{{ __('page_bi_preview_pay_price')}}({{ __('common_instructions_new')}})</th>
+                    <th>ARPU({{ __('common_instructions_new')}})</th>
+                    <th>{{ __('page_bi_preview_pay')}}ARPU({{ __('common_instructions_new')}})</th>
+
+                    <th>{{ __('page_bi_preview_pay_num')}}({{ __('common_instructions_previous')}})</th>
+                    <th class="rato">{{ __('page_bi_preview_pay_rato')}}({{ __('common_instructions_previous')}})</th>
+                    <th>{{ __('page_bi_preview_pay_price')}}({{ __('common_instructions_previous')}})</th>
+                    <th>ARPU({{ __('common_instructions_previous')}})</th>
+                    <th>{{ __('page_bi_preview_pay')}}ARPU({{ __('common_instructions_previous')}})</th>
+                </thead> 
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+    var selecting = false
+    var serverinfo,channelinfo
+    var table = $('#datatable').DataTable({
+            select: true,
+            scrollY: 550,
+            paging: false,
+            ordering: true,
+            columns: [
+              { data: 'date' },
+              { data: 'channel' },
+              { data: 'server_id' },
+              { data: 'today_reg_num' },
+              { data: 'today_old_login_num' },
+              { data: 'today_active_num' },
+              { data: 'today_pay_num' },
+              { data: 'today_pay_total' },
+              { data: 'today_pay_rato' },
+              { data: 'active_arpu' },
+              { data: 'pay_arpu' },
+              { data: 'today_new_pay_num' },
+              { data: 'today_new_pay_rato' },
+              { data: 'today_new_pay_total' },
+              { data: 'new_active_arpu' },
+              { data: 'new_pay_arpu' },
+              { data: 'today_old_pay_num' },
+              { data: 'today_old_pay_rato' },
+              { data: 'today_old_pay_total' },
+              { data: 'old_active_arpu' },
+              { data: 'old_pay_arpu' },
+            ],
+            language: {
+                "sProcessing": '{{ __("common_table_sProcessing") }}',
+                "sLengthMenu": '{{ __("common_table_sLengthMenu") }}',
+                "sZeroRecords": '{{ __("common_table_sZeroRecords") }}',
+                "sInfo": '{{ __("common_table_sInfo") }}',
+                "sInfoEmpty": '{{ __("common_table_sInfoEmpty") }}',
+                "sInfoFiltered": '{{ __("common_table_sInfoFiltered") }}',
+                "sInfoPostFix": '{{ __("common_table_sInfoPostFix") }}',
+                "sSearch": '{{ __("common_table_sSearch") }}',
+                "sUrl": '{{ __("common_table_sUrl") }}',
+                "sEmptyTable": '{{ __("common_table_sEmptyTable") }}',
+                "sLoadingRecords": '{{ __("common_table_sLoadingRecords") }}',
+                "sInfoThousands": '{{ __("common_table_sInfoThousands") }}',
+                "oPaginate": {
+                    "sFirst": '{{ __("common_table_sFirst") }}',
+                    "sPrevious": '{{ __("common_table_sPrevious") }}',
+                    "sNext": '{{ __("common_table_sNext") }}',
+                    "sLast": '{{ __("common_table_sLast") }}',
+                },
+                "oAria": {
+                    "sSortAscending": '{{ __("common_table_sSortAscending") }}',
+                    "sSortDescending": '{{ __("common_table_sSortDescending") }}',
+                }
+            },
+            columnDefs : [
+                { targets : 'channel',
+                  render : function (data, type, row) {
+                    return get_channel(data)
+                  }
+                },{ targets : 'server',
+                  render : function (data, type, row) {
+                    return get_server(data)
+                  }
+                },{ targets : 'rato',
+                  render : function (data, type, row) {
+                    return data + '%'
+                  }
+                }
+            ]
+        });
+    $(document).ready(function() {
+        $('#datepicker1').val(moment().format('YYYY-MM-DD'))
+        $('#datepicker2').val(moment().format('YYYY-MM-DD'))
+        $('#datepicker1').datepicker({
+            format: 'yyyy-mm-dd',
+            language: 'zh-CN',
+            autoclose: true,
+            todayHighlight: true,
+            endDate : new Date()
+        }).on('changeDate',function(e){
+            var startTime = e.date;
+            $('#datepicker2').datepicker('setEndDate', new Date(startTime.getTime() + 7 * 24 * 3600 * 1000 ));  
+            $('#datepicker2').datepicker('setStartDate', startTime);
+            $('#datepicker2').val(moment(startTime).format('YYYY-MM-DD'));
+        });
+        $('#datepicker2').datepicker({
+            format: 'yyyy-mm-dd',
+            language: 'zh-CN',
+            autoclose: true,
+            todayHighlight: true
+        });
+        $('#server_list').select2(
+        {
+            minimumResultsForSearch:-1
+        });
+        $('#channel').select2(
+        {
+            minimumResultsForSearch:-1
+        });
+        $('#channel').on('select2:open', function (e) {
+          $('#channel').select2('close');
+          if(!selecting)
+            open_channel_selector('{{ __('common_instructions_server_selector') }}', '#channel')
+        });
+
+        $('#channel').on('select2:unselecting', function (e) {
+          selecting = true
+          _.delay(unselect, 100);
+        });
+
+        $('#server_list').on('select2:open', function (e) {
+          $('#server_list').select2('close');
+          if(!selecting)
+            open_server_selector('{{ __('common_instructions_channel_selector') }}', '#server_list')
+        });
+
+        $('#server_list').on('select2:unselecting', function (e) {
+          selecting = true
+          _.delay(unselect, 100);
+        });
+        $("#confirm").click(function(){
+                sendData();
+        });
+    });
+
+    function select_channel(val) {
+        $('#channel').val(val);
+        $('#channel').trigger('change');
+    }
+
+    function select_server(val) {
+        $('#server_list').val(val);
+        $('#server_list').trigger('change');
+    }
+
+    function get_channel(id) {
+        for (var i = 0; i < channelinfo.length; i++) {
+             if(channelinfo[i].id == id)
+                return channelinfo[i].text
+        }
+        return id
+    }
+
+    function get_server(id) {
+        for (var i = 0; i < serverinfo.length; i++) {
+             if(serverinfo[i].id == id)
+                return serverinfo[i].text
+        }
+        return id
+    }
+
+    function sendData(){
+        channelinfo = $('#channel').select2('data');
+        serverinfo = $('#server_list').select2('data');
+        $.ajax({    
+            type:'post',        
+            url:'/api/backend/server_data_active',
+            data:{
+                server_id: $("#server_list").val(),
+                channel: $("#channel").val(),
+                date1: $("#datepicker1").val(),
+                date2: $("#datepicker2").val(),
+                channel_combine: $("#channel_combine").is(":checked"),
+                server_combine: $("#server_combine").is(":checked")
+            },
+            cache:false,
+            dataType:'json',
+            success:function(obj){
+                if(obj.state){
+                    toastr.success(obj.reason);
+                    table.clear().draw();
+                    table.rows.add(obj.info).draw();
+                }else {
+                    toastr.error(obj.reason);
+                }
+            }    
+        }); 
+    }
+</script>
+{% endblock %}

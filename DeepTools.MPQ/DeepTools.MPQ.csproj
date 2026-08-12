@@ -1,0 +1,401 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFrameworks>net9.0-windows;net10.0-windows</TargetFrameworks>
+    <UseWindowsForms>true</UseWindowsForms>
+    <AssemblyName>mpq</AssemblyName>
+    <StartupObject>DeepTools.MPQ.Program</StartupObject>
+    <ApplicationIcon>mpq.ico</ApplicationIcon>
+    <Version>1.2.14</Version>
+    <Deterministic>true</Deterministic>
+    <NoWarn>$(NoWarn);WFO1000</NoWarn>
+    <Configurations>Debug;Release;Source</Configurations>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>DeepMeta.DeepTools.MPQ</PackageId>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="lib\bin\**" />
+    <EmbeddedResource Remove="lib\bin\**" />
+    <None Remove="lib\bin\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="lib\ability.jar" />
+    <None Remove="lib\auto_run_convert__m3z.bat" />
+    <None Remove="lib\cglib-nodep-2.2.jar" />
+    <None Remove="lib\commons-lang-2.5.jar" />
+    <None Remove="lib\commons-lang.jar" />
+    <None Remove="lib\commons-logging-1.0.3.jar" />
+    <None Remove="lib\commons-logging.jar" />
+    <None Remove="lib\convert_xml_filter.txt" />
+    <None Remove="lib\demo.lua" />
+    <None Remove="lib\demo.lua.jit" />
+    <None Remove="lib\demo.luajit" />
+    <None Remove="lib\demo.luajit.jit" />
+    <None Remove="lib\dom4j-1.6.1.jar" />
+    <None Remove="lib\EXCLUDE_assetbundle.txt" />
+    <None Remove="lib\EXCLUDE_wav.txt" />
+    <None Remove="lib\filter_cpj.txt" />
+    <None Remove="lib\g2d_studio.jar" />
+    <None Remove="lib\gluegen-rt.dll" />
+    <None Remove="lib\gluegen-rt.jar" />
+    <None Remove="lib\help.bat" />
+    <None Remove="lib\jcsv-1.4.0.jar" />
+    <None Remove="lib\JDICplus.jar" />
+    <None Remove="lib\JDICplus_native_applet.jar" />
+    <None Remove="lib\jdom-1.1.jar" />
+    <None Remove="lib\jettison-1.2.jar" />
+    <None Remove="lib\joal.jar" />
+    <None Remove="lib\joal_native.dll" />
+    <None Remove="lib\joda-time-1.6.jar" />
+    <None Remove="lib\jogg.jar" />
+    <None Remove="lib\jorbis.jar" />
+    <None Remove="lib\json-20080701.jar" />
+    <None Remove="lib\json-response-code.xml" />
+    <None Remove="lib\jxl.jar" />
+    <None Remove="lib\king3_plugin.jar" />
+    <None Remove="lib\kxml2-2.3.0.jar" />
+    <None Remove="lib\kxml2-min-2.3.0.jar" />
+    <None Remove="lib\libs.bat" />
+    <None Remove="lib\log4j-1.2.15.jar" />
+    <None Remove="lib\lua51.dll" />
+    <None Remove="lib\lua51.exp" />
+    <None Remove="lib\lua51.lib" />
+    <None Remove="lib\luajit.exe" />
+    <None Remove="lib\lua_build.bat" />
+    <None Remove="lib\lua_jit_build.bat" />
+    <None Remove="lib\m3z_cmdline.txt" />
+    <None Remove="lib\m3z_converter.bat" />
+    <None Remove="lib\m3z_filter - 副本.txt" />
+    <None Remove="lib\m3z_filter.txt" />
+    <None Remove="lib\mina-core-2.0.4.jar" />
+    <None Remove="lib\mina-core.jar" />
+    <None Remove="lib\mysql-connector-java-5.1.7-bin.jar" />
+    <None Remove="lib\mysql-connector-java.jar" />
+    <None Remove="lib\natives-windows-i586.jar" />
+    <None Remove="lib\OpenAL32.dll" />
+    <None Remove="lib\proxool-0.9.1.jar" />
+    <None Remove="lib\proxool-cglib.jar" />
+    <None Remove="lib\proxool.jar" />
+    <None Remove="lib\quartz.jar" />
+    <None Remove="lib\run_convert__m3z.bat" />
+    <None Remove="lib\sample.bat" />
+    <None Remove="lib\slf4j-api-1.5.11.jar" />
+    <None Remove="lib\slf4j-api.jar" />
+    <None Remove="lib\slf4j-log4j12-1.5.8.jar" />
+    <None Remove="lib\slf4j-simple-1.5.0.jar" />
+    <None Remove="lib\slf4j-simple.jar" />
+    <None Remove="lib\stax-1.2.0.jar" />
+    <None Remove="lib\stax-api-1.0.1.jar" />
+    <None Remove="lib\update_filter_android.txt" />
+    <None Remove="lib\update_filter_ios.txt" />
+    <None Remove="lib\update_filter_pc.txt" />
+    <None Remove="lib\wrapper.dll" />
+    <None Remove="lib\wrapper.jar" />
+    <None Remove="lib\wrappertest.jar" />
+    <None Remove="lib\wrap_oal.dll" />
+    <None Remove="lib\wstx-asl-3.2.7.jar" />
+    <None Remove="lib\xmlpull-1.1.3.1.jar" />
+    <None Remove="lib\xom-1.1.jar" />
+    <None Remove="lib\xpp3_min-1.1.4c.jar" />
+    <None Remove="lib\xpp3_min.jar" />
+    <None Remove="lib\xstream-1.4.1.jar" />
+    <None Remove="lib\xstream.jar" />
+    <None Remove="lib\_convert_xml_filter.txt" />
+    <None Remove="lib\_filter_cpj.txt" />
+    <None Remove="lib\_m3z_cmdline.txt" />
+    <None Remove="lib\_m3z_converter.bat" />
+    <None Remove="lib\_m3z_filter.txt" />
+    <None Remove="lib\_run_convert__m3z.bat" />
+    <None Remove="lib\_update_filter_android.txt" />
+    <None Remove="lib\_update_filter_ios.txt" />
+    <None Remove="lib\_update_filter_pc.txt" />
+    <None Remove="mpq_install.bat" />
+    <None Remove="mpq_uninstall.bat" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="lib\ability.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\auto_run_convert__m3z.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\cglib-nodep-2.2.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\commons-lang-2.5.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\commons-lang.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\commons-logging-1.0.3.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\commons-logging.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\convert_xml_filter.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\demo.lua">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\demo.lua.jit">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\demo.luajit">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\demo.luajit.jit">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\dom4j-1.6.1.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\EXCLUDE_assetbundle.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\EXCLUDE_wav.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\filter_cpj.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\g2d_studio.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\gluegen-rt.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\gluegen-rt.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\help.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\jcsv-1.4.0.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\JDICplus.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\JDICplus_native_applet.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\jdom-1.1.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\jettison-1.2.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\joal.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\joal_native.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\joda-time-1.6.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\jogg.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\jorbis.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\json-20080701.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\json-response-code.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\jxl.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\king3_plugin.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\kxml2-2.3.0.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\kxml2-min-2.3.0.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\libs.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\log4j-1.2.15.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\lua51.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\lua51.exp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\lua51.lib">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\luajit.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\lua_build.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\lua_jit_build.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\m3z_cmdline.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\m3z_converter.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\m3z_filter - 副本.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\m3z_filter.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\mina-core-2.0.4.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\mina-core.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\mysql-connector-java-5.1.7-bin.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\mysql-connector-java.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\natives-windows-i586.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\OpenAL32.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\proxool-0.9.1.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\proxool-cglib.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\proxool.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\quartz.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\run_convert__m3z.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\sample.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\slf4j-api-1.5.11.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\slf4j-api.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\slf4j-log4j12-1.5.8.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\slf4j-simple-1.5.0.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\slf4j-simple.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\stax-1.2.0.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\stax-api-1.0.1.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\update_filter_android.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\update_filter_ios.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\update_filter_pc.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\wrapper.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\wrapper.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\wrappertest.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\wrap_oal.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\wstx-asl-3.2.7.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\xmlpull-1.1.3.1.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\xom-1.1.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\xpp3_min-1.1.4c.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\xpp3_min.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\xstream-1.4.1.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\xstream.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\_convert_xml_filter.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\_filter_cpj.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\_m3z_cmdline.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\_m3z_converter.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\_m3z_filter.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\_run_convert__m3z.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\_update_filter_android.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\_update_filter_ios.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\_update_filter_pc.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="mpq.ico" />
+    <Content Include="mpq_install.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="mpq_uninstall.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\DeepCore\DeepCore\DeepCore.csproj" />
+    <ProjectReference Include="..\DeepEditor.Common\DeepEditor.Common.csproj" />
+  </ItemGroup>
+</Project>

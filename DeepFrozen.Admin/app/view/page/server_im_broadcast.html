@@ -1,0 +1,297 @@
+{% extends "base.nunjucks" %}
+
+{% block js %}
+        <script src="/public/assets/plugins/multiselect/js/jquery.multi-select.js"></script>
+        <script src="/public/assets/plugins/parsleyjs/dist/parsley.min.js"></script>
+        <script src="/public/assets/plugins/toastr/toastr.min.js"></script>
+        <script src="/public/assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+        <script src="/public/assets/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+        <script src="/public/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="/public/assets/plugins/datatables/dataTables.bootstrap4.min.js"></script>
+        <script src="/public/assets/plugins/datatables/dataTables.buttons.min.js"></script>
+        <script src="/public/assets/plugins/datatables/buttons.bootstrap4.min.js"></script>
+        <script src="/public/assets/plugins/datatables/dataTables.select.min.js"></script>
+        <script src="/public/assets/plugins/datatables-editor/dataTables.editor.min.js"></script>
+        <script src="/public/assets/plugins/datatables-editor/editor.bootstrap4.min.js"></script>
+        <script src="/public/js/moment.min.js"></script>
+{% endblock %}
+
+{% block css %}
+        <link href="/public/assets/plugins/multiselect/css/multi-select.css"  rel="stylesheet" type="text/css" />
+        <link href="/public/assets/plugins/toastr/toastr.min.css" rel="stylesheet" type="text/css" />
+        <link href="/public/assets/plugins/switchery/switchery.min.css" rel="stylesheet" />
+        <link href="/public/assets/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet"/>
+        <link href="/public/assets/plugins/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+        <link href="/public/assets/plugins/datatables/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+        <link href="/public/assets/plugins/datatables/select.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+        <link href="/public/assets/plugins/datatables-editor/editor.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block style %}
+<style type="text/css">
+        .checkbox {
+            padding-left: 0px;
+        }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card-box">
+            <h4 class="m-t-0 header-title">{{ __('common_instructions_title') }}</h4>
+            <p class="text-muted font-14">
+                {{ __('page_im_broadcast_desc') }}
+            </p>
+            {% include "../widgets/realms_tip.html" %}
+
+            <div class="row">
+                <div class="col-8">
+                    <div class="p-20">
+                        <form action="#" id="form" data-parsley-validate>
+                            <div class="form-group row">
+                                <label class="col-2 col-form-label">{{ __('page_broadcast_select_channel') }}</label>
+                                <div class="col-10" style="padding-top:8px;">
+                                    <div class="checkbox form-check-inline checkbox-primary">
+                                        <input type="checkbox" name="checkbox_channel" id="inlineCheckbox1" value="6" checked>
+                                        <label for="inlineCheckbox1"> {{ __('page_broadcast_system_channel') }} </label>
+                                    </div>
+                                    <div class="checkbox form-check-inline checkbox-primary">
+                                        <input type="checkbox" name="checkbox_channel" id="inlineCheckbox2" value="1">
+                                        <label for="inlineCheckbox2"> {{ __('page_broadcast_world_channel') }} </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-2 col-form-label">{{ __('page_broadcast_style') }}</label>
+                                <div class="col-10" style="padding-top:8px;">
+                                    <div class="radio radio-info form-check-inline">
+                                        <input type="radio" id="radio1" value="3" name="radio_style" checked>
+                                        <label for="radio1"> {{ __('page_broadcast_style_horse_race_lamp') }} </label>
+                                    </div>
+                                    <div class="radio radio-info form-check-inline">
+                                        <input type="radio" id="radio2" value="2" name="radio_style">
+                                        <label for="radio2"> {{ __('page_broadcast_style_float') }} </label>
+                                    </div>
+                                    <div class="radio radio-info form-check-inline">
+                                        <input type="radio" id="radio3" value="1" name="radio_style">
+                                        <label for="radio3"> {{ __('page_broadcast_style_static') }} </label>
+                                    </div>
+                                    <div class="radio radio-info form-check-inline">
+                                        <input type="radio" id="radio4" value="0" name="radio_style">
+                                        <label for="radio4"> {{ __('page_broadcast_style_none') }} </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-2 col-form-label">{{ __('common_instructions_interval') }}{{ __('common_instructions_datetime') }}</label>
+                                <div class="col-2">
+                                    <div class="input-group">
+                                        <input type="text" id="datepicker3" class="form-control" value='1' style="text-align:center">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">min</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-2 col-form-label">{{ __('common_instructions_please_select') }}{{ __('page_notice_started_time') }}</label>
+                                <div class="col-8">
+                                        <div class="input-group">
+                                        <input type="text" class="form-control" id="datepicker1">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text"><i class="ti-calendar"></i></span>
+                                        </div>
+                                        <label class="col-form-label">&nbsp;&nbsp;&nbsp;{{ __('page_notice_ended_time') }}&nbsp;&nbsp;&nbsp;</label>
+                                            <input type="text" class="form-control" id="datepicker2">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text"><i class="ti-calendar"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="group_list" class="form-group row">
+                                <label class="col-2 col-form-label">{{ __('common_instructions_server_group') }}</label>
+                                <div class="col-10">
+                                    <select id="group_selector" multiple="multiple" class="multi-select" name="my_multi_select1[]" data-plugin="multiselect" required>
+                                </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-2 col-form-label">{{ __('page_broadcast_content') }}</label>
+                                <div class="col-10">
+                                    <textarea id="content" class="form-control" rows="15" parsley-trigger="change" required Placeholder="{{ __('common_instructions_content_tip') }}"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-10">
+                                    <button id="confirm" type="button" class="btn btn-success waves-effect w-md waves-light">{{ __('common_instructions_send') }}</button>
+                                </div>
+                            </div>
+                        </form>
+                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-12">
+        <ul class="nav navbar-nav list-inline navbar-left">
+                <li class="list-inline-item">
+                    <h4 class="page-title">{{title}}</h4>
+                </li>
+            </ul>
+    <div id="table" class="card-box table-responsive">
+        <table id="datatable" class="table table-bordered">
+            <thead>
+            <tr>
+                    <th>{{ __('common_instructions_realm_name')}}</th>
+                    <th>{{ __('common_instructions_server_group')}}</th>
+                    <th>{{ __('page_broadcast_select_channel')}}</th>
+                    <th>{{ __('page_broadcast_style')}}</th>
+                    <th>{{ __('common_instructions_interval')}}{{ __('common_instructions_datetime')}}</th>
+                    <th class='dt'>{{ __('page_notice_started_time')}}</th>
+                    <th class='dt'>{{ __('page_notice_ended_time')}}</th>
+                    <th>{{ __('common_instructions_body')}}</th>
+            </tr>
+            </thead> 
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+    var editor = new $.fn.dataTable.Editor({
+      ajax: '/api/backend/broadcast',
+      table: "#datatable",
+      idSrc:  'id',
+      fields: [
+        {label: 'id', name: 'id', type: 'hidden' },
+        {label: 'channel_arr', name: 'channel_arr', type: 'hidden' },
+        {label: 'group_id', name: 'group_id', type: 'hidden' },
+        {label: 'realm_id', name: 'realm_id', type: 'hidden' },
+        {label: 'func_type', name: 'func_type', type: 'hidden' },
+        {label: 'content', name: 'content', type: 'hidden' },
+        {label: 'start_time', name: 'start_time', type: 'hidden' },
+        {label: 'end_time', name: 'end_time', type: 'hidden' },
+      ]
+    });
+
+    var table = $('#datatable').DataTable({
+            select: true,
+            scrollY: 550,
+            paging: false,
+            ordering: true,
+            columns: [
+             { data: 'realm_id' },
+              { data: 'group_id' },
+              { data: 'channel_arr' },
+              { data: 'func_type' },
+              { data: 'interval' },
+              { data: 'start_time' },
+              { data: 'end_time' },
+              { data: 'content' },
+            ],
+            columnDefs : [
+                { targets : 'dt',
+                  render : function (data, type, row) {
+                    return moment(data).format('YYYY-MM-DD HH:mm:ss');
+                  },
+                },
+            ],
+            dom: "Bfrtip",
+            select: true,
+            buttons: [
+              { extend: 'remove', editor: editor },
+            ],
+        });
+    $(document).ready(function() {
+        loadGroup();
+        getlist();
+        $("#confirm").click(function(){
+            if($('#form').parsley().validate()) {
+                if($('#datepicker3').val().match(/^\d+$/)){
+                    sendData();
+                    getlist();
+                    return;
+                }                
+                toastr.error("{{ __('common_instructions_interval') }}{{ __('common_instructions_datetime') }} must be digit");
+            }
+        });
+    });
+
+$('#datepicker1').val(moment().format('YYYY-MM-DD HH:mm'))
+$('#datepicker2').val(moment().format('YYYY-MM-DD HH:mm'))
+$('#datepicker1').datetimepicker({
+    format: 'yyyy-mm-dd hh:ii',
+    language: 'zh-CN',
+    autoclose: true,
+    todayHighlight: true
+});
+$('#datepicker2').datetimepicker({
+    format: 'yyyy-mm-dd hh:ii',
+    language: 'zh-CN',
+    autoclose: true,
+    todayHighlight: true
+});
+
+    $('[name=checkbox_channel]').change(function() {
+        if($("[name=checkbox_channel]:checked").length == 0){
+            $(this).prop('checked', true);
+            layer.msg("{{ __('page_broadcast_al_least_one') }}");
+        }
+    });
+
+    function sendData(){
+        var index = layer.load(2);
+        var channel_arr=[];
+        $('input[name="checkbox_channel"]:checked').each(function(){
+            channel_arr.push($(this).val());
+        });
+        $.ajax({    
+            type:'post',        
+            url:'/api/backend/broadcast',
+            data:{action: 1,
+                data:[{ channel: channel_arr,
+                    style: $("input[name='radio_style']:checked").val(),
+                    content:  $("#content").val(),
+                    server_id: getServerGroups(),
+                    repeat: $("#datepicker3").val(),
+                    start_time: $("#datepicker1").val(),
+                    end_time: $("#datepicker2").val(),
+                },]
+            },
+            cache:false,
+            dataType:'json',    
+            success:function(obj){
+                layer.close(index);  
+                if(obj.state)
+                    toastr['success'](obj.reason.toString());
+                else
+                    toastr['error'](obj.reason.toString());
+            }    
+        });    
+    }
+    function getlist(){
+        $.ajax({    
+            url:'/api/backend/broadcast',
+            cache:false,
+            dataType:'json',
+            success:function(obj){
+                table.clear().draw();
+                table.rows.add(obj).draw();
+            }    
+        }); 
+    }
+    $.extend({
+        change_realm_event:function(){
+            $('#group_selector').empty();
+            $('#group_selector').multiSelect('refresh');
+            loadGroup();
+        }
+    });
+</script>
+{% endblock %}

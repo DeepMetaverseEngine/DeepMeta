@@ -1,0 +1,193 @@
+{% extends "base.nunjucks" %}
+
+{% block realms %}
+{% endblock %}
+
+{% block js %}
+        <script src="/public/assets/plugins/multiselect/js/jquery.multi-select.js"></script>
+        <script src="/public/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="/public/assets/plugins/datatables/dataTables.bootstrap4.min.js"></script>
+        <script src="/public/assets/plugins/datatables/dataTables.buttons.min.js"></script>
+        <script src="/public/assets/plugins/datatables/buttons.bootstrap4.min.js"></script>
+        <script src="/public/assets/plugins/datatables/dataTables.select.min.js"></script>
+        <script src="/public/assets/plugins/switchery/switchery.min.js"></script>
+        <script src="/public/assets/plugins/parsleyjs/dist/parsley.min.js"></script>
+        <script src="/public/assets/plugins/datatables-editor/dataTables.editor.min.js"></script>
+        <script src="/public/assets/plugins/datatables-editor/editor.bootstrap4.min.js"></script>
+        <script src="/public/assets/plugins/toastr/toastr.min.js"></script>
+        <script src="/public/js/moment.min.js"></script>
+{% endblock %}
+
+{% block css %}
+        <link href="/public/assets/plugins/multiselect/css/multi-select.css"  rel="stylesheet" type="text/css" />
+        <link href="/public/assets/plugins/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+        <link href="/public/assets/plugins/datatables/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+        <link href="/public/assets/plugins/datatables/select.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+        <link href="/public/assets/plugins/datatables-editor/editor.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+        <link href="/public/assets/plugins/switchery/switchery.min.css" rel="stylesheet" />
+        <link href="/public/assets/plugins/toastr/toastr.min.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+<div class="row">
+                            <div class="col-12">
+
+                                 <div class="card-box">
+                                    <h4 class="m-t-0 header-title">{{ __('common_instructions_title') }}</h4>
+                                    <p class="text-muted font-14">
+                                        {{ __('page_hot_plug_desc') }}
+                                    </p>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="p-20">
+                                                <div class="form-group row">
+                                                    <label class="col-2 col-form-label">{{ __('common_instructions_realm_name') }}</label>
+                                                    <div class="col-10">
+                                                        <select id="realm_list" multiple="multiple" class="multi-select" name="realm_list[]" required>
+                                                            {% for realm in realm_list %}
+                                                               <option value="{{ realm.id }}">{{ realm.name }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="form-group row">  
+                                                        <label class="col-2 col-form-label">{{ __('page_hot_plug_field') }}</label>
+                                                        <div class="col-10">
+                                                            <input type="file" id="file" class="form-control">
+                                                        </div>
+                                                </div>
+
+
+                                                <div class="form-group row">                                                    <div class="col-10">
+                                                        <button id="confirm" type="button" class="btn btn-success waves-effect w-md waves-light">{{__('page_hot_plug_upload')}}</button>
+                                                    </div>
+                                                </div>
+                                                
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> <!-- end card-box -->
+
+                                <div class="card-box" style="display: block;">
+                                    <div class="row">
+                                        
+                                        <div class="col-8">
+                                            <div class="p-20">
+                                                <form action="#" id="form" data-parsley-validate>
+                                                    <div class="form-group row">
+                                                        <label class="col-2 col-form-label">{{ __('common_instructions_result') }}</label>
+                                                        <div class="col-10">
+                                                            <textarea id="result" class="form-control" rows="8" parsley-trigger="change" required></textarea>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                                <div class="form-group row">
+                                                    
+                                                    <div class="col-10">
+                                                        <button id="reload" type="button" class="btn btn-success waves-effect w-md waves-light">Reload</button>
+                                                    </div>
+                                                
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> <!-- end card-box -->
+                            </div>
+                        </div> <!-- end row -->
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+
+    
+    $(document).ready(function () {
+        $('#realm_list').multiSelect();
+
+
+
+        $("#confirm").click(function(){
+            uploadFile();
+        });
+
+        $("#reload").click(function(){
+            if($('#form').parsley().validate()){
+                reloadTable();
+            }
+        });
+    });
+
+    function reloadTable() {
+        if($('#realm_list').val() == ''){
+            toastr.error('{{ __('page_gmt_select_realm_first') }}');
+            return;
+        }
+
+        var index = layer.load(2);
+        
+        $.ajax({
+            url: "/api/backend/hot_plug_reload",
+            type: "POST",
+            data:{
+                realm_list: $('#realm_list').val(),
+                tables:  $("#result").val()
+            },
+            cache:false,
+            dataType:'json',   
+            success: function (obj) {
+                layer.close(index);  
+                console.log(obj)   
+                if(obj.state)
+                    toastr['success'](obj.reason);
+                else
+                    toastr['error'](obj.reason);
+            }
+        });
+    }
+
+    function uploadFile() {
+        if($('#realm_list').val() == ''){
+            toastr.error('{{ __('page_gmt_select_realm_first') }}');
+            return;
+        }
+        var myform = new FormData();
+        myform.append('file',$('#file')[0].files[0]);
+        myform.append('realm_list',$('#realm_list').val());
+        var index = layer.load(2);
+        $.ajax({
+            url: "/api/backend/hot_plug_upload",
+            type: "POST",
+            data: myform,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                layer.close(index);  
+                reset($('#file'))
+                if(data.state){
+                    toastr['success'](data.reason);
+                    $("#result").val(data.ext.join('\n'));
+                }
+                else{
+                    toastr['error'](data.reason);
+                    $("#result").val(JSON.stringify(data.ext));
+                }
+                $(".card-box").show();
+                
+
+            },
+            error:function(data){
+                layer.close(index);  
+                reset($('#file'))
+                console.log(data)
+            }
+        });
+    }
+
+    window.reset = function(e) {
+      e.wrap('<form>').closest('form').get(0).reset();
+      e.unwrap();
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "DeepTools.UVTest": {
+      "commandName": "Project"
+    },
+    "ddzz": {
+      "commandName": "Project",
+      "commandLineArgs": "host=47.96.182.174 port=19850"
+    }
+  }
+}

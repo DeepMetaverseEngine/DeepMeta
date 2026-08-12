@@ -1,0 +1,184 @@
+
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>channel_selector</title>
+        <link href="/public/assets/plugins/toastr/toastr.min.css" rel="stylesheet" type="text/css" />
+        <link href="/public/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="/public/assets/css/icons.css" rel="stylesheet" type="text/css" />
+        <link href="/public/assets/css/style.css" rel="stylesheet" type="text/css" />
+        <script src="/public/assets/js/underscore.js"></script>
+        <script src="/public/assets/js/modernizr.min.js"></script>
+</head>
+<style>
+    .border-b{
+    	border-bottom: 1px solid #CCCCCC;
+    }
+</style>
+<body>
+<div class="row">
+    <div class="col-12">
+        <div class="card-box">
+            <div class="row">
+                <div class="col-12">
+                	<div class="form-group row border-b">
+                         <div class="checkbox form-check-inline">
+                            <input type="checkbox" id="select_all" value="option1">
+                            <label for="select_all"> {{ __('common_instructions_select_all') }} </label>
+                        </div>
+                        <div class="checkbox form-check-inline">
+                            <input type="checkbox" id="select_reverse" value="option1">
+                            <label for="select_reverse"> {{ __('common_instructions_select_reverse') }} </label>
+                        </div>
+                	</div>
+
+
+
+                	<div class="form-group row border-b android">
+                         <div class="col-2 checkbox form-check-inline">
+                            <input type="checkbox" id="select_android" value="option1">
+                            <label for="select_android"> {{ __('common_instructions_android') }} </label>
+                        </div>
+
+
+                        <div class="col-8">
+                        	{% for channel in channel_list %}
+		                		{%if channel.os_type == 6 %}
+		                			<div class="checkbox form-check-inline">
+		                            	<input type="checkbox" id="channel_{{ channel.id }}" value="{{ channel.id }}"{%if channel.selected >= 0 %} checked="checked"{% endif %}>
+		                            	<label for="channel_{{ channel.id }}"> {{ channel.sdk_name }}({{ channel.id }}) </label>
+		                        	</div>
+		                		{% endif %}
+	                    	{% endfor %}
+                        </div>
+                	</div>
+                                    
+    			<div class="form-group row border-b ios">
+                         <div class="col-2 checkbox form-check-inline">
+                            <input type="checkbox" id="select_ios" value="option1">
+                            <label for="select_ios"> {{ __('common_instructions_apple') }} </label>
+                        </div>
+
+
+                        <div class="col-8">
+                        	{% for channel in channel_list %}
+		                		{%if channel.os_type == 5 %}
+		                			<div class="checkbox form-check-inline">
+		                            	<input type="checkbox" id="channel_{{ channel.id }}" value="{{ channel.id }}"{%if channel.selected >= 0 %} checked="checked"{% endif %}>
+		                            	<label for="channel_{{ channel.id }}"> {{ channel.sdk_name }}({{ channel.id }})</label>
+		                        	</div>
+		                		{% endif %}
+	                    	{% endfor %}
+                        </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <div class="col-10">
+                        <button id="confirm" type="button" class="btn btn-primary waves-effect w-md waves-light m-b-5">{{ __('common_instructions_confirm') }}</button>
+                    </div>
+                </div>
+              </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<!-- App js -->
+<script src="/public/assets/js/jquery.min.js"></script>
+<script src="/public/assets/layer.js"></script>
+<script src="/public/assets/js/bootstrap.min.js"></script>
+<script src="/public/js/moment.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+        recheck()
+         $("#confirm").click(function(){
+            var selected = []
+            $("input:checked").each(function(){
+                var opt = Number($(this).val())
+                if(!_.isNaN(opt) && _.isNumber(opt))
+                    selected.push(opt)
+            });
+
+            if(selected.length == $("input[id^='channel_']").length)
+                window.parent.select_channel('-1');
+            else
+                window.parent.select_channel(selected);
+            close()
+        });
+
+		$('#select_all').click(function() {
+			var c = this.checked;
+			$('input[type=checkbox]').each(function(){
+			    $(this).prop('checked',c);
+			});
+			$('#select_reverse').prop('checked',false);
+		});
+
+		$('#select_reverse').click(function() {
+		    
+		    $('input[type=checkbox]').each(function(){
+		    	var c = !this.checked;
+			    $(this).prop('checked',c);
+			});
+			$('#select_reverse').prop('checked',this.checked);
+		});
+
+        $('#select_android').click(function() {
+            var c = this.checked;
+            $('.android input[type=checkbox').each(function(){
+                $(this).prop('checked',c);
+            });
+        });
+
+        $('#select_ios').click(function() {
+            var c = this.checked;
+            $('.ios input[type=checkbox').each(function(){
+                $(this).prop('checked',c);
+            });
+        });
+
+		$('input[type=checkbox').on('click',function(){
+			recheck()
+	    });
+
+	});	
+
+    function recheck() {
+        var l1 = $(".android input[type=checkbox").not('#select_android').length
+        var l2 = $(".android input:checked").not('#select_android').length
+        if(l1 == l2){
+            $('#select_android').prop('checked',true);
+        }else{
+            $('#select_android').prop('checked',false);
+        }
+
+        var l1 = $(".ios input[type=checkbox").not('#select_ios').length
+        var l2 = $(".ios input:checked").not('#select_ios').length
+        if(l1 == l2){
+            $('#select_ios').prop('checked',true);
+        }else{
+            $('#select_ios').prop('checked',false);
+        }
+
+        var l1 = $('input[type=checkbox').not('#select_all').not('#select_reverse').length
+        var l2 = $(':checked').not('#select_all').not('#select_reverse').length
+        if(l1 == l2){
+            $('#select_all').prop('checked',true);
+        }else{
+            $('#select_all').prop('checked',false);
+        }
+    }
+
+    function close() {
+        var index = parent.layer.getFrameIndex(window.name);
+        parent.layer.close(index);
+    }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,155 @@
+{% extends "base.nunjucks" %}
+
+{% block realms %}
+{% endblock %}
+
+{% block js %}
+        <script src="/public/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="/public/assets/plugins/datatables/dataTables.bootstrap4.min.js"></script>
+        <script src="/public/assets/plugins/datatables/dataTables.buttons.min.js"></script>
+        <script src="/public/assets/plugins/datatables/buttons.bootstrap4.min.js"></script>
+        <script src="/public/assets/plugins/datatables/dataTables.select.min.js"></script>
+        <script src="/public/assets/plugins/switchery/switchery.min.js"></script>
+        <script src="/public/assets/plugins/datatables-editor/dataTables.editor.min.js"></script>
+        <script src="/public/assets/plugins/datatables-editor/editor.bootstrap4.min.js"></script>
+        <script src="/public/js/moment.min.js"></script>
+{% endblock %}
+
+{% block css %}
+        <link href="/public/assets/plugins/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+        <link href="/public/assets/plugins/datatables/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+        <link href="/public/assets/plugins/datatables/select.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+        <link href="/public/assets/plugins/datatables-editor/editor.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+        <link href="/public/assets/plugins/switchery/switchery.min.css" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+<div class="row">
+                            <div class="col-12">
+                                <div class="card-box table-responsive">
+                                    <table id="datatable" class="table table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>{{ __('page_early_warning_mailname') }}</th>
+                                            <th>{{ __('page_early_warning_mailaddress') }}</th>
+                                            <th class="status">{{ __('page_early_warning_mailstatus') }}</th>
+                                        </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </div> <!-- end row -->
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+    var editor;
+    $(document).ready(function () {
+        editor = new $.fn.dataTable.Editor( {
+            ajax: "/api/backend/warning_mail_list",
+            table: "#datatable",
+            idSrc:  'id',
+            i18n: {
+                create: {
+                    button: "{{ __('common_button_create') }}",
+                    },
+                edit: {
+                    button:  "{{ __('common_button_edit') }}",
+                    },
+                remove: {
+                    button:  "{{ __('common_button_delete') }}",
+                    }
+                },
+            fields: [ {
+                    label: "id:",
+                    name: "id",
+                    type:  "hidden"
+                },{
+                    label: "{{ __('page_early_warning_mailname') }}:",
+                    name: "name",
+                },{
+                    label: "{{ __('page_early_warning_mailaddress') }}:",
+                    name: "address",
+                },{
+                    label: "{{ __('page_early_warning_mailstatus') }}:",
+                    name: "enable",
+                    type:  "select",
+                    options: [
+                        { label: "{{ __('common_instructions_open') }}", value: 1 },
+                        { label: "{{ __('common_instructions_close') }}", value: 0 }
+                    ]
+                }
+            ]
+        } );
+
+          $('#datatable').DataTable( {
+            scrollY: 550,
+            paging: false,
+            "ordering": false,
+            dom: "Bfrtip",
+            "ajax": {
+                "url": '/api/backend/warning_mail_list',
+                "dataSrc": ""
+            },
+            "columns": [
+                { "data": "name" },
+                { "data": "address" },
+                { "data": "enable" },
+            ],
+            select: true,
+            language: {
+                "sProcessing": '{{ __("common_table_sProcessing") }}',
+                "sLengthMenu": '{{ __("common_table_sLengthMenu") }}',
+                "sZeroRecords": '{{ __("common_table_sZeroRecords") }}',
+                "sInfo": '{{ __("common_table_sInfo") }}',
+                "sInfoEmpty": '{{ __("common_table_sInfoEmpty") }}',
+                "sInfoFiltered": '{{ __("common_table_sInfoFiltered") }}',
+                "sInfoPostFix": '{{ __("common_table_sInfoPostFix") }}',
+                "sSearch": '{{ __("common_table_sSearch") }}',
+                "sUrl": '{{ __("common_table_sUrl") }}',
+                "sEmptyTable": '{{ __("common_table_sEmptyTable") }}',
+                "sLoadingRecords": '{{ __("common_table_sLoadingRecords") }}',
+                "sInfoThousands": '{{ __("common_table_sInfoThousands") }}',
+                "oPaginate": {
+                    "sFirst": '{{ __("common_table_sFirst") }}',
+                    "sPrevious": '{{ __("common_table_sPrevious") }}',
+                    "sNext": '{{ __("common_table_sNext") }}',
+                    "sLast": '{{ __("common_table_sLast") }}',
+                },
+                "oAria": {
+                    "sSortAscending": '{{ __("common_table_sSortAscending") }}',
+                    "sSortDescending": '{{ __("common_table_sSortDescending") }}',
+                }
+            },
+            buttons: [
+                { extend: "create", editor: editor },
+                { extend: "edit",   editor: editor },
+                { extend: "remove", editor: editor }
+            ],
+            columnDefs : [
+                { targets : 'status',
+                  render : function (data, type, row) {
+                    return data == '1' ? '{{ __('common_instructions_enabled') }}' : '{{ __('common_instructions_disabled') }}'
+                  }
+                }
+            ]
+        } );
+
+        // editor.on( 'initCreate', function (e) {
+        //   //e.target.field( 'id' ).enable();
+        // } );
+
+        // editor.on( 'initEdit', function (e ) {
+        //   // var field = e.target.field( 'start_date' )
+        //   // field.set(def_format(field.get()));
+        //   // field = e.target.field( 'end_date' )
+        //   // field.set(def_format(field.get()));
+        //   // field = e.target.field( 'account_start_date' )
+        //   // field.set(def_format(field.get()));
+        //   // field = e.target.field( 'account_end_date' )
+        //   // field.set(def_format(field.get()));
+        // } );
+    });
+
+</script>
+{% endblock %}

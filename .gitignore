@@ -1,0 +1,7 @@
+*.user
+/.svn
+/.vs
+bin
+obj
+/*/obj
+/*/bin

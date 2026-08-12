@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <serverList>
+    {% for item in servers %}
+        <server realm="{{ item.realm_id }}" id="{{ item.id }}" group="{{ item.group }}"
+          name="{{ item.name }}" address="{{ item.realm.address }}" is_open="{{ item.is_open }}"
+          state="{{ item.state }}"  open_at="{{ item.open_at }}"/>
+    {% else %}
+    {% endfor %}
+  </serverList>
+</doc>

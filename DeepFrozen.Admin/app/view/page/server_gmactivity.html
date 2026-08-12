@@ -1,0 +1,263 @@
+{% extends "base.nunjucks" %}
+
+{% block realms %}
+{% endblock %}
+
+{% block js %}
+        <script src="/public/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="/public/assets/plugins/datatables/dataTables.bootstrap4.min.js"></script>
+        <script src="/public/assets/plugins/datatables/dataTables.buttons.min.js"></script>
+        <script src="/public/assets/plugins/datatables/buttons.bootstrap4.min.js"></script>
+        <script src="/public/assets/plugins/datatables/dataTables.select.min.js"></script>
+        <script src="/public/assets/plugins/switchery/switchery.min.js"></script>
+        <script src="/public/assets/plugins/datatables-editor/dataTables.editor.min.js"></script>
+        <script src="/public/assets/plugins/datatables-editor/editor.bootstrap4.min.js"></script>
+        <script src="/public/assets/plugins/toastr/toastr.min.js"></script>
+        <script src="/public/js/moment.min.js"></script>
+{% endblock %}
+
+{% block css %}
+        <link href="/public/assets/plugins/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+        <link href="/public/assets/plugins/datatables/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+        <link href="/public/assets/plugins/datatables/select.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+        <link href="/public/assets/plugins/datatables-editor/editor.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+        <link href="/public/assets/plugins/switchery/switchery.min.css" rel="stylesheet" />
+        <link href="/public/assets/plugins/toastr/toastr.min.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+<div class="row">
+                            <div class="col-12">
+
+                                 <div class="card-box">
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <div class="p-20">
+                                                <div class="form-group row">
+                                                        <label class="col-2 col-form-label">{{ __('page_gmactivity_upload') }}</label>
+                                                        <div class="col-10">
+                                                            <input type="file" id="file" class="form-control" onchange="uploadFile()">
+                                                        </div>
+                                                </div>
+
+                                                <div class="form-group row">
+                                                        <label class="col-2 col-form-label">{{ __('common_instructions_sync') }}</label>
+                                                        <div class="col-10">
+                                                            <button id="sync" type="button" class="btn btn-success waves-effect w-md waves-light">{{ __('common_instructions_sync_to_gs') }}</button>
+                                                        </div>
+                                                </div>
+
+                                                <div class="form-group row">
+                                                        <label class="col-2 col-form-label">{{ __('common_instructions_sync_latest') }}</label>
+                                                        <div class="col-10">
+                                                            <label id="sync_time" class="col-form-label">{{time.value}}</label>
+                                                        </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> <!-- end card-box -->
+
+                                <div class="card-box table-responsive">
+                                    
+     
+                                    <table id="datatable" class="table table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>{{ __('page_gmactivity_activity_key') }}</th>
+                                            <th>{{ __('page_gmactivity_activity_status') }}</th>
+                                             <th>{{ __('page_gmactivity_show_type') }}</th>
+                                            <th>{{ __('page_gmactivity_activity_type') }}</th>
+                                            <th>{{ __('page_gmactivity_activity_name') }}</th>
+                                            <th>{{ __('page_gmactivity_activity_id') }}</th>
+                                            <th>{{ __('page_gmactivity_limit_time') }}</th>
+                                            <th>{{ __('page_gmactivity_start_time') }}</th>
+                                            <th>{{ __('page_gmactivity_end_time') }}</th>
+                                            <th>{{ __('page_gmactivity_open_time') }}</th>
+                                            <th>{{ __('page_gmactivity_last_time') }}</th>
+                                            <th>{{ __('page_gmactivity_over_keep') }}</th>
+                                        </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </div> <!-- end row -->
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+    var editor;
+    var table;
+    
+    $(document).ready(function () {
+        editor = new $.fn.dataTable.Editor( {
+            ajax: "/api/backend/gmactivity",
+            table: "#datatable",
+            idSrc:  'activity_key',
+            i18n: {
+                create: {
+                    button: "{{ __('common_button_create') }}",
+                    },
+                edit: {
+                    button:  "{{ __('common_button_edit') }}",
+                    },
+                remove: {
+                    button:  "{{ __('common_button_delete') }}",
+                    }
+            },
+            fields: [ {
+                    label: "{{ __('page_gmactivity_activity_key') }}",
+                    name: "activity_key",
+                    type: 'hidden'
+                },{
+                    label: "{{ __('page_gmactivity_activity_status') }}",
+                    name: "activity_status",
+                },{
+                    label: "{{ __('page_gmactivity_show_type') }}",
+                    name: "show_type",
+                },{
+                    label: "{{ __('page_gmactivity_activity_type') }}",
+                    name: "activity_type",
+                },{
+                    label: "{{ __('page_gmactivity_activity_name') }}",
+                    name: "activity_name",
+                },{
+                    label: "{{ __('page_gmactivity_activity_id') }}",
+                    name: "activity_id",
+                },{
+                    label: "{{ __('page_gmactivity_limit_time') }}",
+                    name: "limit_time",
+                },{
+                    label: "{{ __('page_gmactivity_start_time') }}",
+                    name: "start_time",
+                },{
+                    label: "{{ __('page_gmactivity_end_time') }}",
+                    name: "end_time",
+                },{
+                    label: "{{ __('page_gmactivity_open_time') }}",
+                    name: "open_time",
+                },{
+                    label: "{{ __('page_gmactivity_last_time') }}",
+                    name: "last_time",
+                },{
+                    label: "{{ __('page_gmactivity_over_keep') }}",
+                    name: "over_keep",
+                }
+            ]
+        } );
+        // editor.
+
+        table = $('#datatable').DataTable( {
+            scrollY: 550,
+            paging: false,
+            // "ordering": false,
+            dom: "Bfrtip",
+            "ajax": {
+            "url": '/api/backend/gmactivity',
+            "dataSrc": ""
+            },
+            "columns": [
+                { "data": "activity_key" },
+                { "data": "activity_status" },
+                { "data": "show_type" },
+                { "data": "activity_type" },
+                { "data": "activity_name" },
+                { "data": "activity_id" },
+                { "data": "limit_time" },
+                { "data": "start_time" },
+                { "data": "end_time" },
+                { "data": "open_time" },
+                { "data": "last_time" },
+                { "data": "over_keep" },
+            ],
+            buttons: [
+                { extend: "edit",   editor: editor },
+                { extend: "remove", editor: editor }
+            ],
+            select: true,
+            columnDefs : [
+                { targets : 'datetime',
+                  render : function (data, type, row) {
+                     return def_format(data);
+                  }
+                }
+            ],
+        } );
+
+       $("#sync").click(function(){
+            var index = layer.load(2);
+            $.ajax({
+                type: "POST",
+                url: "/api/backend/gmactivity_sync",
+                success: function (data) {
+                    layer.close(index); 
+                    if(data.state){
+                        toastr['success'](data.reason);
+                        $("#sync_time").text(data.ext);
+                    }
+                    else{
+                        toastr['error'](JSON.stringify(data.reason));
+                    }
+                },
+                error:function(data){
+                    layer.close(index); 
+                    console.log(data)
+                }
+            });
+        });
+
+    });
+
+    function uploadFile() {
+        if($('#realm_selector').val() == ''){
+            toastr.error('{{ __('page_gmt_select_realm_first') }}');
+            return;
+        }
+        var myform = new FormData();
+        myform.append('file',$('#file')[0].files[0]);
+        var index = layer.load(2);
+        $.ajax({
+            url: "/api/backend/gmactivity_upload",
+            type: "POST",
+            data: myform,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                layer.close(index); 
+                reset($('#file'))
+                if(data.state){
+                    toastr['success'](data.reason);
+                    var index = layer.load(2);
+                    window.setTimeout(function(){
+                        table.ajax.reload();
+                        layer.close(index); 
+                    }, 3000);
+                    
+                }
+                else{
+                    toastr['error'](data.reason);
+                }
+            },
+            error:function(data){
+                layer.close(index); 
+                reset($('#file'))
+                console.log(data)
+            }
+        });
+    }
+
+    function get_columns_name(settings) {
+        var columns = settings.oInit.columns;
+        var names = []
+        for(var col in columns) {
+            names.push(columns[col].data)
+        }
+        return names
+    }
+
+    window.reset = function(e) {
+      e.wrap('<form>').closest('form').get(0).reset();
+      e.unwrap();
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,25 @@
+{
+    "name": "HudNum",
+    "rootNamespace": "",
+    "references": [
+        "GUID:d8b63aba1907145bea998dd612889d6b",
+        "GUID:15fc0a57446b3144c949da3e2b9737a9",
+        "GUID:2665a8d13d1b3f18800f46e256720795",
+        "GUID:e0cd26848372d4e5c891c569017e11f1",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:15967dd12a382c148875e5c17b2d57f5",
+        "GUID:9c6dda6c7922c624cb7ea9a7f1c7d54a",
+        "GUID:4f5c0c83dfd6a0743834baba2b4de79e"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [
+        "Sirenix.OdinInspector.Attributes.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

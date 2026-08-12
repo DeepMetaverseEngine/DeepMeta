@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <serverList>
+    {% for item in items %}
+        <server id="{{ item.id }}" group="{{ item.group }}" name="{{ item.name }}" address="{{ item.realm.address }}" is_open="{{ item.is_open }}"
+          state="{{ item.state }}" state_text="{{ item.state_text }}" view_rgba="{{ item.view_rgba }}"
+          view_index="{{ item.view_index }}"  view_realm_index="{{ item.view_realm_index }}"
+          view_realm_name="{{ item.view_realm_name }}" icon="{{ item.icon }}" flag="{{ item.flag }}" open_at="{{ item.open_at }}" />
+    {% else %}
+    {% endfor %}
+  </serverList>
+  <recomList>
+    {% for item in recommend_servers %}
+        <serverId>{{ item.server_id }}</serverId>
+    {% else %}
+    {% endfor %}
+  </recomList>
+</doc>

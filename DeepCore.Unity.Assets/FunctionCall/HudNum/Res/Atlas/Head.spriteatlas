@@ -1,0 +1,110 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Head
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 4096
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_IgnorePlatformSupport: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    - serializedVersion: 3
+      m_BuildTarget: Android
+      m_MaxTextureSize: 4096
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: 50
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 1
+      m_IgnorePlatformSupport: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: 9d55b28a689f8b74f9388879125a065c, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+    packedSpriteRenderDataKeys:
+    - 9c0f707040b9dd740a78fc487815b805: 21300000
+    - 7cca7b8063fb30847a3abd6fab312b3f: 21300000
+    - 6a101bb1e25f10844965d47f078d6de4: 21300000
+    - 323b6392ac1d8d446af137a2c8c0c511: 21300000
+    - b37f2c83a49603646a21f52136a1180b: 21300000
+    - ebe8b76582b761f4db66cd6276e17400: 21300000
+    - 9f94f785e7a3c6c46a4df8fc123c47b1: 21300000
+    - 95644186a433aeb4188df3ad48b58c0a: 21300000
+    - 79a226086c0e7db4f85d977eaee78603: 21300000
+    - 5fdfd89b0cb4ca041a3170f83e0282ef: 21300000
+    - bb9ff9bbe31ccc14795b233885c82fc3: 21300000
+    - 3de9be6e217b1c9479f061834d69cba1: 21300000
+    - 55c652febeb3e054ba5d4dfc315c4038: 21300000
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 9c0f707040b9dd740a78fc487815b805, type: 3}
+  - {fileID: 21300000, guid: 7cca7b8063fb30847a3abd6fab312b3f, type: 3}
+  - {fileID: 21300000, guid: 6a101bb1e25f10844965d47f078d6de4, type: 3}
+  - {fileID: 21300000, guid: 323b6392ac1d8d446af137a2c8c0c511, type: 3}
+  - {fileID: 21300000, guid: b37f2c83a49603646a21f52136a1180b, type: 3}
+  - {fileID: 21300000, guid: ebe8b76582b761f4db66cd6276e17400, type: 3}
+  - {fileID: 21300000, guid: 9f94f785e7a3c6c46a4df8fc123c47b1, type: 3}
+  - {fileID: 21300000, guid: 95644186a433aeb4188df3ad48b58c0a, type: 3}
+  - {fileID: 21300000, guid: 79a226086c0e7db4f85d977eaee78603, type: 3}
+  - {fileID: 21300000, guid: 5fdfd89b0cb4ca041a3170f83e0282ef, type: 3}
+  - {fileID: 21300000, guid: bb9ff9bbe31ccc14795b233885c82fc3, type: 3}
+  - {fileID: 21300000, guid: 3de9be6e217b1c9479f061834d69cba1, type: 3}
+  - {fileID: 21300000, guid: 55c652febeb3e054ba5d4dfc315c4038, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - hud_fight_Progress_white
+  - hud_fight_Progress_yellow_bottom
+  - bg_build_lvlhud
+  - com_bg_hud2
+  - icon_pioneer_01
+  - hero_head_circlel_00
+  - hud_fight_camp_01
+  - icon_hud_fight_troops
+  - bg_icon_sel
+  - hud_fight_anger_04
+  - hud_fight_anger_bottom_02
+  - hud_fight_camp_bottom_01
+  - hud_fight_anger_05
+  m_RenderDataMap: {}
+  m_Tag: Head
+  m_IsVariant: 0

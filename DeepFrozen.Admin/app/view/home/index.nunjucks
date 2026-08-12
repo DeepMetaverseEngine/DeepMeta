@@ -1,0 +1,8 @@
+{% extends "body.nunjucks" %}
+{% block right %}
+<form action="call" method="post">
+  CMD:<br>
+  <input type="text" name="cmd"><br>
+  <input type="submit" value="Submit" />
+</form>
+{% endblock %}

@@ -1,0 +1,2 @@
+\DeepCore.Unity.Assets.dll
+\DeepCore.Unity.Assets.pdb

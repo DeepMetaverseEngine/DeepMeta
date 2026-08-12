@@ -1,0 +1,101 @@
+const Service = require('egg').Service;
+var crypto = require('crypto');
+
+class CGameService extends Service {
+	async parseOrder(params) {
+		const ctx = this.ctx;
+		ctx.logger.info(params)
+		var orderId = params.orderid;
+		var cpOrderId = params.outorderid;
+		var sign = params.sign;
+		var payFee = params.money;
+		if(!sign || !cpOrderId){
+			ctx.status = 403;
+			return 'Go away, robot.';
+		}
+
+		try{
+			var order = await ctx.model.Order.findByOrderId(cpOrderId);
+			if(ctx.helper.is_empty(order)){
+				this.logger.error('order not exist orderId=' + orderId + ' cpOrderId=' + cpOrderId+' details=' + JSON.stringify(params))
+				return {errcode:1506};
+			}
+			else {
+				var signString =  this.sortParams(params);
+				var local_sign = this.getSignature(signString,order.channel.api_key)
+				if(local_sign != sign){
+					this.logger.error('signature verification failed. orderId=' + orderId + ' cpOrderId=' + cpOrderId+' details=' + JSON.stringify(params))
+					return {errcode:1525};
+				}
+
+
+				if(order.status == ctx.app.orderStatus.Create 
+					|| order.status == ctx.app.orderStatus.PaySuccess
+					|| order.status == ctx.app.orderStatus.OrderInvalid){
+					await order.updateOrder(orderId, ctx.app.orderStatus.OrderValid, payFee);
+				}
+
+				order.status = ctx.app.orderStatus.OrderValid
+				await order.save()
+
+				try{
+					await this.orderStatusChangeNotify(order);
+				}catch(err){
+					this.logger.error('send orderStatusChangeNotify failed. orderId=' + orderId + ' cpOrderId=' + cpOrderId + 'remote not responding')
+					this.logger.error(err);
+				}
+				return "success";
+			}
+
+		}catch (err){
+			 this.logger.error(err);
+			 return {errcode:1000};
+		}
+	}
+
+
+	async orderStatusChangeNotify(order){
+		const ctx = this.ctx;
+		const realm = await this.service.realmselector.get_realm_by_id(order.realm_id)
+		if(this.ctx.helper.is_empty(realm)){
+			this.logger.error('realm not exist realm_id =' + order.realm_id + ' send notification failed.');
+			return;
+		}
+		var orders = {};
+		orders[order.role_id] = [order.cp_order_id];
+		var command = {
+	        code: 1,
+	        order_list:orders
+      	}
+		var params = this.service.gmt.generate_cmd(command, realm.gmt_key);
+	    const result = await ctx.curl(realm.pay_url + params, {
+	      method: 'POST',
+	      timeout: 3000,
+	    });
+	    this.logger.info(result.data.toString())
+	}
+
+	//参数排序
+	sortParams(obj)
+	{
+		var sorted_keys = Object.keys(obj).sort();
+		var sorted_signMap = {};
+		var signedStr = '';
+		for(var i=0;i<sorted_keys.length;i++){
+			sorted_signMap[sorted_keys[i]] = obj[sorted_keys[i]]
+			if(obj[sorted_keys[i]] !=='undefined' && sorted_keys[i] != 'sign'){
+				signedStr += sorted_keys[i] + '=' + sorted_signMap[sorted_keys[i]] + '&';
+			}
+		}
+
+
+		return signedStr;
+	}
+
+
+	getSignature(params, apiKey) {
+		return crypto.createHash('md5').update(params + apiKey).digest("hex").toLowerCase();
+	}
+}
+
+module.exports = CGameService;

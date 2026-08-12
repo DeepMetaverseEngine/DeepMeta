@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "tiny": {
+      "commandName": "Project",
+      "commandLineArgs": "json -id:./tiny_xls/ -od:../TinyGameEditor/templates/tiny_json/ -filter_text:\"-~\"",
+      "workingDirectory": "E:\\Tiny\\Data\\Templates"
+    },
+    "DeepTools.XLS2Lang2": {
+      "commandName": "Project"
+    }
+  }
+}

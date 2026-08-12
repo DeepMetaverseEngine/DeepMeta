@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "DeepTools.Voxel": {
+      "commandName": "Project",
+      "commandLineArgs": "scvx2lod -lod=1 -input=m1.scvx -output=m1_LOD1.scvx",
+      "workingDirectory": "E:\\dev\\DeepWorkspace\\DeepMetaverse\\Editor\\m"
+    }
+  }
+}

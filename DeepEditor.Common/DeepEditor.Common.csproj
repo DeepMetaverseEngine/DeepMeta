@@ -1,0 +1,373 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net9.0-windows;net10.0-windows</TargetFrameworks>
+    <UseWindowsForms>true</UseWindowsForms>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <OutputType>Exe</OutputType>
+    <StartupObject>DeepEditor.Common.Program</StartupObject>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <Version>1.2.24</Version>
+    <LangVersion>latest</LangVersion>
+    <Deterministic>true</Deterministic>
+    <NoWarn>$(NoWarn);WFO1000</NoWarn>
+    <Configurations>Debug;Release;Source</Configurations>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>DeepMeta.$(AssemblyName)</PackageId>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="AntdUI" Version="2.3.4" />
+    <PackageReference Include="FreeImage.Standard" Version="4.3.8" />
+    <PackageReference Include="glTF2Loader" Version="1.1.3-alpha" />
+    <PackageReference Include="OpenTK" Version="4.9.4" />
+    <PackageReference Include="OpenTK.Windowing.Desktop" Version="4.9.4" />
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="10.0.5" />
+    <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\DeepCore\DeepCore.Event.Debug\DeepCore.Event.Debug.csproj" />
+    <ProjectReference Include="..\..\DeepCore\DeepCore.Event\DeepCore.Event.csproj" />
+    <ProjectReference Include="..\..\DeepCore\DeepCore.GUI.Display\DeepCore.GUI.Display.csproj" />
+    <ProjectReference Include="..\..\DeepCore\DeepCore.GUI\DeepCore.GUI.csproj" />
+    <ProjectReference Include="..\..\DeepCore\DeepCore.SharpZipLib\DeepCore.SharpZipLib.csproj" />
+    <ProjectReference Include="..\..\DeepCore\DeepCore\DeepCore.csproj" />
+    <ProjectReference Include="..\..\DeepCore\DeepCore.Voxel\DeepCore.Voxel.csproj" />
+    <ProjectReference Include="..\..\DeepCore\DeepTools.Voxel\DeepTools.Voxel.csproj" />
+    <ProjectReference Include="..\DeepCore.Console\DeepCore.Console.csproj" />
+    <ProjectReference Include="..\DeepCore.VoxelWorld\DeepCore.VoxelWorld.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="DescAttributeEdit\**" />
+    <Compile Remove="DockPanelSuite\WinFormsUI\ThemeVS2003\**" />
+    <Compile Remove="DockPanelSuite\WinFormsUI\ThemeVS2005Multithreading\**" />
+    <Compile Remove="DockPanelSuite\WinFormsUI\ThemeVS2005\**" />
+    <Compile Remove="EventEditor\CodeEditor\**" />
+    <Compile Remove="FileEditor\**" />
+    <Compile Remove="DeepCore.GUI.Win32\SceneGraph2D\**" />
+    <Compile Remove="FuncEditor\**" />
+    <Compile Remove="G3D\CubeWorld\**" />
+    <Compile Remove="G3D\GLTF\**" />
+    <Compile Remove="MaterialSkin\Properties\**" />
+    <Compile Remove="OpenTK.WinForms\**" />
+    <Compile Remove="Utils\**" />
+    <Compile Remove="Voxel\Model\**" />
+    <Compile Remove="WinFormsUI\**" />
+    <EmbeddedResource Remove="DescAttributeEdit\**" />
+    <EmbeddedResource Remove="DockPanelSuite\WinFormsUI\ThemeVS2003\**" />
+    <EmbeddedResource Remove="DockPanelSuite\WinFormsUI\ThemeVS2005Multithreading\**" />
+    <EmbeddedResource Remove="DockPanelSuite\WinFormsUI\ThemeVS2005\**" />
+    <EmbeddedResource Remove="EventEditor\CodeEditor\**" />
+    <EmbeddedResource Remove="FileEditor\**" />
+    <EmbeddedResource Remove="DeepCore.GUI.Win32\SceneGraph2D\**" />
+    <EmbeddedResource Remove="FuncEditor\**" />
+    <EmbeddedResource Remove="G3D\CubeWorld\**" />
+    <EmbeddedResource Remove="G3D\GLTF\**" />
+    <EmbeddedResource Remove="MaterialSkin\Properties\**" />
+    <EmbeddedResource Remove="OpenTK.WinForms\**" />
+    <EmbeddedResource Remove="Utils\**" />
+    <EmbeddedResource Remove="Voxel\Model\**" />
+    <EmbeddedResource Remove="WinFormsUI\**" />
+    <None Remove="DescAttributeEdit\**" />
+    <None Remove="DockPanelSuite\WinFormsUI\ThemeVS2003\**" />
+    <None Remove="DockPanelSuite\WinFormsUI\ThemeVS2005Multithreading\**" />
+    <None Remove="DockPanelSuite\WinFormsUI\ThemeVS2005\**" />
+    <None Remove="EventEditor\CodeEditor\**" />
+    <None Remove="FileEditor\**" />
+    <None Remove="DeepCore.GUI.Win32\SceneGraph2D\**" />
+    <None Remove="FuncEditor\**" />
+    <None Remove="G3D\CubeWorld\**" />
+    <None Remove="G3D\GLTF\**" />
+    <None Remove="MaterialSkin\Properties\**" />
+    <None Remove="OpenTK.WinForms\**" />
+    <None Remove="Utils\**" />
+    <None Remove="Voxel\Model\**" />
+    <None Remove="WinFormsUI\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="DeepCore.GUI.Win32\Win32Canvas.Designer.cs" />
+    <Compile Remove="EventEditor\BehaviorEditor.cs" />
+    <Compile Remove="EventEditor\BehaviorEditor.Designer.cs" />
+    <Compile Remove="G2D.DataGrid\G2DDataGrid.cs" />
+    <Compile Remove="G2D.DataGrid\G2DDataGrid.Designer.cs" />
+    <Compile Remove="G2D.DataGrid\G2DDataGridEditor.cs" />
+    <Compile Remove="G2D.DataGrid\G2DDataGridEditor.Designer.cs" />
+    <Compile Remove="Properties\AssemblyInfo.cs" />
+    <Compile Remove="Voxel\Display3D\DisplayCamera.cs" />
+    <Compile Remove="Voxel\Display3D\DisplayZoneWorld3D.cs" />
+    <Compile Remove="Voxel\Display3D\FormVoxelColorEditor.cs" />
+    <Compile Remove="Voxel\Display3D\FormVoxelColorEditor.Designer.cs" />
+    <Compile Remove="Windows\Shell.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="DeepCore.GUI.Win32\Win32Canvas.resx" />
+    <EmbeddedResource Remove="EventEditor\BehaviorEditor.resx" />
+    <EmbeddedResource Remove="G2D.DataGrid\G2DDataGrid.resx" />
+    <EmbeddedResource Remove="G2D.DataGrid\G2DDataGridEditor.resx" />
+    <EmbeddedResource Remove="Voxel\Display3D\FormVoxelColorEditor.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="app.config" />
+    <None Remove="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources\Dockindicator_PaneDiamond_Hotspot.png" />
+    <None Remove="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources\DockIndicator_PaneDiamond_HotspotIndex.png" />
+    <None Remove="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources\MaskArrowBottom.png" />
+    <None Remove="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources\MaskArrowLeft.png" />
+    <None Remove="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources\MaskArrowRight.png" />
+    <None Remove="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources\MaskArrowTop.png" />
+    <None Remove="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources\MaskCoreBottom.png" />
+    <None Remove="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources\MaskCoreCenter.png" />
+    <None Remove="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources\MaskCoreLeft.png" />
+    <None Remove="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources\MaskCoreRight.png" />
+    <None Remove="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources\MaskCoreTop.png" />
+    <None Remove="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources\MaskDock.png" />
+    <None Remove="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources\MaskDockFive.png" />
+    <None Remove="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources\MaskTabClose.png" />
+    <None Remove="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources\MaskTabList.png" />
+    <None Remove="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources\MaskTabOverflow.png" />
+    <None Remove="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources\MaskToolWindowAutoHide.png" />
+    <None Remove="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources\MaskToolWindowClose.png" />
+    <None Remove="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources\MaskToolWindowDock.png" />
+    <None Remove="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources\MaskToolWindowOption.png" />
+    <None Remove="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources\MaskWindowBottom.png" />
+    <None Remove="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources\MaskWindowCenter.png" />
+    <None Remove="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources\MaskWindowLeft.png" />
+    <None Remove="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources\MaskWindowRight.png" />
+    <None Remove="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources\MaskWindowTop.png" />
+    <None Remove="G3D\Resources\container2.png" />
+    <None Remove="G3D\Resources\container2_specular.png" />
+    <None Remove="G3D\Resources\diffuse.png" />
+    <None Remove="G3D\Resources\diffuse2.png" />
+    <None Remove="G3D\Resources\GoldCoin.png" />
+    <None Remove="G3D\Resources\specular.png" />
+    <None Remove="G3D\Resources\Splinter1.png" />
+    <None Remove="G3D\Resources\STR_FRAME.png" />
+    <None Remove="OpenTK.dll.config" />
+    <None Remove="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources\Dockindicator_PaneDiamond_Hotspot.png" />
+    <Content Include="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources\DockIndicator_PaneDiamond_HotspotIndex.png" />
+    <Content Include="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources\MaskArrowBottom.png" />
+    <Content Include="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources\MaskArrowLeft.png" />
+    <Content Include="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources\MaskArrowRight.png" />
+    <Content Include="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources\MaskArrowTop.png" />
+    <Content Include="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources\MaskCoreBottom.png" />
+    <Content Include="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources\MaskCoreCenter.png" />
+    <Content Include="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources\MaskCoreLeft.png" />
+    <Content Include="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources\MaskCoreRight.png" />
+    <Content Include="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources\MaskCoreTop.png" />
+    <Content Include="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources\MaskDock.png" />
+    <Content Include="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources\MaskDockFive.png" />
+    <Content Include="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources\MaskTabClose.png" />
+    <Content Include="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources\MaskTabList.png" />
+    <Content Include="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources\MaskTabOverflow.png" />
+    <Content Include="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources\MaskToolWindowAutoHide.png" />
+    <Content Include="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources\MaskToolWindowClose.png" />
+    <Content Include="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources\MaskToolWindowDock.png" />
+    <Content Include="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources\MaskToolWindowOption.png" />
+    <Content Include="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources\MaskWindowBottom.png" />
+    <Content Include="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources\MaskWindowCenter.png" />
+    <Content Include="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources\MaskWindowLeft.png" />
+    <Content Include="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources\MaskWindowRight.png" />
+    <Content Include="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources\MaskWindowTop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DockPanelSuite\WinFormsUI\Docking\DockPanel.bmp" />
+    <EmbeddedResource Include="G3D\Resources\container2.png" />
+    <EmbeddedResource Include="G3D\Resources\container2_specular.png" />
+    <EmbeddedResource Include="G3D\Resources\diffuse.png" />
+    <EmbeddedResource Include="G3D\Resources\diffuse2.png" />
+    <EmbeddedResource Include="G3D\Resources\GoldCoin.png" />
+    <EmbeddedResource Include="G3D\Resources\specular.png" />
+    <EmbeddedResource Include="G3D\Resources\Splinter1.png" />
+    <EmbeddedResource Include="G3D\Resources\STR_FRAME.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="DockPanelSuite\WinFormsUI\Docking\Strings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
+    <Compile Update="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="DockPanelSuite\WinFormsUI\ThemeVS2012\Strings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
+    <Compile Update="DockPanelSuite\WinFormsUI\ThemeVS2013\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="DockPanelSuite\WinFormsUI\ThemeVS2015\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="EventEditor\DescAttributeEdit\ValuePropertyPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="EventEditor\DescAttributeEdit\ValueTypeDialog.cs" />
+    <Compile Update="EventEditor\EventEditor.cs" />
+    <Compile Update="EventEditor\EventEditorSettings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>EventEditorSettings.settings</DependentUpon>
+    </Compile>
+    <Compile Update="G2D.DataGrid\G2DXmlEditor.cs" />
+    <Compile Update="G2D\G2DBaseListView.cs" />
+    <Compile Update="G2D\G2DBaseListBox.cs" />
+    <Compile Update="G2D\G2DBaseComboBox.cs" />
+    <Compile Update="G2D\G2DBaseCheckBox.cs" />
+    <Compile Update="G2D\G2DBaseTextBox.cs" />
+    <Compile Update="G2D\G2DTaskDialog.cs" />
+    <Compile Update="G2D\G2DPasswordDialog.cs" />
+    <Compile Update="G2D\G2DTreeNode.cs" />
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Voxel\Display3D\PanelVoxelWorldViewer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Voxel\DisplayMagicaVoxel\MagicaVoxelViewer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Voxel\Display3D\FormVoxelCrossEditor.cs" />
+    <Compile Update="Voxel\Display3D\FormVoxelWorldPathTest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="DockPanelSuite\WinFormsUI\Docking\Strings.resx">
+      <CustomToolNamespace>WeifenLuo.WinFormsUI.Docking</CustomToolNamespace>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="DockPanelSuite\WinFormsUI\ThemeVS2012\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>WeifenLuo.WinFormsUI.ThemeVS2012</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Update="DockPanelSuite\WinFormsUI\ThemeVS2012\Strings.resx">
+      <CustomToolNamespace>WeifenLuo.WinFormsUI.ThemeVS2012</CustomToolNamespace>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="DockPanelSuite\WinFormsUI\ThemeVS2013\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>WeifenLuo.WinFormsUI.ThemeVS2013</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Update="DockPanelSuite\WinFormsUI\ThemeVS2015\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>WeifenLuo.WinFormsUI.ThemeVS2015</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="EventEditor\EventEditorSettings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>EventEditorSettings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
+    <Reference Include="System.Design" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="MaterialSkin\Controls\BaseTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="MaterialSkin\Controls\MaterialListBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="MaterialSkin\Controls\MaterialScrollBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="MaterialSkin\Controls\MaterialExpansionPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="MaterialSkin\Controls\MaterialSlider.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="MaterialSkin\Controls\MaterialSwitch.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="MaterialSkin\Controls\MaterialCheckBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="MaterialSkin\Controls\MaterialCheckedListBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="MaterialSkin\Controls\MaterialComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="MaterialSkin\Controls\MaterialContextMenuStrip.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="MaterialSkin\Controls\MaterialDivider.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="MaterialSkin\Controls\MaterialButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="MaterialSkin\Controls\MaterialFloatingActionButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="MaterialSkin\Controls\MaterialLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="MaterialSkin\Controls\MaterialListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="MaterialSkin\Controls\MaterialRadioButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="MaterialSkin\Controls\MaterialMultiLineTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="MaterialSkin\Controls\MaterialMultiLineTextBox2.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="MaterialSkin\Controls\MaterialCard.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="MaterialSkin\Controls\MaterialTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="MaterialSkin\Controls\MaterialTextBox2.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="MaterialSkin\Controls\MaterialTabControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="MaterialSkin\Controls\MaterialDrawer.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="MaterialSkin\Controls\MaterialTabSelector.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="MaterialSkin\Controls\MaterialProgressBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="MaterialSkin\Resources\Roboto-Regular.ttf" />
+    <EmbeddedResource Include="MaterialSkin\Resources\Roboto-Medium.ttf" />
+    <EmbeddedResource Include="MaterialSkin\Resources\Roboto-Bold.ttf" />
+    <EmbeddedResource Include="MaterialSkin\Resources\Roboto-Black.ttf" />
+    <EmbeddedResource Include="MaterialSkin\Resources\Roboto-Light.ttf" />
+    <EmbeddedResource Include="MaterialSkin\Resources\Roboto-Thin.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="MaterialSkin\Controls\MaterialMenuStrip.cs" />
+  </ItemGroup>
+</Project>
