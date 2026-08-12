@@ -49,8 +49,8 @@
     <PackageReference Include="System.ValueTuple" Version="4.6.2" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\DeepCore\DeepCore\DeepCore.csproj" />
-    <ProjectReference Include="..\..\DeepCore\DeepCrystal\DeepCrystal.csproj" />
+    <ProjectReference Include="..\DeepCore\DeepCore.csproj" />
+    <ProjectReference Include="..\DeepCrystal\DeepCrystal.csproj" />
     <ProjectReference Include="..\DeepFrozen.Mysql\DeepFrozen.MySQL.csproj" />
   </ItemGroup>
 </Project>

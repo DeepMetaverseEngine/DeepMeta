@@ -15,9 +15,9 @@
     <Compile Remove="Client\NetTestClient.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\DeepCore\DeepCore.Geometry\DeepCore.Geometry.csproj" />
-    <ProjectReference Include="..\..\DeepCore\DeepCore.Net\DeepCore.Net.csproj" />
-    <ProjectReference Include="..\..\DeepCore\DeepCore\DeepCore.csproj" />
+    <ProjectReference Include="..\DeepCore.Geometry\DeepCore.Geometry.csproj" />
+    <ProjectReference Include="..\DeepCore.Net\DeepCore.Net.csproj" />
+    <ProjectReference Include="..\DeepCore\DeepCore.csproj" />
     <ProjectReference Include="..\DeepMetaGame.Data\DeepMetaGame.Data.csproj" />
     <ProjectReference Include="..\DeepMetaGame.Slave\DeepMetaGame.Slave.csproj" />
   </ItemGroup>

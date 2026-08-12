@@ -23,10 +23,10 @@
     <Compile Remove="Client\BattleClientProxy.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\DeepCore\DeepCore.Geometry\DeepCore.Geometry.csproj" />
-    <ProjectReference Include="..\..\DeepCore\DeepCore\DeepCore.csproj" />
-    <ProjectReference Include="..\..\DeepCore\DeepCrystal\DeepCrystal.csproj" />
-    <ProjectReference Include="..\..\DeepFrozen\DeepFrozen.Server.NetUV\DeepFrozen.Server.NetUV.csproj" />
+    <ProjectReference Include="..\DeepCore.Geometry\DeepCore.Geometry.csproj" />
+    <ProjectReference Include="..\DeepCore\DeepCore.csproj" />
+    <ProjectReference Include="..\DeepCrystal\DeepCrystal.csproj" />
+    <ProjectReference Include="..\DeepFrozen.Server.NetUV\DeepFrozen.Server.NetUV.csproj" />
     <ProjectReference Include="..\DeepMetaGame.Data\DeepMetaGame.Data.csproj" />
     <ProjectReference Include="..\DeepMetaGame.Host\DeepMetaGame.Host.csproj" />
     <ProjectReference Include="..\DeepMetaGame.Slave\DeepMetaGame.Slave.csproj" />

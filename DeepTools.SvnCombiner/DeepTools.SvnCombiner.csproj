@@ -33,6 +33,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\DeepCore\DeepCore\DeepCore.csproj" />
+    <ProjectReference Include="..\DeepCore\DeepCore.csproj" />
   </ItemGroup>
 </Project>

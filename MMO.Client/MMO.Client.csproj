@@ -23,9 +23,9 @@
     <Optimize>true</Optimize>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\DeepGame3D\DeepMetaGame.Data\DeepMetaGame.Data.csproj" />
-    <ProjectReference Include="..\..\DeepGame3D\DeepMetaGame.Host\DeepMetaGame.Host.csproj" />
-    <ProjectReference Include="..\..\DeepGame3D\DeepMetaGame.Slave\DeepMetaGame.Slave.csproj" />
+    <ProjectReference Include="..\DeepMetaGame.Data\DeepMetaGame.Data.csproj" />
+    <ProjectReference Include="..\DeepMetaGame.Host\DeepMetaGame.Host.csproj" />
+    <ProjectReference Include="..\DeepMetaGame.Slave\DeepMetaGame.Slave.csproj" />
     <ProjectReference Include="..\Gate.Client\Gate.Client.csproj" />
     <ProjectReference Include="..\Gate.Data\Gate.Data.csproj" />
   </ItemGroup>

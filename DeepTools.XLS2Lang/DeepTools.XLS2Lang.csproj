@@ -62,7 +62,7 @@
     <PackageReference Include="NPOI" Version="2.7.6" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\DeepCore\DeepCore\DeepCore.csproj" />
+    <ProjectReference Include="..\DeepCore\DeepCore.csproj" />
     <ProjectReference Include="..\DeepTools.CodeGen\DeepTools.CodeGen.csproj" />
   </ItemGroup>
 </Project>

@@ -21,7 +21,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\DeepCore\DeepCore\DeepCore.csproj" />
-    <ProjectReference Include="..\..\DeepCore\DeepTools.SvnCombiner\DeepTools.SvnCombiner.csproj" />
+    <ProjectReference Include="..\DeepCore\DeepCore.csproj" />
+    <ProjectReference Include="..\DeepTools.SvnCombiner\DeepTools.SvnCombiner.csproj" />
   </ItemGroup>
 </Project>

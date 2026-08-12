@@ -33,17 +33,17 @@
     <None Remove="serverlist.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\DeepCore\DeepCore.Geometry\DeepCore.Geometry.csproj" />
-    <ProjectReference Include="..\..\DeepCore\DeepCore.Template.MoonSharp\DeepCore.Template.MoonSharp.csproj" />
-    <ProjectReference Include="..\..\DeepCore\DeepCore.Voxel\DeepCore.Voxel.csproj" />
-    <ProjectReference Include="..\..\DeepCore\DeepCore\DeepCore.csproj" />
-    <ProjectReference Include="..\..\DeepCore\DeepCrystal\DeepCrystal.csproj" />
-    <ProjectReference Include="..\..\DeepFrozen\DeepFrozen.MySQL\DeepFrozen.MySQL.csproj" />
-    <ProjectReference Include="..\..\DeepFrozen\DeepFrozen.Redis\DeepFrozen.Redis.csproj" />
-    <ProjectReference Include="..\..\DeepFrozen\DeepFrozen.RPC.ICE\DeepFrozen.RPC.ICE.csproj" />
-    <ProjectReference Include="..\..\DeepFrozen\DeepFrozen.RPC\DeepFrozen.RPC.csproj" />
-    <ProjectReference Include="..\..\DeepFrozen\DeepFrozen.Server.NetUV\DeepFrozen.Server.NetUV.csproj" />
-    <ProjectReference Include="..\..\DeepFrozen\DeepTools.DBLauncher\DeepTools.DBLauncher.csproj" />
+    <ProjectReference Include="..\DeepCore.Geometry\DeepCore.Geometry.csproj" />
+    <ProjectReference Include="..\DeepCore.Template.MoonSharp\DeepCore.Template.MoonSharp.csproj" />
+    <ProjectReference Include="..\DeepCore.Voxel\DeepCore.Voxel.csproj" />
+    <ProjectReference Include="..\DeepCore\DeepCore.csproj" />
+    <ProjectReference Include="..\DeepCrystal\DeepCrystal.csproj" />
+    <ProjectReference Include="..\DeepFrozen.MySQL\DeepFrozen.MySQL.csproj" />
+    <ProjectReference Include="..\DeepFrozen.Redis\DeepFrozen.Redis.csproj" />
+    <ProjectReference Include="..\DeepFrozen.RPC.ICE\DeepFrozen.RPC.ICE.csproj" />
+    <ProjectReference Include="..\DeepFrozen.RPC\DeepFrozen.RPC.csproj" />
+    <ProjectReference Include="..\DeepFrozen.Server.NetUV\DeepFrozen.Server.NetUV.csproj" />
+    <ProjectReference Include="..\DeepTools.DBLauncher\DeepTools.DBLauncher.csproj" />
     <ProjectReference Include="..\Gate.Client\Gate.Client.csproj" />
     <ProjectReference Include="..\Gate.Data\Gate.Data.csproj" />
     <ProjectReference Include="..\Gate.Server.Main\Gate.Server.Main.csproj" />

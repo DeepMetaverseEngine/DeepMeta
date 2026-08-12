@@ -91,10 +91,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\DeepCore\DeepCore.Unity.GUI\DeepCore.Unity.GUI.csproj" />
-		<ProjectReference Include="..\..\DeepCore\DeepCore.UnityEditor\DeepCore.UnityEditor.csproj" />
-		<ProjectReference Include="..\..\DeepCore\DeepCore.Unity\DeepCore.Unity.csproj" />
-		<ProjectReference Include="..\..\DeepCore\DeepCore\DeepCore.csproj" />
+		<ProjectReference Include="..\DeepCore.Unity.GUI\DeepCore.Unity.GUI.csproj" />
+		<ProjectReference Include="..\DeepCore.UnityEditor\DeepCore.UnityEditor.csproj" />
+		<ProjectReference Include="..\DeepCore.Unity\DeepCore.Unity.csproj" />
+		<ProjectReference Include="..\DeepCore\DeepCore.csproj" />
 		<ProjectReference Include="..\DeepCore.Net\DeepCore.Net.csproj" />
 	</ItemGroup>
 	<ItemGroup>

@@ -33,18 +33,18 @@
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\..\DeepCore\DeepCore.Console\DeepCore.Console.csproj" />
-		<ProjectReference Include="..\..\DeepCore\DeepCore.Event\DeepCore.Event.csproj" />
-		<ProjectReference Include="..\..\DeepCore\DeepCore.Geometry\DeepCore.Geometry.csproj" />
-		<ProjectReference Include="..\..\DeepCore\DeepCore.GUI.Display\DeepCore.GUI.Display.csproj" />
-		<ProjectReference Include="..\..\DeepCore\DeepCore.GUI.FairyGUI\DeepCore.GUI.FairyGUI.csproj" />
-		<ProjectReference Include="..\..\DeepCore\DeepCore.GUI\DeepCore.GUI.csproj" />
-		<ProjectReference Include="..\..\DeepCore\DeepCore.Net\DeepCore.Net.csproj" />
-		<ProjectReference Include="..\..\DeepCore\DeepCore.Template.NewtonJson\DeepCore.Template.NewtonJson.csproj" />
-		<ProjectReference Include="..\..\DeepCore\DeepCore.Voxel\DeepCore.Voxel.csproj" />
-		<ProjectReference Include="..\..\DeepCore\DeepCore\DeepCore.csproj" />
-		<ProjectReference Include="..\..\DeepCore\DeepTools.CodeGen\DeepTools.CodeGen.csproj" />
-		<ProjectReference Include="..\..\DeepCore\DeepTools.XLS2Lang\DeepTools.XLS2Lang.csproj" />
+		<ProjectReference Include="..\DeepCore.Console\DeepCore.Console.csproj" />
+		<ProjectReference Include="..\DeepCore.Event\DeepCore.Event.csproj" />
+		<ProjectReference Include="..\DeepCore.Geometry\DeepCore.Geometry.csproj" />
+		<ProjectReference Include="..\DeepCore.GUI.Display\DeepCore.GUI.Display.csproj" />
+		<ProjectReference Include="..\DeepCore.GUI.FairyGUI\DeepCore.GUI.FairyGUI.csproj" />
+		<ProjectReference Include="..\DeepCore.GUI\DeepCore.GUI.csproj" />
+		<ProjectReference Include="..\DeepCore.Net\DeepCore.Net.csproj" />
+		<ProjectReference Include="..\DeepCore.Template.NewtonJson\DeepCore.Template.NewtonJson.csproj" />
+		<ProjectReference Include="..\DeepCore.Voxel\DeepCore.Voxel.csproj" />
+		<ProjectReference Include="..\DeepCore\DeepCore.csproj" />
+		<ProjectReference Include="..\DeepTools.CodeGen\DeepTools.CodeGen.csproj" />
+		<ProjectReference Include="..\DeepTools.XLS2Lang\DeepTools.XLS2Lang.csproj" />
 		<ProjectReference Include="..\DeepMetaGame.Data\DeepMetaGame.Data.csproj" />
 		<ProjectReference Include="..\DeepMetaGame.Display\DeepMetaGame.Display.csproj" />
 		<ProjectReference Include="..\DeepMetaGame.Host\DeepMetaGame.Host.csproj" />

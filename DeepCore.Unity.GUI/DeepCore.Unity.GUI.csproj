@@ -89,7 +89,7 @@
     <Compile Remove="OnGUI\GUIGraph.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\DeepCore\DeepCore\DeepCore.csproj" />
+    <ProjectReference Include="..\DeepCore\DeepCore.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="UnityTechnologies.UnityEngine" Version="2020.2.2.1" />

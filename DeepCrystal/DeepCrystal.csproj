@@ -98,7 +98,7 @@
     <PackageReference Include="System.Threading.Tasks.Dataflow" Version="10.0.5" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\DeepCore\DeepCore\DeepCore.csproj" />
+    <ProjectReference Include="..\DeepCore\DeepCore.csproj" />
     <ProjectReference Include="..\DeepCore.Net\DeepCore.Net.csproj" />
   </ItemGroup>
 </Project>

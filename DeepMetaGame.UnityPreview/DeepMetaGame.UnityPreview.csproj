@@ -132,16 +132,16 @@
     <PackageReference Include="UnityTechnologies.UnityEngine" Version="2020.2.2.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\DeepCore\DeepCore.Geometry\DeepCore.Geometry.csproj" />
-    <ProjectReference Include="..\..\DeepCore\DeepCore.GUI.Display\DeepCore.GUI.Display.csproj" />
-    <ProjectReference Include="..\..\DeepCore\DeepCore.GUI\DeepCore.GUI.csproj" />
-    <ProjectReference Include="..\..\DeepCore\DeepCore.Net\DeepCore.Net.csproj" />
-    <ProjectReference Include="..\..\DeepCore\DeepCore.Unity.GUI\DeepCore.Unity.GUI.csproj" />
-    <ProjectReference Include="..\..\DeepCore\DeepCore.Unity3D.Win32\DeepCore.Unity3D.Win32.csproj" />
-    <ProjectReference Include="..\..\DeepCore\DeepCore.Unity3D\DeepCore.Unity3D.csproj" />
-    <ProjectReference Include="..\..\DeepCore\DeepCore.Unity\DeepCore.Unity.csproj" />
-    <ProjectReference Include="..\..\DeepCore\DeepCore.Voxel\DeepCore.Voxel.csproj" />
-    <ProjectReference Include="..\..\DeepCore\DeepCore\DeepCore.csproj" />
+    <ProjectReference Include="..\DeepCore.Geometry\DeepCore.Geometry.csproj" />
+    <ProjectReference Include="..\DeepCore.GUI.Display\DeepCore.GUI.Display.csproj" />
+    <ProjectReference Include="..\DeepCore.GUI\DeepCore.GUI.csproj" />
+    <ProjectReference Include="..\DeepCore.Net\DeepCore.Net.csproj" />
+    <ProjectReference Include="..\DeepCore.Unity.GUI\DeepCore.Unity.GUI.csproj" />
+    <ProjectReference Include="..\DeepCore.Unity3D.Win32\DeepCore.Unity3D.Win32.csproj" />
+    <ProjectReference Include="..\DeepCore.Unity3D\DeepCore.Unity3D.csproj" />
+    <ProjectReference Include="..\DeepCore.Unity\DeepCore.Unity.csproj" />
+    <ProjectReference Include="..\DeepCore.Voxel\DeepCore.Voxel.csproj" />
+    <ProjectReference Include="..\DeepCore\DeepCore.csproj" />
     <ProjectReference Include="..\DeepMetaGame.Data\DeepMetaGame.Data.csproj" />
     <ProjectReference Include="..\DeepMetaGame.Display\DeepMetaGame.Display.csproj" />
     <ProjectReference Include="..\DeepMetaGame.Host\DeepMetaGame.Host.csproj" />

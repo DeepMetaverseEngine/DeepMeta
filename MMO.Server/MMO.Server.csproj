@@ -28,9 +28,9 @@
     <None Remove="Protocol\**" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\DeepCore\DeepCore.Voxel\DeepCore.Voxel.csproj" />
-    <ProjectReference Include="..\..\DeepGame3D\DeepMetaGame.Data\DeepMetaGame.Data.csproj" />
-    <ProjectReference Include="..\..\DeepGame3D\DeepMetaGame.Host\DeepMetaGame.Host.csproj" />
+    <ProjectReference Include="..\DeepCore.Voxel\DeepCore.Voxel.csproj" />
+    <ProjectReference Include="..\DeepMetaGame.Data\DeepMetaGame.Data.csproj" />
+    <ProjectReference Include="..\DeepMetaGame.Host\DeepMetaGame.Host.csproj" />
     <ProjectReference Include="..\Gate.Data\Gate.Data.csproj" />
     <ProjectReference Include="..\Gate.Server\Gate.Server.csproj" />
   </ItemGroup>

@@ -20,7 +20,7 @@
     <None Remove="Properties\**" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\DeepCore\DeepCore\DeepCore.csproj" />
+    <ProjectReference Include="..\DeepCore\DeepCore.csproj" />
     <ProjectReference Include="..\DeepEditor.Common\DeepEditor.Common.csproj" />
   </ItemGroup>
 </Project>

@@ -66,6 +66,6 @@
     <PackageReference Include="log4net" Version="3.3.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\DeepCore\DeepCore.Net\DeepCore.Net.csproj" />
+    <ProjectReference Include="..\DeepCore.Net\DeepCore.Net.csproj" />
   </ItemGroup>
 </Project>

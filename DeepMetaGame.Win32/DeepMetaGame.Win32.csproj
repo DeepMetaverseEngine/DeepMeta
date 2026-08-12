@@ -34,21 +34,21 @@
     <Compile Remove="BattleServer\Slave\NetTestClient.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\DeepCore\DeepCore.Event.Debug\DeepCore.Event.Debug.csproj" />
-    <ProjectReference Include="..\..\DeepCore\DeepCore.Event\DeepCore.Event.csproj" />
-    <ProjectReference Include="..\..\DeepCore\DeepCore.Geometry\DeepCore.Geometry.csproj" />
-    <ProjectReference Include="..\..\DeepCore\DeepCore.GUI.Display\DeepCore.GUI.Display.csproj" />
-    <ProjectReference Include="..\..\DeepCore\DeepCore.GUI\DeepCore.GUI.csproj" />
-    <ProjectReference Include="..\..\DeepCore\DeepCore.Net\DeepCore.Net.csproj" />
-    <ProjectReference Include="..\..\DeepCore\DeepCore.Voxel\DeepCore.Voxel.csproj" />
-    <ProjectReference Include="..\..\DeepCore\DeepCore\DeepCore.csproj" />
-    <ProjectReference Include="..\..\DeepCore\DeepCrystal\DeepCrystal.csproj" />
-    <ProjectReference Include="..\..\DeepCore\DeepEditor.Common\DeepEditor.Common.csproj" />
-    <ProjectReference Include="..\..\DeepFrozen\DeepFrozen.Server.NetUV\DeepFrozen.Server.NetUV.csproj" />
-    <ProjectReference Include="..\..\DeepGame3D\DeepMetaGame.Data\DeepMetaGame.Data.csproj" />
-    <ProjectReference Include="..\..\DeepGame3D\DeepMetaGame.Host\DeepMetaGame.Host.csproj" />
-    <ProjectReference Include="..\..\DeepGame3D\DeepMetaGame.Slave\DeepMetaGame.Slave.csproj" />
-    <ProjectReference Include="..\..\DeepGame3D\DeepMetaGame.ZoneServer\DeepMetaGame.ZoneServer.csproj" />
+    <ProjectReference Include="..\DeepCore.Event.Debug\DeepCore.Event.Debug.csproj" />
+    <ProjectReference Include="..\DeepCore.Event\DeepCore.Event.csproj" />
+    <ProjectReference Include="..\DeepCore.Geometry\DeepCore.Geometry.csproj" />
+    <ProjectReference Include="..\DeepCore.GUI.Display\DeepCore.GUI.Display.csproj" />
+    <ProjectReference Include="..\DeepCore.GUI\DeepCore.GUI.csproj" />
+    <ProjectReference Include="..\DeepCore.Net\DeepCore.Net.csproj" />
+    <ProjectReference Include="..\DeepCore.Voxel\DeepCore.Voxel.csproj" />
+    <ProjectReference Include="..\DeepCore\DeepCore.csproj" />
+    <ProjectReference Include="..\DeepCrystal\DeepCrystal.csproj" />
+    <ProjectReference Include="..\DeepEditor.Common\DeepEditor.Common.csproj" />
+    <ProjectReference Include="..\DeepFrozen.Server.NetUV\DeepFrozen.Server.NetUV.csproj" />
+    <ProjectReference Include="..\DeepMetaGame.Data\DeepMetaGame.Data.csproj" />
+    <ProjectReference Include="..\DeepMetaGame.Host\DeepMetaGame.Host.csproj" />
+    <ProjectReference Include="..\DeepMetaGame.Slave\DeepMetaGame.Slave.csproj" />
+    <ProjectReference Include="..\DeepMetaGame.ZoneServer\DeepMetaGame.ZoneServer.csproj" />
     <ProjectReference Include="..\DeepMetaGame.Display\DeepMetaGame.Display.csproj" />
     <ProjectReference Include="..\DeepMetaGame.Tools\DeepMetaGame.Tools.csproj" />
   </ItemGroup>

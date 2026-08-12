@@ -61,8 +61,8 @@
     <Folder Include="generated\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\DeepCore\DeepCore\DeepCore.csproj" />
-    <ProjectReference Include="..\..\DeepCore\DeepCrystal\DeepCrystal.csproj" />
+    <ProjectReference Include="..\DeepCore\DeepCore.csproj" />
+    <ProjectReference Include="..\DeepCrystal\DeepCrystal.csproj" />
     <ProjectReference Include="..\DeepFrozen.RPC\DeepFrozen.RPC.csproj" />
   </ItemGroup>
 </Project>

@@ -82,8 +82,8 @@
     <PackageReference Include="Quartz.Serialization.Json" Version="3.17.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\DeepCore\DeepCore\DeepCore.csproj" />
-    <ProjectReference Include="..\..\DeepCore\DeepCrystal\DeepCrystal.csproj" />
+    <ProjectReference Include="..\DeepCore\DeepCore.csproj" />
+    <ProjectReference Include="..\DeepCrystal\DeepCrystal.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="System.Reflection.Metadata">

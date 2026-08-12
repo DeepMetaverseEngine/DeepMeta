@@ -37,7 +37,7 @@
     <Compile Remove="Modules\ChannelModule.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\DeepCore\DeepCore\DeepCore.csproj" />
+    <ProjectReference Include="..\DeepCore\DeepCore.csproj" />
     <ProjectReference Include="..\Gate.Data\Gate.Data.csproj" />
   </ItemGroup>
 </Project>
