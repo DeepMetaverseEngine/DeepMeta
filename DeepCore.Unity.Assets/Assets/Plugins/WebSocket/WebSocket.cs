@@ -576,7 +576,7 @@ namespace NativeWebSocket
             }
             return new AutoRelease(this);
         }
-        public class AutoRelease : DeepCore.IO.MemoryStream
+        public class AutoRelease : System.IO.MemoryStream
         {
             private readonly WebSocket pool;
             internal AutoRelease(WebSocket pool) { this.pool = pool; }
