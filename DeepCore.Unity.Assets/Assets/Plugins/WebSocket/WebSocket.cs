@@ -7,6 +7,7 @@ using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace NativeWebSocket
 {
@@ -432,21 +433,33 @@ namespace NativeWebSocket
                 m_CancellationToken);
         }
 #else
-        private Task SendAndDrainAsync(Queue<MemoryStream> queue, WebSocketMessageType messageType, MemoryStream buffer)
+        private async Task SendAndDrainAsync(Queue<MemoryStream> queue, WebSocketMessageType messageType, MemoryStream buffer)
         {
             var segment = new ArraySegment<byte>(buffer.GetBuffer(), 0, (int)buffer.Length);
             // Try synchronous fast path: avoid async state machine when SendAsync completes inline
-            var sendTask = m_Socket.SendAsync(segment, messageType, true, m_CancellationToken);
-            if (sendTask.Status == TaskStatus.RanToCompletion)
+            //             var sendTask = m_Socket.SendAsync(segment, messageType, true, m_CancellationToken);
+            //             if (sendTask.Status == TaskStatus.RanToCompletion)
+            //             {
+            //                 buffer.Dispose();
+            //                 return DrainQueueSync(queue, messageType);
+            //             }
+            //             return AwaitAndDrainAsync(sendTask, queue, messageType);
+            try
+            {
+                await m_Socket.SendAsync(segment, messageType, true, m_CancellationToken);
+                //if (sendTask.Status == TaskStatus.RanToCompletion)
+                {
+                    await DrainQueueSync(queue, messageType);
+                }
+                await AwaitAndDrainAsync(queue, messageType);
+            }
+            finally
             {
                 buffer.Dispose();
-                return DrainQueueSync(queue, messageType);
             }
-
-            return AwaitAndDrainAsync(sendTask, queue, messageType);
         }
 
-        private Task DrainQueueSync(Queue<MemoryStream> queue, WebSocketMessageType messageType)
+        private async Task DrainQueueSync(Queue<MemoryStream> queue, WebSocketMessageType messageType)
         {
             while (true)
             {
@@ -456,29 +469,32 @@ namespace NativeWebSocket
                     if (queue.Count == 0)
                     {
                         isSending = false;
-                        return Task.CompletedTask;
+                        return;
                     }
-
                     next = queue.Dequeue();
                 }
-
-                var nextSegment = new ArraySegment<byte>(next.GetBuffer(), 0, (int)next.Length);
-                var sendTask = m_Socket.SendAsync(nextSegment, messageType, true, m_CancellationToken);
-                if (sendTask.Status != TaskStatus.RanToCompletion)
+                try
+                {
+                    var nextSegment = new ArraySegment<byte>(next.GetBuffer(), 0, (int)next.Length);
+                    await m_Socket.SendAsync(nextSegment, messageType, true, m_CancellationToken).ConfigureAwait(false);
+                    //if (sendTask.Status != TaskStatus.RanToCompletion)
+                    {
+                        //await pendingSend.ConfigureAwait(false);
+                        // This send went async — fall through to async drain
+                        await AwaitAndDrainAsync(queue, messageType);
+                    }
+                }
+                finally
                 {
                     next.Dispose();
-                    // This send went async — fall through to async drain
-                    return AwaitAndDrainAsync(sendTask, queue, messageType);
                 }
             }
         }
 
-        private async Task AwaitAndDrainAsync(Task pendingSend, Queue<MemoryStream> queue, WebSocketMessageType messageType)
+        private async Task AwaitAndDrainAsync(Queue<MemoryStream> queue, WebSocketMessageType messageType)
         {
             try
             {
-                await pendingSend.ConfigureAwait(false);
-
                 while (true)
                 {
                     MemoryStream next;
@@ -486,13 +502,17 @@ namespace NativeWebSocket
                     {
                         if (queue.Count == 0)
                             break;
-
                         next = queue.Dequeue();
                     }
-
-                    var nextSegment = new ArraySegment<byte>(next.GetBuffer(), 0, (int)next.Length);                   
-                    await m_Socket.SendAsync(nextSegment, messageType, true, m_CancellationToken).ConfigureAwait(false);
-                    next.Dispose();
+                    try
+                    {
+                        var nextSegment = new ArraySegment<byte>(next.GetBuffer(), 0, (int)next.Length);
+                        await m_Socket.SendAsync(nextSegment, messageType, true, m_CancellationToken).ConfigureAwait(false);
+                    }
+                    finally
+                    {
+                        next.Dispose();
+                    }
                 }
             }
             finally
@@ -570,9 +590,12 @@ namespace NativeWebSocket
         private Queue<AutoRelease> memPool = new Queue<AutoRelease>();
         public AutoRelease AllocAutoReleaseBuffer()
         {
-            if (memPool.TryDequeue(out var buffer))
+            lock (memPool)
             {
-                return buffer;
+                if (memPool.TryDequeue(out var buffer))
+                {
+                    return buffer;
+                }
             }
             return new AutoRelease(this);
         }
@@ -614,7 +637,10 @@ namespace NativeWebSocket
             {
                 this.Position = 0;
                 this.SetLength(0);
-                pool.memPool.Enqueue(this);
+                lock (pool.memPool)
+                {
+                    pool.memPool.Enqueue(this);
+                }
             }
         }
         //------------------------------------------------------------------------------------------------------------
