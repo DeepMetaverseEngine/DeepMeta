@@ -1,6 +1,5 @@
 #if !UNITY_WEBGL || UNITY_EDITOR
 
-using DeepCore;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace NativeWebSocket
 {
-    public class WebSocket : Disposable, IWebSocket
+    public class WebSocket : IWebSocket
     {
         private static readonly SendOrPostCallback InvokeQueuedEventCallback = InvokeQueuedEvent;
         private static readonly SendOrPostCallback DispatchQueuedMessagesCallback = DispatchQueuedMessagesOnSyncContext;
@@ -24,6 +23,7 @@ namespace NativeWebSocket
         private Uri uri;
         private Dictionary<string, string> headers;
         private List<string> subprotocols;
+        private bool isDisposed = false;
         private ClientWebSocket m_Socket;
 
         private CancellationTokenSource m_TokenSource;
@@ -41,7 +41,6 @@ namespace NativeWebSocket
 
         private readonly object OutgoingMessageLock = new object();
         private bool isSending = false;
-        private MemoryStreamObjectPool memPool = new MemoryStreamObjectPool(true);
         private Queue<MemoryStream> sendBytesQueue = new Queue<MemoryStream>();
         private Queue<MemoryStream> sendTextQueue = new Queue<MemoryStream>();
 
@@ -80,9 +79,12 @@ namespace NativeWebSocket
             if (!protocol.Equals("ws") && !protocol.Equals("wss"))
                 throw new ArgumentException("Unsupported protocol: " + protocol);
         }
-        protected override void Disposing()
+        public void Dispose()
         {
-            memPool.Dispose();
+            if (isDisposed)
+                return;
+            isDisposed = true;
+            memPool.Clear();
             sendBytesQueue.Clear();
             sendTextQueue.Clear();
         }
@@ -292,9 +294,10 @@ namespace NativeWebSocket
                 }
             }
         }
+
         public Task Send(ArraySegment<byte> segment)
         {
-            var mem = memPool.AllocAutoRelease(segment);
+            var mem = AllocAutoReleaseBuffer().Init(segment);
 
             lock (OutgoingMessageLock)
             {
@@ -314,7 +317,7 @@ namespace NativeWebSocket
                 return Task.CompletedTask;
 
             //var segment = new ArraySegment<byte>(bytes);
-            var mem = memPool.AllocAutoRelease(bytes);
+            var mem = AllocAutoReleaseBuffer().Init(bytes);
 
             lock (OutgoingMessageLock)
             {
@@ -340,7 +343,7 @@ namespace NativeWebSocket
                 return Task.CompletedTask;
 
             //var segment = new ArraySegment<byte>(encoded, 0, encoded.Length);
-            var mem = memPool.AllocAutoRelease(encoded);
+            var mem = AllocAutoReleaseBuffer().Init(encoded);
 
             lock (OutgoingMessageLock)
             {
@@ -563,6 +566,58 @@ namespace NativeWebSocket
 
             await m_Socket.CloseAsync((WebSocketCloseStatus)(int)code, reason ?? string.Empty, CancellationToken.None).ConfigureAwait(false);
         }
+        //------------------------------------------------------------------------------------------------------------
+        private Queue<AutoRelease> memPool = new Queue<AutoRelease>();
+        public AutoRelease AllocAutoReleaseBuffer()
+        {
+            if (memPool.TryDequeue(out var buffer))
+            {
+                return buffer;
+            }
+            return new AutoRelease(this);
+        }
+        public class AutoRelease : DeepCore.IO.MemoryStream
+        {
+            private readonly WebSocket pool;
+            internal AutoRelease(WebSocket pool) { this.pool = pool; }
+            internal AutoRelease(WebSocket pool, byte[] buffer) : base(buffer) { this.pool = pool; }
+            internal AutoRelease(WebSocket pool, byte[] buffer, int index, int count) : base(buffer, index, count) { this.pool = pool; }
+            internal AutoRelease(WebSocket pool, int capacity) : base(capacity) { this.pool = pool; }
+            public AutoRelease Init(byte[] buffer)
+            {
+                var ret = this;
+                ret.Capacity = Math.Max(buffer.Length, ret.Capacity);
+                ret.SetLength(buffer.Length);
+                Buffer.BlockCopy(buffer, 0, ret.GetBuffer(), 0, buffer.Length);
+                ret.Position = 0;
+                return ret;
+            }
+            public AutoRelease Init(byte[] buffer, int offset, int length)
+            {
+                var ret = this;
+                ret.Capacity = Math.Max(buffer.Length, ret.Capacity);
+                ret.SetLength(length);
+                Buffer.BlockCopy(buffer, offset, ret.GetBuffer(), 0, length);
+                ret.Position = 0;
+                return ret;
+            }
+            public AutoRelease Init(ArraySegment<byte> buffer)
+            {
+                var ret = this;
+                ret.Capacity = Math.Max(buffer.Count, ret.Capacity);
+                ret.SetLength(buffer.Count);
+                Buffer.BlockCopy(buffer.Array, buffer.Offset, ret.GetBuffer(), 0, buffer.Count);
+                ret.Position = 0;
+                return ret;
+            }
+            protected override void Dispose(bool disposing)
+            {
+                this.Position = 0;
+                this.SetLength(0);
+                pool.memPool.Enqueue(this);
+            }
+        }
+        //------------------------------------------------------------------------------------------------------------
     }
 
     /// <summary>
@@ -580,6 +635,7 @@ namespace NativeWebSocket
             return new WebSocket(url);
         }
     }
+
 }
 
 #endif

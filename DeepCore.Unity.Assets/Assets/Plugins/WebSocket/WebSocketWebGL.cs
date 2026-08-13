@@ -1,6 +1,5 @@
 #if UNITY_WEBGL && !UNITY_EDITOR
 
-using DeepCore;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -11,7 +10,7 @@ namespace NativeWebSocket
     /// <summary>
     /// WebSocket class bound to JSLIB.
     /// </summary>
-    public class WebSocket : Disposable, IWebSocket
+    public class WebSocket : IWebSocket
     {
         /* WebSocket JSLIB functions */
         [DllImport("__Internal")]
@@ -87,7 +86,7 @@ namespace NativeWebSocket
             WebSocketFactory.HandleInstanceDestroy(this.instanceId);
         }
 
-        protected override void Disposing()
+        public void Dispose()
         {
         }
 

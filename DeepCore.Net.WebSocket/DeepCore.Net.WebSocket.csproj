@@ -33,20 +33,20 @@
     <Content Include="..\DeepCore.Unity.Assets\Assets\Plugins\DeepCore\WebSocket\**\*.cs" Link="WebSocket\%(RecursiveDir)%(Filename)%(Extension)" />
   </ItemGroup>
   <ItemGroup>
-    <Content Remove="..\DeepCore.Unity.Assets\Assets\Plugins\DeepCore\WebSocket\IWebSocket.cs" />
-    <Content Remove="..\DeepCore.Unity.Assets\Assets\Plugins\DeepCore\WebSocket\WebSocket.cs" />
-    <Content Remove="..\DeepCore.Unity.Assets\Assets\Plugins\DeepCore\WebSocket\WebSocketFactoryWebGL.cs" />
-    <Content Remove="..\DeepCore.Unity.Assets\Assets\Plugins\DeepCore\WebSocket\WebSocketTypes.cs" />
-    <Content Remove="..\DeepCore.Unity.Assets\Assets\Plugins\DeepCore\WebSocket\WebSocketWebGL.cs" />
+    <Content Remove="..\DeepCore.Unity.Assets\Assets\Plugins\WebSocket\IWebSocket.cs" />
+    <Content Remove="..\DeepCore.Unity.Assets\Assets\Plugins\WebSocket\WebSocket.cs" />
+    <Content Remove="..\DeepCore.Unity.Assets\Assets\Plugins\WebSocket\WebSocketFactoryWebGL.cs" />
+    <Content Remove="..\DeepCore.Unity.Assets\Assets\Plugins\WebSocket\WebSocketTypes.cs" />
+    <Content Remove="..\DeepCore.Unity.Assets\Assets\Plugins\WebSocket\WebSocketWebGL.cs" />
     <Content Remove="..\DeepCore.Unity.Assets\Assets\Plugins\DeepCore\WebSocket\WSNetClient.cs" />
     <Content Remove="..\DeepCore.Unity.Assets\Assets\Plugins\DeepCore\WebSocket\WSNetClientFactory.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\DeepCore.Unity.Assets\Assets\Plugins\DeepCore\WebSocket\IWebSocket.cs" />
-    <Compile Include="..\DeepCore.Unity.Assets\Assets\Plugins\DeepCore\WebSocket\WebSocket.cs" />
-    <Compile Include="..\DeepCore.Unity.Assets\Assets\Plugins\DeepCore\WebSocket\WebSocketFactoryWebGL.cs" />
-    <Compile Include="..\DeepCore.Unity.Assets\Assets\Plugins\DeepCore\WebSocket\WebSocketTypes.cs" />
-    <Compile Include="..\DeepCore.Unity.Assets\Assets\Plugins\DeepCore\WebSocket\WebSocketWebGL.cs" />
+    <Compile Include="..\DeepCore.Unity.Assets\Assets\Plugins\WebSocket\IWebSocket.cs" />
+    <Compile Include="..\DeepCore.Unity.Assets\Assets\Plugins\WebSocket\WebSocket.cs" />
+    <Compile Include="..\DeepCore.Unity.Assets\Assets\Plugins\WebSocket\WebSocketFactoryWebGL.cs" />
+    <Compile Include="..\DeepCore.Unity.Assets\Assets\Plugins\WebSocket\WebSocketTypes.cs" />
+    <Compile Include="..\DeepCore.Unity.Assets\Assets\Plugins\WebSocket\WebSocketWebGL.cs" />
     <Compile Include="..\DeepCore.Unity.Assets\Assets\Plugins\DeepCore\WebSocket\WSNetClient.cs" />
     <Compile Include="..\DeepCore.Unity.Assets\Assets\Plugins\DeepCore\WebSocket\WSNetClientFactory.cs" />
   </ItemGroup>

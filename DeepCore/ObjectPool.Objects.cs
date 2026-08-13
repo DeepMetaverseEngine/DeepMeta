@@ -619,38 +619,20 @@ namespace DeepCore
             AutoRelease ret = s_Pool.Get(this, static (t, p) => new AutoRelease(t)) as AutoRelease;
             return ret;
         }
-        public AutoRelease AllocAutoRelease(int max_capacity)
-        {
-            AutoRelease ret = s_Pool.Get(this, static (t, p) => new AutoRelease(t)) as AutoRelease;
-            ret.Capacity = Math.Max(max_capacity, ret.Capacity);
-            return ret;
-        }
         public AutoRelease AllocAutoRelease(byte[] buffer)
         {
-            AutoRelease ret = s_Pool.Get(this, static (t, p) => new AutoRelease(t)) as AutoRelease;
-            ret.Capacity = Math.Max(buffer.Length, ret.Capacity);
-            ret.SetLength(buffer.Length);
-            Buffer.BlockCopy(buffer, 0, ret.GetBuffer(), 0, buffer.Length);
-            ret.Position = 0;
-            return ret;
+            AutoRelease ret = s_Pool.Get(this, static (t, p) => new AutoRelease(t)) as AutoRelease;        
+            return ret.Init(buffer);
         }
         public AutoRelease AllocAutoRelease(byte[] buffer, int offset, int length)
         {
-            AutoRelease ret = s_Pool.Get(this, static (t, p) => new AutoRelease(t)) as AutoRelease;
-            ret.Capacity = Math.Max(buffer.Length, ret.Capacity);
-            ret.SetLength(length);
-            Buffer.BlockCopy(buffer, offset, ret.GetBuffer(), 0, length);
-            ret.Position = 0;
-            return ret;
+            AutoRelease ret = s_Pool.Get(this, static (t, p) => new AutoRelease(t)) as AutoRelease;          
+            return ret.Init(buffer,offset,length);
         }
         public AutoRelease AllocAutoRelease(ArraySegment<byte> buffer)
         {
-            AutoRelease ret = s_Pool.Get(this, static (t, p) => new AutoRelease(t)) as AutoRelease;
-            ret.Capacity = Math.Max(buffer.Count, ret.Capacity);
-            ret.SetLength(buffer.Count);
-            Buffer.BlockCopy(buffer.Array, buffer.Offset, ret.GetBuffer(), 0, buffer.Count);
-            ret.Position = 0;
-            return ret;
+            AutoRelease ret = s_Pool.Get(this, static (t, p) => new AutoRelease(t)) as AutoRelease;     
+            return ret.Init(buffer);
         }
         private void Release(AutoRelease toRelease)
         {
@@ -663,6 +645,33 @@ namespace DeepCore
             internal AutoRelease(MemoryStreamObjectPool pool, byte[] buffer) : base(buffer) { this.pool = pool; }
             internal AutoRelease(MemoryStreamObjectPool pool, byte[] buffer, int index, int count) : base(buffer, index, count) { this.pool = pool; }
             internal AutoRelease(MemoryStreamObjectPool pool, int capacity) : base(capacity) { this.pool = pool; }
+            public AutoRelease Init(byte[] buffer)
+            {
+                var ret = this;
+                ret.Capacity = Math.Max(buffer.Length, ret.Capacity);
+                ret.SetLength(buffer.Length);
+                Buffer.BlockCopy(buffer, 0, ret.GetBuffer(), 0, buffer.Length);
+                ret.Position = 0;
+                return ret;
+            }
+            public AutoRelease Init(byte[] buffer, int offset, int length)
+            {
+                var ret = this;
+                ret.Capacity = Math.Max(buffer.Length, ret.Capacity);
+                ret.SetLength(length);
+                Buffer.BlockCopy(buffer, offset, ret.GetBuffer(), 0, length);
+                ret.Position = 0;
+                return ret;
+            }
+            public AutoRelease Init(ArraySegment<byte> buffer)
+            {
+                var ret = this;
+                ret.Capacity = Math.Max(buffer.Count, ret.Capacity);
+                ret.SetLength(buffer.Count);
+                Buffer.BlockCopy(buffer.Array, buffer.Offset, ret.GetBuffer(), 0, buffer.Count);
+                ret.Position = 0;
+                return ret;
+            }
             protected override void Dispose(bool disposing)
             {
                 this.Position = 0;
