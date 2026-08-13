@@ -19,7 +19,7 @@ namespace DeepCore.Net.WS
 
     public class WSWebSocketAdapter : Disposable, IClientAdapter
     {
-        public static bool ENABLE_SENDING_POOL = false;
+        public static bool ENABLE_SENDING_POOL = true;
 
         protected INetClient client;
         protected MessagePool msg_pool;
