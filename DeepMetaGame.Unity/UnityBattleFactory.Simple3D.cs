@@ -363,6 +363,7 @@ namespace DeepMetaGame.Unity
                     if (SimpleInstance.TryGetSpine(res.gameObject, out var _spine))
                     {
                         this.Spine = _spine;
+                        Spine.playing = true;
                         Spine.initialSkinName = unit.layerUnit.Skin;
                         Spine.SetAvatar(unit.layerUnit.Avatar);
                     }
@@ -397,17 +398,17 @@ namespace DeepMetaGame.Unity
             {
                 if (this.Spine != null)
                 {
+                    Spine.playing = true;
+                    Spine.loop = loop;
+                    Spine.speed = speed;
                     if (!string.IsNullOrEmpty(StateName) && Spine.HasAnimation(StateName))
                     {
-                        Spine.playing = true;
-                        Spine.loop = loop;
-                        Spine.speed = speed;
                         Spine.AnimationName = StateName;
                         return true;
                     }
                     else
                     {
-                        Spine.playing = false;
+                        //   Spine.playing = false;
                     }
                     return true;
                 }
@@ -538,10 +539,10 @@ namespace DeepMetaGame.Unity
             {
                 try
                 {
-                    if (this.Spine != null)
-                    {
-                        this.Spine.playing = false;
-                    }
+//                     if (this.Spine != null)
+//                     {
+//                         this.Spine.playing = false;
+//                     }
                     if (this.Animator)
                     {
                         this.Animator.enabled = false;
