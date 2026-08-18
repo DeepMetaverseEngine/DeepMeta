@@ -134,7 +134,7 @@ namespace DeepMetaGame.Display.GUI
                         }
                     }
                 }
-                Zone.QueueTask(() =>
+                Zone?.QueueTask(() =>
                 {
                     shown();
                     this.OnShown?.Invoke(this);
