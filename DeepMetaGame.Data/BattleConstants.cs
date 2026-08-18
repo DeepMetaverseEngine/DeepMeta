@@ -289,7 +289,7 @@ namespace DeepMetaGame.Data
 
         UnitInfo,
         UnitResourceAbility, UnitGuardAbility, UnitRecoverAbility, UnitMotionAbility, UnitSkillAbility,
-        UnitDropItemAbility, UnitInventoryAbility, UnitSpawnAbility, UnitResourceBodyAbility, UnitAttachmentAbility,
+        UnitDropItemAbility, UnitInventoryAbility, UnitSpawnAbility, UnitResourceBodyAbility, UnitAttachmentAbility, UnitDragAndDropAbility,
 
         UnitEventTemplate,
 
