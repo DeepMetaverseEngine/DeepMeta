@@ -169,10 +169,10 @@ namespace DeepMetaGame.Unity
                                 return true;
                             }
                         }
-                        else
-                        {
-                            Spine.playing = false;
-                        }
+//                         else
+//                         {
+//                             Spine.playing = false;
+//                         }
                     }
                     if (go.TryGetComponent<Animator>(out var Animator))
                     {
