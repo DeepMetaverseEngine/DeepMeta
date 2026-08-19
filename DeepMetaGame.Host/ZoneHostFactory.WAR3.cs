@@ -12,7 +12,7 @@ namespace DeepCore.Game3D.Host.War3
     public class War3ZoneHostFactory : ZoneHostFactory
     {
         public override InstanceZoneFormula CreateFormula(InstanceZone zone) { return new WarZoneFormula(zone); }
-        public override InstanceUnitFormula CreateFormula(InstanceUnit unit) { return new War3UnitFormula(unit); }
+        public override InstanceUnitFormula CreateFormula(InstanceUnit unit) { return unit.ObjectPool.Alloc<War3UnitFormula>().Init(unit); }
         public override InstanceUnit CreateUnit(InstanceZone zone, TAddUnit add)
         {
             add.info = zone.CloneData(add.info);
@@ -91,10 +91,17 @@ namespace DeepCore.Game3D.Host.War3
         {
             public float Armor;
             public float Attack;
-            public War3DataFactory.War3UnitProperties War3 { get; }
-            public War3UnitFormula(InstanceUnit owner) : base(owner)
+            public War3DataFactory.War3UnitProperties War3 { get; private set; }
+            public override InstanceUnitFormula Init(InstanceUnit owner)
             {
                 War3 = owner.Properties as War3DataFactory.War3UnitProperties;
+                return base.Init(owner);
+            }
+            protected override void Disposing()
+            {
+                Armor = 0;
+                Attack = 0;
+                base.Disposing();
             }
             // 1点力量 = 25点生命
             // 总生命值 = 100 + 25 * 力量 + 物品加成
@@ -161,7 +168,7 @@ namespace DeepCore.Game3D.Host.War3
         public class WarZoneFormula : InstanceZoneFormula
         {
             public WarZoneFormula(InstanceZone owner) : base(owner) { }
-            public override long OnHit(InstanceUnit attacker,  TAttackSource attack, ref TAttackResult result, InstanceUnit targget)
+            public override long OnHit(InstanceUnit attacker, TAttackSource attack, ref TAttackResult result, InstanceUnit targget)
             {
                 var cfg = attacker.Templates.DefaultExtConfig as War3CFG;
                 var sa = attacker.Formula as War3UnitFormula;

@@ -79,6 +79,9 @@ namespace DeepCore.Game3D.Host
         //-------------------------------------------------------------------------------------------------------------------------------
         #region Instance
 
+        public delegate void OnZoneCreateHandler(EditorScene zone);
+        public event OnZoneCreateHandler OnZoneCreate;
+
 
         public EditorScene CreateZone(InstanceZoneListener listener, EditorTemplates dataroot, SceneData data)
         {
@@ -86,9 +89,6 @@ namespace DeepCore.Game3D.Host
             OnZoneCreate?.Invoke(z);
             return z;
         }
-
-        public delegate void OnZoneCreateHandler(EditorScene zone);
-        public event OnZoneCreateHandler OnZoneCreate;
 
         /// <summary>
         /// 创建场景
@@ -101,6 +101,21 @@ namespace DeepCore.Game3D.Host
         {
             return new EditorScene(listener, this, dataroot, data, DateTime.Now.Millisecond);
         }
+
+        /// <summary>
+        /// 创建任务事件接口
+        /// </summary>
+        /// <param name="zone"></param>
+        /// <returns></returns>
+        public virtual IQuestAdapter CreateQuestAdapter(InstanceZone zone)
+        {
+            return new IQuestAdapter(zone);
+        }
+        public virtual InstanceZoneFormula CreateFormula(InstanceZone zone)
+        {
+            return new InstanceZoneFormula(zone);
+        }
+        //-------------------------------------------------------------------------------------------------------------------------------
 
         public virtual InstanceFlag CreateFlag(InstanceZone zone, SceneObjectData data)
         {
@@ -198,42 +213,22 @@ namespace DeepCore.Game3D.Host
             return InstanceUnit.DockingContext.Alloc(unit, parent, offset);
         }
 
-        //---------------------------------------------------------------------------------------------
-        public virtual InstanceZoneFormula CreateFormula(InstanceZone zone)
-        {
-            return new InstanceZoneFormula(zone);
-        }
-        public virtual InstanceUnitFormula CreateFormula(InstanceUnit unit)
-        {
-            return new InstanceUnitFormula(unit);
-        }
-
-        //---------------------------------------------------------------------------------------------
+        public virtual InstanceUnitFormula CreateFormula(InstanceUnit unit) => unit.ObjectPool.Alloc<InstanceUnitFormula>().Init(unit);
         /// <summary>
         /// 创建单位仇恨系统
         /// </summary>
         /// <param name="owner"></param>
         /// <returns></returns>
         public virtual HateSystem CreateHateSystem(InstanceUnit owner) => HateSystem.Alloc(owner);
-        public virtual ObjectAoiStatus CreateAOI(InstancePlayer player) => new ObjectAoiStatus(player);
-
+        public virtual ObjectAoiStatus CreateAOI(InstancePlayer player) => player.ObjectPool.Alloc<ObjectAoiStatus>().Init(player);
         /// <summary>
         /// 创建弹药库
         /// </summary>
         /// <param name="templates"></param>
         /// <returns></returns>
-        public virtual UnitCartridge CreateCartridge(in TAddUnit add, InstanceUnit owner)
-        {
-            return new UnitCartridge();
-        }
+        public virtual UnitCartridge CreateCartridge(in TAddUnit add, InstanceUnit owner) => owner.ObjectPool.Alloc<UnitCartridge>().Init(owner);
 
 
-        /// <summary>
-        /// 创建任务事件接口
-        /// </summary>
-        /// <param name="zone"></param>
-        /// <returns></returns>
-        public virtual IQuestAdapter CreateQuestAdapter(InstanceZone zone) => new IQuestAdapter(zone);
 
 
 
@@ -381,7 +376,7 @@ namespace DeepCore.Game3D.Host
         //---------------------------------------------------------------------------------------------
         public virtual ZoneEventTriggerCollection CreateZoneEventCollection(EditorScene mScene)
         {
-            return mScene.ObjectPool.Alloc<ZoneEventTriggerCollection>().Init (mScene);
+            return mScene.ObjectPool.Alloc<ZoneEventTriggerCollection>().Init(mScene);
         }
         public virtual GUIEventTriggerCollection CreateGUIEventCollection(InstanceZone.HostGUIForm form)
         {

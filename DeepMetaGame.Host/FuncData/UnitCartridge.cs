@@ -125,7 +125,7 @@ namespace DeepCore.Game3D.Host.FuncData
     /// <summary>
     /// 由天赋模板创建的弹药库
     /// </summary>
-    public class UnitCartridge : Disposable
+    public class UnitCartridge : Recyclable
     {
         private readonly List<(ChangeEvent, UnitCardSlot, int)> init_changed = new();
         protected readonly UnitCartridgeMeta meta = new UnitCartridgeMeta();
@@ -139,17 +139,7 @@ namespace DeepCore.Game3D.Host.FuncData
         {
 
         }
-        protected override void Disposing()
-        {
-            meta.Clear();
-            init_changed.Clear();
-            ownerFuncsID.Clear();
-            ownerFuncs.Clear();
-            OnCardAdded = null;
-            OnCardRemoved = null;
-            OnCardChanged = null;
-        }
-        internal void Init(InstanceUnit owner)
+        public virtual UnitCartridge Init(InstanceUnit owner)
         {
             this.Owner = owner;
             this.init_changed.Clear();
@@ -183,6 +173,18 @@ namespace DeepCore.Game3D.Host.FuncData
                 // 重新加载模板
                 this.meta.Update(owner, new ZoneCardRuntime(owner.Zone), owner.Info, ownerFuncsID);
             }
+            return this;
+        }
+        protected override void Disposing()
+        {
+            meta.Clear();
+            init_changed.Clear();
+            ownerFuncsID.Clear();
+            ownerFuncs.Clear();
+            OnCardAdded = null;
+            OnCardRemoved = null;
+            OnCardChanged = null;
+            Owner = null;
         }
         //---------------------------------------------------------------------------------------------------
         public void InitMeta()

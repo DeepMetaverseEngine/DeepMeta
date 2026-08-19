@@ -65,6 +65,7 @@ namespace DeepCore.Game3D.Host.Instance
                 this.mAdded = false;
                 //this.mMarkRemoved = false;
                 this.mUnitTag = string.Empty;
+                this.mAoiStatus?.Dispose();
                 this.mAoiStatus = default;
                 this.mPauseTime?.Dispose();
                 this.mPauseTime = null;
@@ -493,17 +494,19 @@ namespace DeepCore.Game3D.Host.Instance
             if (this.mAoiStatus != aoi)
             {
                 var _old = this.mAoiStatus;
-                if (this.mAoiStatus != null)
+                if (_old != null)
                 {
-                    this.mAoiStatus.RemoveObject(this);
+                    _old.RemoveObject(this);
                 }
                 this.mAoiStatus = aoi;
-                if (this.mAoiStatus != null)
-                {
-                    this.mAoiStatus.AddObject(this);
-                }
                 var _new = this.mAoiStatus;
+                if (_new != null)
+                {
+                    _new.AddObject(this);
+                }
                 this.onAoiChanged(_old, _new);
+                _old?.Release();
+                _new?.Retain();
             }
         }
 
