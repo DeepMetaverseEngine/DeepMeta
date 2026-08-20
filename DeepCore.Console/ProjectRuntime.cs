@@ -1,4 +1,5 @@
-﻿using DeepCore.Xml;
+﻿using DeepCore.Log;
+using DeepCore.Xml;
 using DeepEditor.Common;
 using System;
 using System.IO;
@@ -7,6 +8,7 @@ namespace DeepEditorConsole
 {
     public class ProjectRuntime
     {
+        private static Logger log = new LazyLogger("ProjectRuntime");
         public static string EncodeHTML(string src)
         {
             var text = src;
@@ -25,8 +27,19 @@ namespace DeepEditorConsole
         }
         public static T LoadXmlAs<T>(FileInfo path, T default_value = default)
         {
-            var bin = FileSystemWorkSpace.ReadAllBytes(path);
-            return LoadXmlAs<T>(bin, default_value);
+            try
+            {
+                var bin = FileSystemWorkSpace.ReadAllBytes(path);
+                if (bin != null)
+                {
+                    return LoadXmlAs<T>(bin, default_value);
+                }
+            }
+            catch
+            {
+                log.Error($"LoadXml Error : {path} Use Default {default_value}!!!");
+            }
+            return default_value;
         }
         private static T LoadXmlAs<T>(byte[] data, T default_value = default)
         {
