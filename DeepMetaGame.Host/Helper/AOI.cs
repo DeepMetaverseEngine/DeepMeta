@@ -5,18 +5,31 @@ using System.Collections.Generic;
 
 namespace DeepCore.Game3D.Host.Helper
 {
-    public class ObjectAoiStatus : Disposable
+    public class ObjectAoiStatus : Recyclable
     {
-        private HashMap<uint, InstanceZoneObject> mObjects = new HashMap<uint, InstanceZoneObject>(2);
+        private readonly HashMap<uint, InstanceZoneObject> mObjects = new HashMap<uint, InstanceZoneObject>(2);
         private IPostChannel mChannel;
         private InstancePlayer mCreatorOwner;
 
         public InstancePlayer CreatorOwner { get => mCreatorOwner; }
         public IPostChannel Channel { get => mChannel; }
-        public ObjectAoiStatus(InstancePlayer owner)
+        public static T Alloc<T>(InstancePlayer owner) where T : ObjectAoiStatus, new()
+        {
+            return owner.ObjectPool.Alloc<T>().Init(owner) as T;
+        }
+        public virtual ObjectAoiStatus Init(InstancePlayer owner)
         {
             this.mCreatorOwner = owner;
             this.mChannel = owner.HostFactory.CreateChannel(this);
+            return this;
+        }
+        protected override void Disposing()
+        {
+            this.mChannel = null;
+            this.mCreatorOwner = null;
+            m_OnObjectLeave = null;
+            m_OnObjectEnter = null;
+            mObjects.Clear();
         }
 
         internal void AddObject(InstanceZoneObject o)
@@ -169,12 +182,6 @@ namespace DeepCore.Game3D.Host.Helper
             return FindObject<InstanceUnit>((u) => { return u.Info.ID == unit_template_id; });
         }
 
-        protected override void Disposing()
-        {
-            m_OnObjectLeave = null;
-            m_OnObjectEnter = null;
-        }
-
         #endregion
         //-------------------------------------------------------------------------------------------------------------------------
         #region IAoiStatus
@@ -197,13 +204,13 @@ namespace DeepCore.Game3D.Host.Helper
             return null;
         }
 
-   
+
         #endregion
         //-------------------------------------------------------------------------------------------------------------------------
 
-  /*      public virtual void ClearAllMonster()
-        {
-           
-        }*/
+        /*      public virtual void ClearAllMonster()
+              {
+
+              }*/
     }
 }

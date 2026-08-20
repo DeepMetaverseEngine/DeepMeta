@@ -12,13 +12,21 @@ namespace DeepCore.Game3D.Host.Instance
 {
     public class InstanceZoneFormula : Disposable
     {
-        public InstanceZone Zone { get; }
-        public InstanceZoneFormula(InstanceZone owner)
+        public static T Alloc<T>(InstanceZone owner) where T : InstanceZoneFormula, new()
+        {
+            return owner.ObjectPool.Alloc<T>().Init(owner) as T;
+        }
+        public InstanceZone Zone { get; private set; }
+        public virtual InstanceZoneFormula Init(InstanceZone owner)
         {
             this.Zone = owner;
+            return this;
         }
-        protected virtual internal void Init() { }
-        protected override void Disposing() { }
+        protected virtual internal void OnInit() { }
+        protected override void Disposing()
+        {
+            Zone = null;
+        }
         //--------------------------------------------------------------------------------------------
         #region HIT_AND_DAMAGE
 
@@ -79,7 +87,7 @@ namespace DeepCore.Game3D.Host.Instance
             }
             //return false;
         }
-    
+
         /// <summary>
         /// 是否为友军
         /// </summary>
@@ -119,16 +127,16 @@ namespace DeepCore.Game3D.Host.Instance
             if (!target.IsAttackable)
                 return false;
             return IsExpectTarget(src, target, expectTarget);
-        }   
+        }
         /// <summary>
-             /// 测试是否可攻击
-             /// </summary>
-             /// <param name="src"></param>
-             /// <param name="target"></param>
-             /// <param name="expectTarget"></param>
-             /// <param name="reason"></param>
-             /// <param name="weapon"></param>
-             /// <returns></returns>
+        /// 测试是否可攻击
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="target"></param>
+        /// <param name="expectTarget"></param>
+        /// <param name="reason"></param>
+        /// <param name="weapon"></param>
+        /// <returns></returns>
         public virtual bool IsAttackableBySkill(InstanceUnit src, InstanceUnit target, InstanceUnit.EquipSkill equipSkill, AttackReason reason)
         {
             return IsAttackable(src, target, equipSkill.Data.ExpectTarget, reason, equipSkill.Data);
@@ -142,14 +150,14 @@ namespace DeepCore.Game3D.Host.Instance
         /// <param name="attack"></param>
         /// <param name="target"></param>
         /// <returns></returns>
-        public virtual long OnHit(InstanceUnit attacker,  TAttackSource attack, ref TAttackResult result, InstanceUnit target)
+        public virtual long OnHit(InstanceUnit attacker, TAttackSource attack, ref TAttackResult result, InstanceUnit target)
         {
             var atk = attack.Attack.Attack;
             var hp = target.MaxHP;
             var damage = attacker.RandomN.NextFloat(hp / 10, hp / 5) * atk;
-            return (long) damage;
+            return (long)damage;
         }
-        
+
 
         public virtual void OnKillDropItem(InstanceUnit unit, InstanceUnit dead, UnitDropItemAbility drop)
         {
@@ -179,7 +187,7 @@ namespace DeepCore.Game3D.Host.Instance
                 }
             }
             return ret;
-        
+
         }
 
 
@@ -331,9 +339,9 @@ namespace DeepCore.Game3D.Host.Instance
 
         #endregion
         //--------------------------------------------------------------------------------------------
-       // public virtual void UnitHitEventOverride(InstanceUnit attacker, AttackSource source, InstanceUnit instanceUnit, int reduceHp, int oldHp) { }
+        // public virtual void UnitHitEventOverride(InstanceUnit attacker, AttackSource source, InstanceUnit instanceUnit, int reduceHp, int oldHp) { }
 
-       
+
 
     }
 }

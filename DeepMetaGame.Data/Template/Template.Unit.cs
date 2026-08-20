@@ -363,5 +363,14 @@ namespace DeepMetaGame.Data.Template
     {
         [Desc("挂靠单位")]
         public List<UnitAttachment> UnitDockings = new List<UnitAttachment>();
+    } 
+    //------------------------------------------------------------------------------------------
+    [MessageType(BattleConstants.UnitDragAndDropAbility)]
+    [Desc("A.单位鼠标拖拽能力")]
+    public class UnitDragAndDropAbility : IUnitTemplateAbility
+    {
+
     }
+    //------------------------------------------------------------------------------------------
+
 }

@@ -122,7 +122,6 @@ namespace DeepCore.Game3D.Host.Instance
             this.mPlayerUUID = string.IsNullOrEmpty(add.player_uuid) ? string.Empty : add.player_uuid;
             this.mDisplayName = string.IsNullOrEmpty(add.displayName) ? add.info.Name : add.displayName;
             this.Cartridge = zone.CreateCartridge(in add, this);
-            this.Cartridge.Init(this);
             {
                 this.ARecover = mInfo.Abilities.GetComponentAs<UnitRecoverAbility>();
                 this.AResource = mInfo.Abilities.GetComponentAs<UnitResourceAbility>();
@@ -178,7 +177,7 @@ namespace DeepCore.Game3D.Host.Instance
 
         protected virtual void OnInitFormula(InstanceUnitFormula Formula, TAddUnit add)
         {
-            this.Formula?.Init();
+            this.Formula?.OnInit();
         }
 
         protected override void Disposing()
@@ -197,6 +196,7 @@ namespace DeepCore.Game3D.Host.Instance
             this.mSyncInfo?.Dispose();
             this.mMultiTimeLineSync?.Dispose();
             this.mSyncFields?.Dispose();
+            this.Cartridge = null;
         }
 
         protected override void onAdded()
@@ -211,7 +211,7 @@ namespace DeepCore.Game3D.Host.Instance
             //                 this.SetInvincibleTimeMS(mInfo.SpawnTimeMS);
             //             }
             this.Cartridge.InitMeta();
-            this.Formula?.LatedInit();
+            this.Formula?.OnLatedInit();
             //this.OnLateAdded();
 
         }

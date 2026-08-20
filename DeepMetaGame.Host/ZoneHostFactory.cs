@@ -77,7 +77,10 @@ namespace DeepCore.Game3D.Host
 
         }
         //-------------------------------------------------------------------------------------------------------------------------------
-        #region Instance
+        #region Instance Zone
+
+        public delegate void OnZoneCreateHandler(EditorScene zone);
+        public event OnZoneCreateHandler OnZoneCreate;
 
 
         public EditorScene CreateZone(InstanceZoneListener listener, EditorTemplates dataroot, SceneData data)
@@ -86,9 +89,6 @@ namespace DeepCore.Game3D.Host
             OnZoneCreate?.Invoke(z);
             return z;
         }
-
-        public delegate void OnZoneCreateHandler(EditorScene zone);
-        public event OnZoneCreateHandler OnZoneCreate;
 
         /// <summary>
         /// 创建场景
@@ -102,6 +102,37 @@ namespace DeepCore.Game3D.Host
             return new EditorScene(listener, this, dataroot, data, DateTime.Now.Millisecond);
         }
 
+        /// <summary>
+        /// 创建任务事件接口
+        /// </summary>
+        /// <param name="zone"></param>
+        /// <returns></returns>
+        public virtual IQuestAdapter CreateQuestAdapter(InstanceZone zone)
+        {
+            return new IQuestAdapter(zone);
+        }
+        public virtual InstanceZoneFormula CreateFormula(InstanceZone zone)
+        {
+            return InstanceZoneFormula.Alloc<InstanceZoneFormula>(zone);
+        }
+
+        public virtual IPostChannel CreateChannel(object owner)
+        {
+            return null;//new ZoneNodeChannel(owner);
+        }
+        public virtual ZoneSpaceDivision CreateSpaceDivision(InstanceZone zone)
+        {
+            return new ZoneSpaceDivision(zone);
+        }
+
+        public virtual ZoneNode CreateServerZoneNode(IZoneNodeServer server, EditorTemplates data_root)
+        {
+            return new ZoneNode(server, this, data_root);
+        }
+
+        #endregion
+        //-------------------------------------------------------------------------------------------------------------------------------
+        #region Instance Object
         public virtual InstanceFlag CreateFlag(InstanceZone zone, SceneObjectData data)
         {
             if (data is RegionData regionData)
@@ -189,6 +220,7 @@ namespace DeepCore.Game3D.Host
         {
             return InstanceUnit.EquipAura.Alloc(owner, aura, level, fromSkillID);
         }
+
         public virtual InstanceUnit.InventorySlot CreateUnitInventorySlot(int index, InstanceUnit owner)
         {
             return InstanceUnit.InventorySlot.Alloc(index, owner);
@@ -198,42 +230,36 @@ namespace DeepCore.Game3D.Host
             return InstanceUnit.DockingContext.Alloc(unit, parent, offset);
         }
 
-        //---------------------------------------------------------------------------------------------
-        public virtual InstanceZoneFormula CreateFormula(InstanceZone zone)
-        {
-            return new InstanceZoneFormula(zone);
-        }
+        /// <summary>
+        /// 创建公式
+        /// </summary>
         public virtual InstanceUnitFormula CreateFormula(InstanceUnit unit)
         {
-            return new InstanceUnitFormula(unit);
+            return InstanceUnitFormula.Alloc<InstanceUnitFormula>(unit);
         }
-
-        //---------------------------------------------------------------------------------------------
         /// <summary>
         /// 创建单位仇恨系统
         /// </summary>
-        /// <param name="owner"></param>
-        /// <returns></returns>
-        public virtual HateSystem CreateHateSystem(InstanceUnit owner) => HateSystem.Alloc(owner);
-        public virtual ObjectAoiStatus CreateAOI(InstancePlayer player) => new ObjectAoiStatus(player);
-
+        public virtual HateSystem CreateHateSystem(InstanceUnit owner)
+        {
+            return HateSystem.Alloc(owner);
+        }
+        /// <summary>
+        /// 创建位面
+        /// </summary>
+        public virtual ObjectAoiStatus CreateAOI(InstancePlayer player)
+        {
+            return ObjectAoiStatus.Alloc<ObjectAoiStatus>(player);
+        }
         /// <summary>
         /// 创建弹药库
         /// </summary>
-        /// <param name="templates"></param>
-        /// <returns></returns>
         public virtual UnitCartridge CreateCartridge(in TAddUnit add, InstanceUnit owner)
         {
-            return new UnitCartridge();
+            return UnitCartridge.Alloc<UnitCartridge>(add, owner);
         }
 
 
-        /// <summary>
-        /// 创建任务事件接口
-        /// </summary>
-        /// <param name="zone"></param>
-        /// <returns></returns>
-        public virtual IQuestAdapter CreateQuestAdapter(InstanceZone zone) => new IQuestAdapter(zone);
 
 
 
@@ -364,24 +390,11 @@ namespace DeepCore.Game3D.Host
 
 
         //-------------------------------------------------------------------------------------------------------------------------------
-
-        public virtual ZoneNode CreateServerZoneNode(IZoneNodeServer server, EditorTemplates data_root)
-        {
-            return new ZoneNode(server, this, data_root);
-        }
-        public virtual IPostChannel CreateChannel(object owner)
-        {
-            return null;//new ZoneNodeChannel(owner);
-        }
-        public virtual ZoneSpaceDivision CreateSpaceDivision(InstanceZone zone)
-        {
-            return new ZoneSpaceDivision(zone);
-        }
-
+        #region Event System
         //---------------------------------------------------------------------------------------------
         public virtual ZoneEventTriggerCollection CreateZoneEventCollection(EditorScene mScene)
         {
-            return mScene.ObjectPool.Alloc<ZoneEventTriggerCollection>().Init (mScene);
+            return mScene.ObjectPool.Alloc<ZoneEventTriggerCollection>().Init(mScene);
         }
         public virtual GUIEventTriggerCollection CreateGUIEventCollection(InstanceZone.HostGUIForm form)
         {
@@ -395,9 +408,15 @@ namespace DeepCore.Game3D.Host
         {
             return unit.ObjectPool.Alloc<CustomUnitEventTriggerCollection>().Init(unit, ue);
         }
+
+        #endregion
         //---------------------------------------------------------------------------------------------
-
-
+        #region Host Slave Encode Decode
+        /// <summary>
+        /// UI系统里的变量编码，主要是把对象类型转换为ID类型，方便UI系统传输
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public virtual object EncodeZoneVar(object value)
         {
             if (value is InstanceZoneObject obj)
@@ -422,6 +441,8 @@ namespace DeepCore.Game3D.Host
             }
             return value;
         }
+        #endregion
+        //--------------------------------------------------------------------------------------------- 
     }
     //---------------------------------------------------------------------------------------------
 

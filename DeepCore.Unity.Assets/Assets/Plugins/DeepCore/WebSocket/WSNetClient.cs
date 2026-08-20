@@ -40,7 +40,7 @@ namespace DeepCore.Net.WS
         }
         public bool Disconnect(Action action)
         {
-            return _run_close(CloseReason.Disconnect, true, action);
+            return _run_close(CloseReason.Disconnect, action);
         }
         protected override void Disposing()
         {
@@ -133,12 +133,12 @@ namespace DeepCore.Net.WS
         private void Websocket_OnClose(WebSocketCloseCode closeCode)
         {
             log.Info("Websocket_OnClose:" + closeCode);
-            _run_close(CloseReason.Disconnect, false, null, $"{closeCode}");
+            _run_close(CloseReason.Disconnect, null, $"{closeCode}");
         }
         private void Websocket_OnError(string errorMsg)
         {
             log.Info("Websocket_OnClose:" + errorMsg);
-            _run_close(CloseReason.Error, false, null, $"{errorMsg}", new Exception(errorMsg));
+            _run_close(CloseReason.Error, null, $"{errorMsg}", new Exception(errorMsg));
         }
         private void Websocket_OnMessage(byte[] data)
         {
@@ -170,7 +170,7 @@ namespace DeepCore.Net.WS
             }
             catch (Exception err)
             {
-                _run_close(CloseReason.Error, true, null, $"{err.Message}", err);
+                _run_close(CloseReason.Error, null, $"{err.Message}", err);
             }
         }
         //-------------------------------------------------------------------------------------------------------------------------------
@@ -181,29 +181,36 @@ namespace DeepCore.Net.WS
         {
             this.connect_user = user;
             this.connect_complete_tcs = new TaskCompletionSource<ISerializable>();
-            var task = this.connect_complete_tcs.Task;
             try
             {
-                this.websocket.OnError += Websocket_OnError;
-                this.websocket.OnMessage += Websocket_OnMessage;
-                this.websocket.OnClose += Websocket_OnClose;
-                this.websocket.OnOpen += Websocket_OnOpen;
-                websocket.Connect().Forget();
-            }
-            catch (Exception err)
-            {
-                _run_close(CloseReason.Error, false, null, err.ToString(), err);
-            }
-            if (connect_timeout > 0)
-            {
-                var completed = await Task.WhenAny(task, Task.Delay(connect_timeout));
-                if (completed != task && !task.IsCompleted)
+                var task = this.connect_complete_tcs.Task;
+                try
                 {
-                    var timeoutEx = new TimeoutException($"websocket connect timeout after {connect_timeout}ms");
-                    _run_close(CloseReason.Error, true, null, timeoutEx.Message, timeoutEx);
+                    this.websocket.OnError += Websocket_OnError;
+                    this.websocket.OnMessage += Websocket_OnMessage;
+                    this.websocket.OnClose += Websocket_OnClose;
+                    this.websocket.OnOpen += Websocket_OnOpen;
+                    websocket.Connect().Forget();
                 }
+                catch (Exception err)
+                {
+                    _run_close(CloseReason.Error, null, err.ToString(), err);
+                }
+                if (connect_timeout > 0)
+                {
+                    var completed = await Task.WhenAny(task, Task.Delay(connect_timeout));
+                    if (completed != task && !task.IsCompleted)
+                    {
+                        var timeoutEx = new TimeoutException($"websocket connect timeout after {connect_timeout}ms");
+                        _run_close(CloseReason.Error, null, timeoutEx.Message, timeoutEx);
+                    }
+                }
+                return await task;
             }
-            return await task;
+            finally
+            {
+                connect_complete_tcs = null;
+            }
         }
 
         private async Task _start_send(ISerializable msg, MessageType msgType, uint send_id)
@@ -265,7 +272,7 @@ namespace DeepCore.Net.WS
             recv_object.BeginBody();
             recv_object.BufferPosition = recv_object.BodyStartPistion;
         }
-        private bool _run_close(CloseReason reason, bool force, Action done = null, string message = null, Exception err = null)
+        private bool _run_close(CloseReason reason, Action done = null, string message = null, Exception err = null)
         {
             if (connect_complete_tcs != null)
             {
@@ -302,7 +309,7 @@ namespace DeepCore.Net.WS
                         ws.CancelConnection();
                     }
                     catch { }
-                    if (force || ws.State == WebSocketState.Open || ws.State == WebSocketState.Connecting)
+                    if (ws.State == WebSocketState.Open || ws.State == WebSocketState.Connecting)
                     {
                         try
                         {
@@ -392,7 +399,7 @@ namespace DeepCore.Net.WS
             }
             else
             {
-                _run_close(CloseReason.KickByServer, true);
+                _run_close(CloseReason.KickByServer);
             }
         }
         private void _init_heartbeat(int intervalMS)
@@ -460,7 +467,7 @@ namespace DeepCore.Net.WS
                     last_heartbeat_chk = curtime;
                     if ((curtime - last_heartbeat_r2c) > heartbeat_interval_ms * 4)
                     {
-                        _run_close(CloseReason.TimeOut, true);
+                        _run_close(CloseReason.TimeOut);
                     }
                     else
                     {
@@ -473,7 +480,7 @@ namespace DeepCore.Net.WS
         {
             log.Info("received kick!");
             var sysmsg = recv_object.ReadBodySystemMessage() as SystemKick;
-            _run_close(CloseReason.KickByServer, true, null, sysmsg?.reason);
+            _run_close(CloseReason.KickByServer, null, sysmsg?.reason);
         }
         //-------------------------------------------------------------------------------------------------------------------------------
 

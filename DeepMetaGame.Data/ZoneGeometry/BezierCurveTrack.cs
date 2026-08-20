@@ -10,7 +10,7 @@ namespace DeepMetaGame.Data.ZoneGeometry
     public class BezierCurveTrack : Recyclable, IEnumerable<BezierCurveTrack.Node>
     {
         //-------------------------------------------------------
-        private List<Vector3> t_points = new List<Vector3>();
+        private List<Vector3> temp_points = new List<Vector3>();
         private HashMap<string, PointData> t_exists = new HashMap<string, PointData>();
         private double totalLen = 0d;
         private List<Node> nodes = new List<Node>();
@@ -31,23 +31,23 @@ namespace DeepMetaGame.Data.ZoneGeometry
             totalLen = 0;
             nodes.Clear();
             t_exists.Clear();
-            t_points.Clear();
+            temp_points.Clear();
         }
         public void AddPoint(SceneData scene, PointData p, float step)
         {
-            AddPoint(t_exists, t_points, (nextName) => scene.GetFlagByName(nextName) as PointData, p, step, (int)MathF.Max(2, MathF.Min(scene.Terrain.GridCellW, scene.Terrain.GridCellH) / step));
+            AddPoint(t_exists, temp_points, (nextName) => scene.GetFlagByName(nextName) as PointData, p, step, (int)MathF.Max(2, MathF.Min(scene.Terrain.GridCellW, scene.Terrain.GridCellH) / step));
         }
         public void AddPoint(SceneData scene, PointData p, float step, int n)
         {
-            AddPoint(t_exists, t_points, (nextName) => scene.GetFlagByName(nextName) as PointData, p, step, n);
+            AddPoint(t_exists, temp_points, (nextName) => scene.GetFlagByName(nextName) as PointData, p, step, n);
         }
         public void AddPoint(Func<string, PointData> getPointData, PointData p, float step, float gridSize)
         {
-            AddPoint(t_exists, t_points, getPointData, p, step, (int)MathF.Max(2, gridSize / step));
+            AddPoint(t_exists, temp_points, getPointData, p, step, (int)MathF.Max(2, gridSize / step));
         }
         public void AddPoint(Func<string, PointData> getPointData, PointData p, float step, int n)
         {
-            AddPoint(t_exists, t_points, getPointData, p, step, n);
+            AddPoint(t_exists, temp_points, getPointData, p, step, n);
         }
         private void AddPoint(HashMap<string, PointData> t_exists, List<Vector3> t_points, Func<string, PointData> getPointData, PointData p, float step, int n)
         {
@@ -68,25 +68,30 @@ namespace DeepMetaGame.Data.ZoneGeometry
                     {
                         t_points.Clear();
                         bz.SampleStep(t_points, step, n);
-                        foreach (var pp in t_points)
+                        if (t_points.Count > 0)
                         {
-                            var node = new Node()
+                            var p_start = p0;
+                            foreach (var pp in t_points)
                             {
-                                Position = pp,
-                                Index = nodes.Count,
-                                Previous = this.Last,
-                                StartFlag = p,
-                                TargetFlag = next,
-                            };
-                            if (Last != null)
-                            {
-                                Last.Next = node;
-                                totalLen += Vector3.Distance(pp, Last.Position);
+                                var node = new Node()
+                                {
+                                    Position = pp,
+                                    Index = nodes.Count,
+                                    Previous = this.Last,
+                                    StartFlag = p,
+                                    TargetFlag = next,
+                                };
+                                if (Last != null)
+                                {
+                                    Last.Next = node;
+                                    totalLen += Vector3.Distance(p_start, pp);
+                                }
+                                node.ToStartDistance = totalLen;
+                                nodes.Add(node);
+                                p_start = pp;
                             }
-                            node.ToStartDistance = totalLen;
-                            nodes.Add(node);
-                        }
-                        t_points.Clear();
+                            t_points.Clear();
+                        }                    
                     }
                     AddPoint(t_exists, t_points, getPointData, next, step, n);
                 }

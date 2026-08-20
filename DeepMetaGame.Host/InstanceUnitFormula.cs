@@ -1,16 +1,27 @@
-﻿namespace DeepCore.Game3D.Host.Instance
+﻿using DeepCore.Game3D.Host.FuncData;
+
+namespace DeepCore.Game3D.Host.Instance
 {
-    public class InstanceUnitFormula : Disposable
+    public class InstanceUnitFormula : Recyclable
     {
-        public InstanceUnit Owner { get; }
-        public InstanceUnitFormula(InstanceUnit owner)
+        public static T Alloc<T>(InstanceUnit owner) where T : InstanceUnitFormula, new()
+        {
+            return owner.ObjectPool.Alloc<T>().Init(owner) as T;
+        }
+        public InstanceUnit Owner { get; private set; }
+        public virtual InstanceUnitFormula Init(InstanceUnit owner)
         {
             this.Owner = owner;
+            return this;
         }
-        protected virtual internal void Init() { }
-        protected virtual internal void LatedInit()
+        protected override void Disposing()
+        {
+            this.Owner = null;
+        }
+
+        protected virtual internal void OnInit() { }
+        protected virtual internal void OnLatedInit()
         {
         }
-        protected override void Disposing() { }
     }
 }

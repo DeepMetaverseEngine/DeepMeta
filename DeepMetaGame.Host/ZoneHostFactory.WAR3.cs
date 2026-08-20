@@ -11,8 +11,8 @@ namespace DeepCore.Game3D.Host.War3
 
     public class War3ZoneHostFactory : ZoneHostFactory
     {
-        public override InstanceZoneFormula CreateFormula(InstanceZone zone) { return new WarZoneFormula(zone); }
-        public override InstanceUnitFormula CreateFormula(InstanceUnit unit) { return new War3UnitFormula(unit); }
+        public override InstanceZoneFormula CreateFormula(InstanceZone zone) { return WarZoneFormula.Alloc<WarZoneFormula>(zone); }
+        public override InstanceUnitFormula CreateFormula(InstanceUnit unit) { return War3UnitFormula.Alloc<War3UnitFormula>(unit); }
         public override InstanceUnit CreateUnit(InstanceZone zone, TAddUnit add)
         {
             add.info = zone.CloneData(add.info);
@@ -91,10 +91,17 @@ namespace DeepCore.Game3D.Host.War3
         {
             public float Armor;
             public float Attack;
-            public War3DataFactory.War3UnitProperties War3 { get; }
-            public War3UnitFormula(InstanceUnit owner) : base(owner)
+            public War3DataFactory.War3UnitProperties War3 { get; private set; }
+            public override InstanceUnitFormula Init(InstanceUnit owner)
             {
                 War3 = owner.Properties as War3DataFactory.War3UnitProperties;
+                return base.Init(owner);
+            }
+            protected override void Disposing()
+            {
+                Armor = 0;
+                Attack = 0;
+                base.Disposing();
             }
             // 1点力量 = 25点生命
             // 总生命值 = 100 + 25 * 力量 + 物品加成
@@ -127,9 +134,9 @@ namespace DeepCore.Game3D.Host.War3
             // 对战时，一般打野怪出现什么属性的书对应什么属性的英雄就吃什么书，但是力量型英雄吃敏捷可以加护甲和攻击速度,敏捷型英雄吃力量书可以提高生命上限和回血速度。
             // 
             // 这就要看自己的需要的。
-            protected internal override void Init()
+            protected internal override void OnInit()
             {
-                base.Init();
+                base.OnInit();
                 this.Owner.Level = War3.LEVEL;
                 Owner.MaxHP = (int)Math.Ceiling(Owner.Info.HealthPoint + War3.STR * 25);
                 Owner.MaxMP = (int)Math.Ceiling(Owner.Info.ManaPoint + War3.INT * 15);
@@ -160,8 +167,7 @@ namespace DeepCore.Game3D.Host.War3
 
         public class WarZoneFormula : InstanceZoneFormula
         {
-            public WarZoneFormula(InstanceZone owner) : base(owner) { }
-            public override long OnHit(InstanceUnit attacker,  TAttackSource attack, ref TAttackResult result, InstanceUnit targget)
+            public override long OnHit(InstanceUnit attacker, TAttackSource attack, ref TAttackResult result, InstanceUnit targget)
             {
                 var cfg = attacker.Templates.DefaultExtConfig as War3CFG;
                 var sa = attacker.Formula as War3UnitFormula;

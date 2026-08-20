@@ -235,7 +235,7 @@ namespace DeepCore.Game3D.Host.Instance
 
         protected virtual void OnInitFormula(InstanceZoneFormula Formula)
         {
-            this.Formula?.Init();
+            this.Formula?.OnInit();
         }
         // -----------------------------------------------------------------------------------
         ~InstanceZone()
