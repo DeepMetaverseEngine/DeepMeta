@@ -1,5 +1,6 @@
 ﻿using DeepCore.FuncData;
 using DeepCore.Game3D.Host.FuncData;
+using DeepCore.Game3D.Host.Helper;
 using DeepCore.Game3D.Host.Instance;
 using DeepCore.Game3D.Host.ZoneEditor.EventTrigger;
 using DeepCore.IO;
@@ -139,7 +140,11 @@ namespace DeepCore.Game3D.Host.FuncData
         {
 
         }
-        public virtual UnitCartridge Init(InstanceUnit owner)
+        public static T Alloc<T>(in TAddUnit add, InstanceUnit owner) where T : UnitCartridge, new()
+        {
+            return owner.ObjectPool.Alloc<T>().Init(add, owner) as T;
+        }
+        public virtual UnitCartridge Init(in TAddUnit _add, InstanceUnit owner)
         {
             this.Owner = owner;
             this.init_changed.Clear();

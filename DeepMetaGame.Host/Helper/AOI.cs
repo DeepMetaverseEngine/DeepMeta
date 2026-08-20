@@ -13,6 +13,10 @@ namespace DeepCore.Game3D.Host.Helper
 
         public InstancePlayer CreatorOwner { get => mCreatorOwner; }
         public IPostChannel Channel { get => mChannel; }
+        public static T Alloc<T>(InstancePlayer owner) where T : ObjectAoiStatus, new()
+        {
+            return owner.ObjectPool.Alloc<T>().Init(owner) as T;
+        }
         public virtual ObjectAoiStatus Init(InstancePlayer owner)
         {
             this.mCreatorOwner = owner;
