@@ -113,7 +113,7 @@ namespace DeepCore.Game3D.Host
         }
         public virtual InstanceZoneFormula CreateFormula(InstanceZone zone)
         {
-            return new InstanceZoneFormula(zone);
+            return InstanceZoneFormula.Alloc<InstanceZoneFormula>(zone);
         }
 
         public virtual IPostChannel CreateChannel(object owner)
@@ -235,7 +235,7 @@ namespace DeepCore.Game3D.Host
         /// </summary>
         public virtual InstanceUnitFormula CreateFormula(InstanceUnit unit)
         {
-            return unit.ObjectPool.Alloc<InstanceUnitFormula>().Init(unit);
+            return InstanceUnitFormula.Alloc<InstanceUnitFormula>(unit);
         }
         /// <summary>
         /// 创建单位仇恨系统

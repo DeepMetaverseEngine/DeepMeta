@@ -177,7 +177,7 @@ namespace DeepCore.Game3D.Host.Instance
 
         protected virtual void OnInitFormula(InstanceUnitFormula Formula, TAddUnit add)
         {
-            this.Formula?.Init();
+            this.Formula?.OnInit();
         }
 
         protected override void Disposing()
@@ -211,7 +211,7 @@ namespace DeepCore.Game3D.Host.Instance
             //                 this.SetInvincibleTimeMS(mInfo.SpawnTimeMS);
             //             }
             this.Cartridge.InitMeta();
-            this.Formula?.LatedInit();
+            this.Formula?.OnLatedInit();
             //this.OnLateAdded();
 
         }
