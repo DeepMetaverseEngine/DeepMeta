@@ -116,11 +116,15 @@ namespace DeepMetaGame.Data.Message.UI
             HitObjectPosition = default;
             //HitObjectPlanePosition = default;
         }
-        public bool IsHitObject => (HitObjectID != 0 );
-        public bool IsHitFlag => ( !string.IsNullOrEmpty(HitFlagName));
+        public bool IsHitObject => (HitObjectID != 0);
+        public bool IsHitFlag => (!string.IsNullOrEmpty(HitFlagName));
 
         public void WriteExternal(IOutputStream output)
         {
+            output.PutNullable(screen, static (o, t) => o.PutStruct(t));
+            output.PutStruct(origin);
+            output.PutStruct(normal);
+
             output.PutBool(IsHitTerrain);
             if (IsHitTerrain)
             {
@@ -135,6 +139,10 @@ namespace DeepMetaGame.Data.Message.UI
         }
         public void ReadExternal(IInputStream input)
         {
+            this.screen = input.GetNullable<Vector2>(static (i) => i.GetStruct<Vector2>());
+            this.origin = input.GetStruct<Vector3>();
+            this.normal = input.GetStruct<Vector3>();
+
             this.IsHitTerrain = input.GetBool();
             if (IsHitTerrain)
             {
