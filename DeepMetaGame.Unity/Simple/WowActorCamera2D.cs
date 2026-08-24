@@ -77,7 +77,7 @@ namespace DeepMetaGame.Unity.BattleView.Simple
                     case Data.Template.UnitMotionAbility.ControlType.FaceToMouseTarget:
                         var camera = this.Camera;
                         var ray = camera.ScreenPointToRay(Input.mousePosition);
-                        var rdata = actor.parent.GetRaycastData(ray, out var _map, out var _obj);
+                        var rdata = actor.parent.GetRaycastData(ray, out var _map, out var _obj, out var _flag);
                         if (_map != null)
                         {
                             faceTo = DeepCore.Geometry.VectorHelper.GetDegree(actor.layerActor.Position, _map.Value);

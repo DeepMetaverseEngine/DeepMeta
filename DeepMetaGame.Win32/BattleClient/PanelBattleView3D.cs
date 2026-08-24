@@ -575,18 +575,21 @@ namespace DeepEditor.Plugin3D.BattleClient
                     ret.HitTerrainPosition = raycastLayerTouch.GLToVoxel().ToGeometry();
                 }
                 //射到物件
-                var raycastObject = this.BattleView.RayCastObject<LayerObject3D>(ray, out var pos);
-                if (raycastObject != null)
+                var raycastUnit = this.BattleView.RayCastObject<LayerZoneUnit3D>(ray, out var pos);
+                if (raycastUnit != null)
                 {
-//                     ret.HitObjectPlanePosition = DeepCore.Geometry.RayCast.RayPlaneIntersection(
-//                         ret.origin,
-//                         ret.normal,
-//                         raycastObject.LayerObject.Position,
-//                         DeepCore.Geometry.Vector3.UnitZ);
-
-                    ret.HitObjectID = (raycastObject is LayerZoneUnit3D unit) ? unit.ZUnit.ObjectID : 0;
-                    ret.HitFlagName = (raycastObject is LayerZoneFlag3D flag) ? flag.ZFlag.Name : null;
+                    //                     ret.HitObjectPlanePosition = DeepCore.Geometry.RayCast.RayPlaneIntersection(
+                    //                         ret.origin,
+                    //                         ret.normal,
+                    //                         raycastObject.LayerObject.Position,
+                    //                         DeepCore.Geometry.Vector3.UnitZ);
+                    ret.HitObjectID = raycastUnit.ZUnit.ObjectID;
                     ret.HitObjectPosition = pos.GLToVoxel().ToGeometry();
+                }
+                var raycastFlag = this.BattleView.RayCastObject<LayerZoneFlag3D>(ray, out var pos2);
+                if (raycastFlag != null)
+                {
+                    ret.HitFlagName = raycastFlag.ZFlag.Name;
                 }
             }
             return ret;

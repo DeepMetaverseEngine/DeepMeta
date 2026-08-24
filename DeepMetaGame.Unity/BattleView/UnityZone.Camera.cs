@@ -1,5 +1,6 @@
 ﻿using DeepCore;
 using DeepCore.Game3D.Slave.Layer;
+using DeepCore.GUI.Cell;
 using DeepCore.GUI.Input;
 using DeepMetaGame.Data.Message;
 using DeepMetaGame.Data.Message.UI;
@@ -100,7 +101,7 @@ namespace DeepGame3D.Unity.BattleView
                 var camera = this.MainCamera;
                 if (InputHelper.TryScreenPointToRay(camera, out var ray))
                 {
-                    var rdata = GetRaycastData(ray, out var _map, out var _obj);
+                    var rdata = GetRaycastData(ray, out var _map, out var _obj, out var _flag);
                     if (InputHelper.IsMouseDown(out var mouse))
                     {
                         last_mouse_down = InputHelper.MousePosition;
@@ -206,7 +207,7 @@ namespace DeepGame3D.Unity.BattleView
                 }
             }
         }
-        public virtual Raycast GetRaycastData(Ray ray, out DeepCore.Geometry.Vector3? hitTerrain, out UnityLayerObject hitObject)
+        public virtual Raycast GetRaycastData(Ray ray, out DeepCore.Geometry.Vector3? hitTerrain, out UnityZoneUnit hitUnit, out UnityZoneFlag hitFlag)
         {
             var ret = objectPool.Alloc<Raycast>();
             ret.screen = Input.mousePosition.ToGeometry();
@@ -219,17 +220,21 @@ namespace DeepGame3D.Unity.BattleView
                 ret.HitTerrainPosition = hitTerrain.Value;
                 // CameraEffect.transform.position = BattleToUnityPosition(hitTerrain.Value);
             }
-            if (this.RayCastObject<UnityLayerObject>(out var _hit, out var _target, out hitObject))
+            if (this.RayCastObject<UnityZoneUnit>(out var _hit, out var _target, out hitUnit))
             {
-//                 ret.HitObjectPlanePosition = DeepCore.Geometry.RayCast.RayPlaneIntersection(
-//                     ret.origin,
-//                     ret.normal,
-//                     hitObject.layerObject.Position,
-//                     DeepCore.Geometry.Vector3.UnitZ);
-
+                //                 ret.HitObjectPlanePosition = DeepCore.Geometry.RayCast.RayPlaneIntersection(
+                //                     ret.origin,
+                //                     ret.normal,
+                //                     hitObject.layerObject.Position,
+                //                     DeepCore.Geometry.Vector3.UnitZ);
                 ret.HitObjectPosition = _target.Value;
-                ret.HitObjectID = (hitObject is UnityZoneUnit unit) ? unit.layerUnit.ObjectID : 0;
-                ret.HitFlagName = (hitObject is UnityZoneFlag flag) ? flag.layerFlag.Name : null;
+                ret.HitObjectID = hitUnit.layerUnit.ObjectID;
+                //ret.HitFlagName = (hitObject is UnityZoneFlag flag) ? flag.layerFlag.Name : null;
+                //   CameraEffect.transform.position = BattleToUnityPosition(_target.Value);
+            }
+            if (this.RayCastObject<UnityZoneFlag>(out _hit, out _target, out hitFlag))
+            {
+                ret.HitFlagName = hitFlag.layerFlag.Name;
                 //   CameraEffect.transform.position = BattleToUnityPosition(_target.Value);
             }
             return ret;

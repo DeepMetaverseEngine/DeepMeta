@@ -97,8 +97,9 @@ namespace DeepMetaGame.Data.Message.UI
         public bool IsHitTerrain;
         public Vector3 HitTerrainPosition;
         public uint HitObjectID;
-        public string HitFlagName;
         public Vector3 HitObjectPosition;
+
+        public string HitFlagName;
         /// <summary>
         /// 单位和地面射线交点的平面坐标
         /// </summary>
@@ -115,7 +116,8 @@ namespace DeepMetaGame.Data.Message.UI
             HitObjectPosition = default;
             //HitObjectPlanePosition = default;
         }
-        public bool IsHitObject => (HitObjectID != 0 || !string.IsNullOrEmpty(HitFlagName));
+        public bool IsHitObject => (HitObjectID != 0 );
+        public bool IsHitFlag => ( !string.IsNullOrEmpty(HitFlagName));
 
         public void WriteExternal(IOutputStream output)
         {
@@ -125,11 +127,11 @@ namespace DeepMetaGame.Data.Message.UI
                 output.PutStruct(HitTerrainPosition);
             }
             output.PutU32(HitObjectID);
-            output.PutUTF(HitFlagName);
             if (IsHitObject)
             {
                 output.PutStruct(HitObjectPosition);
             }
+            output.PutUTF(HitFlagName);
         }
         public void ReadExternal(IInputStream input)
         {
@@ -139,11 +141,11 @@ namespace DeepMetaGame.Data.Message.UI
                 this.HitTerrainPosition = input.GetStruct<Vector3>();
             }
             this.HitObjectID = input.GetU32();
-            this.HitFlagName = input.GetUTF();
             if (IsHitObject)
             {
                 this.HitObjectPosition = input.GetStruct<Vector3>();
             }
+            this.HitFlagName = input.GetUTF();
         }
     }
     //-----------------------------------------------------------------------------------------
