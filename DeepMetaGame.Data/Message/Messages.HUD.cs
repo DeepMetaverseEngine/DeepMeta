@@ -34,6 +34,7 @@ namespace DeepMetaGame.Data.Message.UI
             this.ScreenPoint = default;
             this.Clicks = default;
             this.Delta = default;
+            this.raycast?.Dispose();
             this.raycast = default;
         }
         protected abstract void OnDisposing(MouseButton btn);
@@ -88,18 +89,31 @@ namespace DeepMetaGame.Data.Message.UI
     [MessageType(BattleConstants.Raycast)]
     public class Raycast : Recyclable, IExternalizable
     {
+        public Vector2? screen;
+        public Vector3 origin;
+        public Vector3 normal;
+
+
         public bool IsHitTerrain;
         public Vector3 HitTerrainPosition;
         public uint HitObjectID;
         public string HitFlagName;
         public Vector3 HitObjectPosition;
+        /// <summary>
+        /// 单位和地面射线交点的平面坐标
+        /// </summary>
+        //public Vector3 HitObjectPlanePosition;
         protected override void Disposing()
         {
+            screen = default;
+            origin = default;
+            normal = default;
             IsHitTerrain = false;
             HitTerrainPosition = default;
             HitObjectID = default;
             HitFlagName = default;
             HitObjectPosition = default;
+            //HitObjectPlanePosition = default;
         }
         public bool IsHitObject => (HitObjectID != 0 || !string.IsNullOrEmpty(HitFlagName));
 

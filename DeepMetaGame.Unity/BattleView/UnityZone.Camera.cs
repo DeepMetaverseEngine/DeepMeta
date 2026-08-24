@@ -109,63 +109,63 @@ namespace DeepGame3D.Unity.BattleView
                             if (_obj is UnityZoneObject obj)
                             {
                                 this.SelectedObject = obj;
-                                layer.SendAction(layer.ObjectPool.AllocInit<MouseSelectObjectAction>((t) =>
+                                layer.SendAction(layer.ObjectPool.AllocInit(obj, static (obj, t) =>
                                 {
                                     t.HitObjectID = obj.objectID;
-                                }));
+                                }, default(MouseSelectObjectAction)));
                             }
                             else
                             {
                                 this.SelectedObject = null;
                             }
                         }
-                        this.layer.SendAction(layer.ObjectPool.AllocInit<MouseDownAction>((t) =>
+                        this.layer.SendAction(layer.ObjectPool.AllocInit((layer, mouse, rdata), static (st, t) =>
                         {
-                            t.SenderObjectID = layer.Actor != null ? layer.Actor.ObjectID : 0;
-                            t.Button = mouse;
-                            t.raycast = rdata;
-                        }));
+                            t.SenderObjectID = st.layer.Actor != null ? st.layer.Actor.ObjectID : 0;
+                            t.Button = st.mouse;
+                            t.raycast = st.rdata;
+                        }, default(MouseDownAction)));
                     }
                     if (InputHelper.IsMouseUp(out mouse))
                     {
-                        this.layer.SendAction(layer.ObjectPool.AllocInit<MouseUpAction>((t) =>
+                        this.layer.SendAction(layer.ObjectPool.AllocInit((layer, mouse, rdata), static (st, t) =>
                         {
-                            t.SenderObjectID = layer.Actor != null ? layer.Actor.ObjectID : 0;
-                            t.Button = mouse;
-                            t.raycast = rdata;
-                        }));
+                            t.SenderObjectID = st.layer.Actor != null ? st.layer.Actor.ObjectID : 0;
+                            t.Button = st.mouse;
+                            t.raycast = st.rdata;
+                        }, default(MouseUpAction)));
                         if (last_mouse_down.HasValue)
                         {
                             var dis = Vector3.Distance(last_mouse_down.Value, InputHelper.MousePosition);
                             if (dis <= config.MouseClickDistance)
                             {
-                                this.layer.SendAction(layer.ObjectPool.AllocInit<MouseClickAction>((t) =>
+                                this.layer.SendAction(layer.ObjectPool.AllocInit((layer, mouse, rdata), static (st, t) =>
                                 {
-                                    t.SenderObjectID = layer.Actor != null ? layer.Actor.ObjectID : 0;
-                                    t.Button = mouse;
-                                    t.raycast = rdata;
-                                }));
+                                    t.SenderObjectID = st.layer.Actor != null ? st.layer.Actor.ObjectID : 0;
+                                    t.Button = st.mouse;
+                                    t.raycast = st.rdata;
+                                }, default(MouseClickAction)));
                             }
                         }
                         last_mouse_down = null;
                     }
                     if (InputHelper.IsMouseHold(out mouse))
                     {
-                        this.layer?.SendAction(layer.ObjectPool.AllocInit<MouseMoveAction>((t) =>
+                        this.layer?.SendAction(layer.ObjectPool.AllocInit((layer, mouse, rdata), static (st, t) =>
                         {
-                            t.SenderObjectID = layer.Actor != null ? layer.Actor.ObjectID : 0;
-                            t.Button = mouse;
-                            t.raycast = rdata;
-                        }));
+                            t.SenderObjectID = st.layer.Actor != null ? st.layer.Actor.ObjectID : 0;
+                            t.Button = st.mouse;
+                            t.raycast = st.rdata;
+                        }, default(MouseMoveAction)));
                     }
                     else if (InputHelper.IsMouseMove())
                     {
-                        this.layer?.SendAction(layer.ObjectPool.AllocInit<MouseMoveAction>((t) =>
+                        this.layer?.SendAction(layer.ObjectPool.AllocInit((layer, mouse, rdata), static (st, t) =>
                         {
-                            t.SenderObjectID = layer.Actor != null ? layer.Actor.ObjectID : 0;
-                            t.Button = MouseButton.None;
-                            t.raycast = rdata;
-                        }));
+                            t.SenderObjectID = st.layer.Actor != null ? st.layer.Actor.ObjectID : 0;
+                            t.Button = st.mouse;
+                            t.raycast = st.rdata;
+                        }, default(MouseMoveAction)));
                     }
                     if (CameraEffect != null)
                     {
@@ -188,27 +188,30 @@ namespace DeepGame3D.Unity.BattleView
             {
                 if (InputHelper.IsKeyDown(out var key))
                 {
-                    layer.SendAction(layer.ObjectPool.AllocInit<KeyDownAction>((t) =>
+                    layer.SendAction(layer.ObjectPool.AllocInit((layer, key), static (st, t) =>
                     {
-                        t.SenderObjectID = layer.Actor != null ? layer.Actor.ObjectID : 0;
-                        t.Key = key;
-                        t.Modifiers = key;
-                    }));
+                        t.SenderObjectID = st.layer.Actor != null ? st.layer.Actor.ObjectID : 0;
+                        t.Key = st.key;
+                        t.Modifiers = st.key;
+                    }, default(KeyDownAction)));
                 }
                 else if (InputHelper.IsKeyUp(out key))
                 {
-                    layer.SendAction(layer.ObjectPool.AllocInit<KeyUpAction>((t) =>
+                    layer.SendAction(layer.ObjectPool.AllocInit((layer, key), static (st, t) =>
                     {
-                        t.SenderObjectID = layer.Actor != null ? layer.Actor.ObjectID : 0;
-                        t.Key = key;
-                        t.Modifiers = key;
-                    }));
+                        t.SenderObjectID = st.layer.Actor != null ? st.layer.Actor.ObjectID : 0;
+                        t.Key = st.key;
+                        t.Modifiers = st.key;
+                    }, default(KeyUpAction)));
                 }
             }
         }
         public virtual Raycast GetRaycastData(Ray ray, out DeepCore.Geometry.Vector3? hitTerrain, out UnityLayerObject hitObject)
         {
-            var ret = new Raycast();
+            var ret = objectPool.Alloc<Raycast>();
+            ret.screen = Input.mousePosition.ToGeometry();
+            ret.origin = ray.direction.UnityToVoxel().ToGeometry();
+            ret.normal = ray.origin.UnityToVoxel().ToGeometry();
             //射到地图
             if (this.RayCastTerrainFromCamera(ray, out hitTerrain))
             {
@@ -218,6 +221,12 @@ namespace DeepGame3D.Unity.BattleView
             }
             if (this.RayCastObject<UnityLayerObject>(out var _hit, out var _target, out hitObject))
             {
+//                 ret.HitObjectPlanePosition = DeepCore.Geometry.RayCast.RayPlaneIntersection(
+//                     ret.origin,
+//                     ret.normal,
+//                     hitObject.layerObject.Position,
+//                     DeepCore.Geometry.Vector3.UnitZ);
+
                 ret.HitObjectPosition = _target.Value;
                 ret.HitObjectID = (hitObject is UnityZoneUnit unit) ? unit.layerUnit.ObjectID : 0;
                 ret.HitFlagName = (hitObject is UnityZoneFlag flag) ? flag.layerFlag.Name : null;

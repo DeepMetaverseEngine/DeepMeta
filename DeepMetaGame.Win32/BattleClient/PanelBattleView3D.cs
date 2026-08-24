@@ -1,42 +1,43 @@
 ﻿using DeepCore;
+using DeepCore.Concurrent;
+using DeepCore.Event.Debug;
+using DeepCore.Game3D.Host;
+using DeepCore.Game3D.Host.Instance;
 using DeepCore.Game3D.Host.ZoneRuntime;
+using DeepCore.Game3D.Slave;
 using DeepCore.Game3D.Slave.Agent;
 using DeepCore.Game3D.Slave.Layer;
 using DeepCore.Game3D.Slave.Runtime;
 using DeepCore.GameData.Zone;
 using DeepCore.GameData.Zone.ZoneEditor;
 using DeepCore.GUI;
+using DeepCore.GUI.Cell;
+using DeepCore.GUI.Input;
+using DeepCore.IO;
+using DeepCore.Net;
+using DeepCrystal;
 using DeepEditor.Common.Controls;
+using DeepEditor.Common.EventDebug;
 using DeepEditor.Common.G2D;
 using DeepEditor.Common.G3D;
 using DeepEditor.Common.Voxel;
 using DeepEditor.Plugin3D.Display3D;
 using DeepGameEditor3D.Common;
+using DeepMetaGame.Data;
 using DeepMetaGame.Data.Message;
 using DeepMetaGame.Data.Message.UI;
 using DeepMetaGame.Data.Misc;
 using DeepMetaGame.Data.Template;
 using DeepMetaGame.Data.ZoneEditor;
-using G3D.ObjRenderer;
-using System;
-using System.IO;
-using System.Windows.Forms;
-using DeepCore.GUI.Input;
-using System.Runtime.Intrinsics.X86;
-using DeepEditor.Common.EventDebug;
-using DeepCore.Event.Debug;
-using DeepCore.Game3D.Host.Instance;
-using DeepCore.Net;
-using DeepCrystal;
-using DeepCore.Game3D.Host;
-using static DeepEditor.Common.Voxel.Display3D.FormVoxelCrossEditor;
-using PomeloServer.NetUV;
-using DeepMetaGame.Data;
-using DeepCore.Concurrent;
-using DeepCore.Game3D.Slave;
 using DeepMetaGame.Win32;
-using DeepCore.IO;
+using G3D.ObjRenderer;
+using PomeloServer.NetUV;
+using System;
 using System.ComponentModel;
+using System.IO;
+using System.Runtime.Intrinsics.X86;
+using System.Windows.Forms;
+using static DeepEditor.Common.Voxel.Display3D.FormVoxelCrossEditor;
 
 namespace DeepEditor.Plugin3D.BattleClient
 {
@@ -558,9 +559,14 @@ namespace DeepEditor.Plugin3D.BattleClient
 
         public Raycast GetRaycastAction(MouseEventArgs e)
         {
-            var ret = new Raycast();
+            //var ret = new Raycast();
+            var ret = this.BattleView.Layer.ObjectPool.Alloc<Raycast>();
             {
                 var ray = this.BattleView.Camera.ScreenToWorldRay(e.Location);
+                ret.screen = ray.screen.Value.ToGeometry();
+                ret.normal = ray.normal.GLToVoxel().ToGeometry();
+                ret.origin = ray.center.GLToVoxel().ToGeometry();
+
                 //射到地图
                 var raycastLayer = this.BattleView.RayCastVoxel(ray, out var raycastLayerTouch);
                 if (raycastLayer != null)
@@ -572,6 +578,12 @@ namespace DeepEditor.Plugin3D.BattleClient
                 var raycastObject = this.BattleView.RayCastObject<LayerObject3D>(ray, out var pos);
                 if (raycastObject != null)
                 {
+//                     ret.HitObjectPlanePosition = DeepCore.Geometry.RayCast.RayPlaneIntersection(
+//                         ret.origin,
+//                         ret.normal,
+//                         raycastObject.LayerObject.Position,
+//                         DeepCore.Geometry.Vector3.UnitZ);
+
                     ret.HitObjectID = (raycastObject is LayerZoneUnit3D unit) ? unit.ZUnit.ObjectID : 0;
                     ret.HitFlagName = (raycastObject is LayerZoneFlag3D flag) ? flag.ZFlag.Name : null;
                     ret.HitObjectPosition = pos.GLToVoxel().ToGeometry();
@@ -625,14 +637,13 @@ namespace DeepEditor.Plugin3D.BattleClient
 
             }
         }
-        private void GlControl1_MouseUp(object sender, MouseEventArgs e)
+        private void GlControl1_MouseMove(object sender, MouseEventArgs e)
         {
             if (worldView != null && worldView.Layer != null)
             {
-                if (worldView.HUDRootNode.RayCastWithMouse() == null)
+                if (begin_mouse_down != null || worldView.HUDRootNode.RayCastWithMouse() == null)
                 {
-
-                    this.worldView.Layer.SendAction(worldView.Layer.ObjectPool.AllocInit<MouseUpAction>((t) =>
+                    this.worldView.Layer.SendAction(worldView.Layer.ObjectPool.AllocInit<MouseMoveAction>((t) =>
                     {
                         t.SenderObjectID = this.worldView.Layer.Actor != null ? this.worldView.Layer.Actor.ObjectID : 0;
                         t.Button = (MouseButton)e.Button;
@@ -643,13 +654,38 @@ namespace DeepEditor.Plugin3D.BattleClient
                 }
             }
         }
-        private void GlControl1_MouseClick(object sender, MouseEventArgs e)
+        private void GlControl1_MouseUp(object sender, MouseEventArgs e)
         {
-            if (begin_mouse_down != null && CMath.GetDistance(begin_mouse_down.Location.X, begin_mouse_down.Location.Y, e.Location.X, e.Location.Y) <= MOUSE_CLICK_DISTANCE)
+            try
             {
                 if (worldView != null && worldView.Layer != null)
                 {
-                    if (worldView.HUDRootNode.RayCastWithMouse() == null)
+                    if (begin_mouse_down != null || worldView.HUDRootNode.RayCastWithMouse() == null)
+                    {
+
+                        this.worldView.Layer.SendAction(worldView.Layer.ObjectPool.AllocInit<MouseUpAction>((t) =>
+                        {
+                            t.SenderObjectID = this.worldView.Layer.Actor != null ? this.worldView.Layer.Actor.ObjectID : 0;
+                            t.Button = (MouseButton)e.Button;
+                            t.Clicks = e.Clicks;
+                            t.Delta = e.Delta;
+                            t.raycast = GetRaycastAction(e);
+                        }));
+                    }
+                }
+            }
+            finally
+            {
+                begin_mouse_down = null;
+            }
+        }
+        private void GlControl1_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (worldView != null && worldView.Layer != null)
+            {
+                if (begin_mouse_down != null && CMath.GetDistance(begin_mouse_down.Location.X, begin_mouse_down.Location.Y, e.Location.X, e.Location.Y) <= MOUSE_CLICK_DISTANCE)
+                {
+                    //if (worldView.HUDRootNode.RayCastWithMouse() == null)
                     {
                         this.worldView.Layer.SendAction(worldView.Layer.ObjectPool.AllocInit<MouseClickAction>((t) =>
                         {
@@ -664,24 +700,6 @@ namespace DeepEditor.Plugin3D.BattleClient
             }
         }
 
-
-        private void GlControl1_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (worldView != null && worldView.Layer != null)
-            {
-                if (worldView.HUDRootNode.RayCastWithMouse() == null)
-                {
-                    this.worldView.Layer.SendAction(worldView.Layer.ObjectPool.AllocInit<MouseMoveAction>((t) =>
-                    {
-                        t.SenderObjectID = this.worldView.Layer.Actor != null ? this.worldView.Layer.Actor.ObjectID : 0;
-                        t.Button = (MouseButton)e.Button;
-                        t.Clicks = e.Clicks;
-                        t.Delta = e.Delta;
-                        t.raycast = GetRaycastAction(e);
-                    }));
-                }
-            }
-        }
         private void GlControl1_KeyUp(object sender, KeyEventArgs e)
         {
             if (worldView != null && worldView.Layer != null)

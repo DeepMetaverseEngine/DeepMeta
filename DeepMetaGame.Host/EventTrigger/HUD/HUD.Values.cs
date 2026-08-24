@@ -152,6 +152,15 @@ namespace DeepMetaGame.Host.EventTrigger.UI
         }
     }
 
+    [Desc("拖拽中的单位", "[游戏]/HUD")]
+    public class DraggingUnit : UnitValue
+    {
+        protected override InstanceUnit GetValue(IEventTriggerAdapter api, EventArguments args)
+        {
+            return api.ZoneAPI.DraggingUnit;
+        }
+    }
+
     //---------------------------------------------------------------------------
     [Desc("键盘按键", "[游戏]/HUD")]
     public class KeyCodeValue : ZoneIntegerValue

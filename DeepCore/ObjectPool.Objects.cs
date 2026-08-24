@@ -621,17 +621,17 @@ namespace DeepCore
         }
         public AutoRelease AllocAutoRelease(byte[] buffer)
         {
-            AutoRelease ret = s_Pool.Get(this, static (t, p) => new AutoRelease(t)) as AutoRelease;        
+            AutoRelease ret = s_Pool.Get(this, static (t, p) => new AutoRelease(t)) as AutoRelease;
             return ret.Init(buffer);
         }
         public AutoRelease AllocAutoRelease(byte[] buffer, int offset, int length)
         {
-            AutoRelease ret = s_Pool.Get(this, static (t, p) => new AutoRelease(t)) as AutoRelease;          
-            return ret.Init(buffer,offset,length);
+            AutoRelease ret = s_Pool.Get(this, static (t, p) => new AutoRelease(t)) as AutoRelease;
+            return ret.Init(buffer, offset, length);
         }
         public AutoRelease AllocAutoRelease(ArraySegment<byte> buffer)
         {
-            AutoRelease ret = s_Pool.Get(this, static (t, p) => new AutoRelease(t)) as AutoRelease;     
+            AutoRelease ret = s_Pool.Get(this, static (t, p) => new AutoRelease(t)) as AutoRelease;
             return ret.Init(buffer);
         }
         private void Release(AutoRelease toRelease)

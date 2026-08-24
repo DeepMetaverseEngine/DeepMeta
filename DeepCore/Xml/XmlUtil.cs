@@ -9,7 +9,6 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
-using System.Xml.Linq;
 
 namespace DeepCore.Xml
 {
@@ -39,6 +38,7 @@ namespace DeepCore.Xml
 
     public class XmlSerializer
     {
+        public static string COMMENT_KEY = "Comment";
         public delegate bool TrySetField(XmlSerializer ser, object data, XmlElement e);
         public delegate void ErrorHandler(Exception e);
         private readonly bool cloning = false;
@@ -103,8 +103,8 @@ namespace DeepCore.Xml
             }
             XmlDocument doc = new XmlDocument();
             XmlElement e = doc.CreateElement(root_name);
-            this.EncodeToXML(e, data, null);
             doc.AppendChild(e);
+            this.EncodeToXML(e, data, null);
             return doc;
         }
 
@@ -239,20 +239,21 @@ namespace DeepCore.Xml
                             field.SetValue(data, fd);
                         }
                         XmlElement fe = doc.CreateElement(field.Name);
+                        data_element.AppendChild(fe);
                         if (fd != null)
                         {
+                            EncodeToXML(fe, fd, field.FieldType);
                             if (field.TryGetAttribute<DescAttribute>(out var desc))
                             {
-                                var comment = doc.CreateComment(desc.Desc);
-                                data_element.AppendChild(comment);
+                                //                                 var comment = doc.CreateComment(desc.Desc);
+                                //                                 data_element.AppendChild(comment);
+                                fe.SetAttribute(COMMENT_KEY, desc.Desc);
                             }
-                            EncodeToXML(fe, fd, field.FieldType);
                         }
                         else
                         {
                             fe.SetAttribute("IsNull", "true");
                         }
-                        data_element.AppendChild(fe);
                     }
                 }
             }
@@ -270,20 +271,21 @@ namespace DeepCore.Xml
                             property.SetValue(data, fd);
                         }
                         XmlElement fe = doc.CreateElement("property." + property.Name);
+                        data_element.AppendChild(fe);
                         if (fd != null)
-                        {
+                        {                           
+                            EncodeToXML(fe, fd, property.PropertyType); 
                             if (property.TryGetAttribute<DescAttribute>(out var desc))
                             {
-                                var comment = doc.CreateComment(desc.Desc);
-                                data_element.AppendChild(comment);
+                                //                                 var comment = doc.CreateComment(desc.Desc);
+                                //                                 data_element.AppendChild(comment);
+                                fe.SetAttribute(COMMENT_KEY, desc.Desc);
                             }
-                            EncodeToXML(fe, fd, property.PropertyType);
                         }
                         else
                         {
                             fe.SetAttribute("IsNull", "true");
                         }
-                        data_element.AppendChild(fe);
                     }
                 }
             }
@@ -316,8 +318,8 @@ namespace DeepCore.Xml
             foreach (object k in array)
             {
                 XmlElement ei = doc.CreateElement("element");
-                EncodeToXML(ei, k, e_type);
                 data_element.AppendChild(ei);
+                EncodeToXML(ei, k, e_type);
             }
         }
         protected virtual void EncodeToXMLElementMap(XmlElement data_element, IDictionary map)
@@ -340,13 +342,13 @@ namespace DeepCore.Xml
                 {
                     object v = map[k];
                     XmlElement epair = doc.CreateElement("element");
+                    data_element.AppendChild(epair);
                     XmlElement ek = doc.CreateElement("key");
                     XmlElement ev = doc.CreateElement("value");
-                    EncodeToXML(ek, k, ktype);
-                    EncodeToXML(ev, v, vtype);
                     epair.AppendChild(ek);
                     epair.AppendChild(ev);
-                    data_element.AppendChild(epair);
+                    EncodeToXML(ek, k, ktype);
+                    EncodeToXML(ev, v, vtype);
                 }
             }
         }
@@ -363,8 +365,8 @@ namespace DeepCore.Xml
             foreach (object k in list)
             {
                 XmlElement ei = doc.CreateElement("element");
-                EncodeToXML(ei, k, etype);
                 data_element.AppendChild(ei);
+                EncodeToXML(ei, k, etype);
             }
         }
         protected virtual void EncodeToXMLElementEnumerable(XmlElement data_element, IEnumerable list)
@@ -380,8 +382,8 @@ namespace DeepCore.Xml
             foreach (object k in list)
             {
                 XmlElement ei = doc.CreateElement("element");
-                EncodeToXML(ei, k, etype);
                 data_element.AppendChild(ei);
+                EncodeToXML(ei, k, etype);
             }
         }
         //-----------------------------------------------------------------------------------------------------------
@@ -491,90 +493,92 @@ namespace DeepCore.Xml
                 {
                     try
                     {
-                        XmlElement fee = fe as XmlElement;
-                        if (event_field_mapping != null && event_field_mapping.Invoke(this, data, fee))
+                        if (fe is XmlElement fee)
                         {
+                            if (event_field_mapping != null && event_field_mapping.Invoke(this, data, fee))
+                            {
 
-                        }
-                        else if (fe.Name.StartsWith("property."))
-                        {
-                            var property = PropertyUtil.GetProperty(type, fe.Name.Substring("property.".Length), bindingFlags);
-                            if (property != null && AcceptProperty(type, property, true))
-                            {
-                                if (fe.TryGetAttributeAs<bool>("IsNull", out var isnull))
-                                {
-                                    property.SetValue(data, null, null);
-                                }
-                                else if (TryConvertField(fee, data, property, out var fd, root))
-                                {
-                                    property.SetValue(data, fd, null);
-                                }
-                                else if (property.PropertyType.IsPrimitiveData())
-                                {
-                                    fd = DecodeFromXml(fee, property.PropertyType, root);
-                                    property.SetValue(data, fd, null);
-                                }
-                                else
-                                {
-                                    put_fields.Add((fee, property));
-                                }
                             }
-                            continue;
-                        }
-                        else
-                        {
+                            else if (fe.Name.StartsWith("property."))
                             {
-                                var fii = PropertyUtil.GetField(type, fe.Name, bindingFlags);
-                                if (fii != null)
+                                var property = PropertyUtil.GetProperty(type, fe.Name.Substring("property.".Length), bindingFlags);
+                                if (property != null && AcceptProperty(type, property, true))
                                 {
-                                    if (AcceptField(type, fii))
+                                    if (fe.TryGetAttributeAs<bool>("IsNull", out var isnull))
                                     {
-                                        if (fe.TryGetAttributeAs<bool>("IsNull", out var isnull))
-                                        {
-                                            fii.SetValue(data, null);
-                                        }
-                                        else if (TryConvertField(fee, data, fii, out var fd, root))
-                                        {
-                                            fii.SetValue(data, fd);
-                                        }
-                                        else if (fii.FieldType.IsPrimitiveData())
-                                        {
-                                            fd = DecodeFromXml(fee, fii.FieldType, root);
-                                            fii.SetValue(data, fd);
-                                        }
-                                        else
-                                        {
-                                            put_fields.Add((fee, fii));
-                                        }
+                                        property.SetValue(data, null, null);
                                     }
-                                    continue;
+                                    else if (TryConvertField(fee, data, property, out var fd, root))
+                                    {
+                                        property.SetValue(data, fd, null);
+                                    }
+                                    else if (property.PropertyType.IsPrimitiveData())
+                                    {
+                                        fd = DecodeFromXml(fee, property.PropertyType, root);
+                                        property.SetValue(data, fd, null);
+                                    }
+                                    else
+                                    {
+                                        put_fields.Add((fee, property));
+                                    }
                                 }
+                                continue;
                             }
+                            else
                             {
-                                var pri = PropertyUtil.GetProperty(type, fe.Name, bindingFlags);
-                                if (pri != null)
                                 {
-                                    if (AcceptProperty(type, pri, true))
+                                    var fii = PropertyUtil.GetField(type, fe.Name, bindingFlags);
+                                    if (fii != null)
                                     {
-                                        if (fe.TryGetAttributeAs<bool>("IsNull", out var isnull))
+                                        if (AcceptField(type, fii))
                                         {
-                                            pri.SetValue(data, null);
+                                            if (fe.TryGetAttributeAs<bool>("IsNull", out var isnull))
+                                            {
+                                                fii.SetValue(data, null);
+                                            }
+                                            else if (TryConvertField(fee, data, fii, out var fd, root))
+                                            {
+                                                fii.SetValue(data, fd);
+                                            }
+                                            else if (fii.FieldType.IsPrimitiveData())
+                                            {
+                                                fd = DecodeFromXml(fee, fii.FieldType, root);
+                                                fii.SetValue(data, fd);
+                                            }
+                                            else
+                                            {
+                                                put_fields.Add((fee, fii));
+                                            }
                                         }
-                                        else if (TryConvertField(fee, data, pri, out var fd, root))
-                                        {
-                                            pri.SetValue(data, fd);
-                                        }
-                                        else if (pri.PropertyType.IsPrimitiveData())
-                                        {
-                                            fd = DecodeFromXml(fee, pri.PropertyType, root);
-                                            pri.SetValue(data, fd);
-                                        }
-                                        else
-                                        {
-                                            put_fields.Add((fee, pri));
-                                        }
+                                        continue;
                                     }
-                                    continue;
+                                }
+                                {
+                                    var pri = PropertyUtil.GetProperty(type, fe.Name, bindingFlags);
+                                    if (pri != null)
+                                    {
+                                        if (AcceptProperty(type, pri, true))
+                                        {
+                                            if (fe.TryGetAttributeAs<bool>("IsNull", out var isnull))
+                                            {
+                                                pri.SetValue(data, null);
+                                            }
+                                            else if (TryConvertField(fee, data, pri, out var fd, root))
+                                            {
+                                                pri.SetValue(data, fd);
+                                            }
+                                            else if (pri.PropertyType.IsPrimitiveData())
+                                            {
+                                                fd = DecodeFromXml(fee, pri.PropertyType, root);
+                                                pri.SetValue(data, fd);
+                                            }
+                                            else
+                                            {
+                                                put_fields.Add((fee, pri));
+                                            }
+                                        }
+                                        continue;
+                                    }
                                 }
                             }
                         }
@@ -624,14 +628,16 @@ namespace DeepCore.Xml
                 var total_index = 0;
                 foreach (XmlNode fe in data_element.ChildNodes)
                 {
-                    XmlElement fee = fe as XmlElement;
-                    if (!TryConvertField(fee, array, total_index, out var fdd, root))
+                    if (fe is XmlElement fee)
                     {
-                        fdd = DecodeFromXml(fee, etype, root);
+                        if (!TryConvertField(fee, array, total_index, out var fdd, root))
+                        {
+                            fdd = DecodeFromXml(fee, etype, root);
+                        }
+                        int[] indices = CUtils.GetArrayRankIndex(ranges, total_index);
+                        array.SetValue(fdd, indices);
+                        total_index++;
                     }
-                    int[] indices = CUtils.GetArrayRankIndex(ranges, total_index);
-                    array.SetValue(fdd, indices);
-                    total_index++;
                 }
                 return array;
             }
@@ -642,13 +648,15 @@ namespace DeepCore.Xml
                 var index = 0;
                 foreach (XmlNode fe in data_element.ChildNodes)
                 {
-                    XmlElement fee = fe as XmlElement;
-                    if (!TryConvertField(fee, array, index, out var fdd, root))
+                    if (fe is XmlElement fee)
                     {
-                        fdd = DecodeFromXml(fee, etype, root);
+                        if (!TryConvertField(fee, array, index, out var fdd, root))
+                        {
+                            fdd = DecodeFromXml(fee, etype, root);
+                        }
+                        array.SetValue(fdd, index);
+                        index++;
                     }
-                    array.SetValue(fdd, index);
-                    index++;
                 }
                 return array;
             }
@@ -673,15 +681,17 @@ namespace DeepCore.Xml
             }
             foreach (XmlNode fe in data_element.ChildNodes)
             {
-                XmlElement epair = fe as XmlElement;
-                XmlElement ek = epair.ChildNodes[0] as XmlElement;
-                XmlElement ev = epair.ChildNodes[1] as XmlElement;
-                object k = DecodeFromXml(ek, k_type, root);
-                if (!TryConvertField(ev, map, k, out var v, root))
+                if (fe is XmlElement epair)
                 {
-                    v = DecodeFromXml(ev, v_type, root);
+                    XmlElement ek = epair.ChildNodes[0] as XmlElement;
+                    XmlElement ev = epair.ChildNodes[1] as XmlElement;
+                    object k = DecodeFromXml(ek, k_type, root);
+                    if (!TryConvertField(ev, map, k, out var v, root))
+                    {
+                        v = DecodeFromXml(ev, v_type, root);
+                    }
+                    map.Add(k, v);
                 }
-                map.Add(k, v);
             }
             return map;
         }
@@ -701,13 +711,15 @@ namespace DeepCore.Xml
             int index = 0;
             foreach (XmlNode fe in data_element.ChildNodes)
             {
-                XmlElement ei = fe as XmlElement;
-                if (!TryConvertField(ei, list, index, out var fd, root))
+                if (fe is XmlElement ei)
                 {
-                    fd = DecodeFromXml(ei, e_type, root);
+                    if (!TryConvertField(ei, list, index, out var fd, root))
+                    {
+                        fd = DecodeFromXml(ei, e_type, root);
+                    }
+                    list.Add(fd);
+                    index++;
                 }
-                list.Add(fd);
-                index++;
             }
             return list;
         }
@@ -719,13 +731,15 @@ namespace DeepCore.Xml
             int index = 0;
             foreach (XmlNode fe in data_element.ChildNodes)
             {
-                XmlElement ei = fe as XmlElement;
-                if (!TryConvertField(ei, list, index, out var fd, root))
+                if (fe is XmlElement ei)
                 {
-                    fd = DecodeFromXml(ei, e_type, root);
+                    if (!TryConvertField(ei, list, index, out var fd, root))
+                    {
+                        fd = DecodeFromXml(ei, e_type, root);
+                    }
+                    list.Add(fd);
+                    index++;
                 }
-                list.Add(fd);
-                index++;
             }
             return list;
         }
@@ -741,6 +755,10 @@ namespace DeepCore.Xml
                 }
             }
             e.SetAttribute(name, type.FullName);
+            if (type.TryGetAttribute<DescAttribute>(out var desc))
+            {
+                e.SetAttribute(COMMENT_KEY, desc.Desc);
+            }
         }
         public static bool TryGetTypeFromAttribute(XmlElement e, string name, Type defaultType, out Type outType, bool verbos, object root)
         {

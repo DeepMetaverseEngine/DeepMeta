@@ -28,6 +28,7 @@ namespace DeepEditor.Plugin3D.BattleClient
     public abstract class LayerObject3D : DisplayZoneObject
     {
         protected readonly LayerObject zoneObj;
+        public LayerObject LayerObject => zoneObj;
         new public BattleView3D Parent { get; private set; }
         public abstract bool IsDirectionality { get; }
         public abstract Color4 Color { get; }
@@ -270,7 +271,7 @@ namespace DeepEditor.Plugin3D.BattleClient
             DrawingVoxelObject.DrawDirectionRect(this.Color, pos2D, this.ZUnit.BodyDirection, bs);
 
             var shape = ZUnit.ZoneShape;
-            if (shape != null && Parent.VoxelTerrain!=null)
+            if (shape != null && Parent.VoxelTerrain != null)
             {
                 DrawingObjectZone.DrawZoneShape(Color, Position, shape);
                 var gridsize = Parent.VoxelTerrain.GridCellSize;
@@ -542,7 +543,7 @@ namespace DeepEditor.Plugin3D.BattleClient
                 var tpos = target?.WaistPosition.ToGL();
                 if (tpos == null && this.ZSpell.TargetPos.HasValue)
                 {
-                    tpos= this.ZSpell.TargetPos.Value.ToGL();
+                    tpos = this.ZSpell.TargetPos.Value.ToGL();
                 }
                 if (ZSpell.Info.BodyShape == SpellTemplate.Shape.LineToStart)
                 {
@@ -670,7 +671,7 @@ namespace DeepEditor.Plugin3D.BattleClient
         }
         protected override void ForEachNexts(Action<string> action)
         {
-            base.ForEachNexts(action); 
+            base.ForEachNexts(action);
             foreach (var ab in ZRegion.EditorData.GetAbilities())
             {
                 if (ab is SpawnUnitAbilityData spawn)
@@ -697,24 +698,24 @@ namespace DeepEditor.Plugin3D.BattleClient
                 DrawNexts();
             }
         }
-//         protected override void DrawBody(PaintEventArgs3D e)
-//         {
-//             if (ZRegion.Enable)
-//             {
-//                 var pos2D = this.Position + new Vector3(0, 0, this.Height / 2);
-//                 DrawingVoxelObject.DrawDirection(this.Color, pos2D, this.Direction, this.Size);
-//                 var Data = ZRegion.Data;
-//                 if (Data.RegionType == RegionData.Shape.RECTANGLE)
-//                 {
-//                     DrawingVoxelObject.DrawRect(Color, Position, Data.W, Data.H);
-//                 }
-//                 else if (Data.RegionType == RegionData.Shape.ROUND)
-//                 {
-//                     DrawingVoxelObject.DrawCycle(Color, Position, Data.R);
-//                 }
-//                 DrawNexts();
-//             }
-//         }
+        //         protected override void DrawBody(PaintEventArgs3D e)
+        //         {
+        //             if (ZRegion.Enable)
+        //             {
+        //                 var pos2D = this.Position + new Vector3(0, 0, this.Height / 2);
+        //                 DrawingVoxelObject.DrawDirection(this.Color, pos2D, this.Direction, this.Size);
+        //                 var Data = ZRegion.Data;
+        //                 if (Data.RegionType == RegionData.Shape.RECTANGLE)
+        //                 {
+        //                     DrawingVoxelObject.DrawRect(Color, Position, Data.W, Data.H);
+        //                 }
+        //                 else if (Data.RegionType == RegionData.Shape.ROUND)
+        //                 {
+        //                     DrawingVoxelObject.DrawCycle(Color, Position, Data.R);
+        //                 }
+        //                 DrawNexts();
+        //             }
+        //         }
     }
 
     public class LayerZoneDecoration3D : LayerZoneFlag3D<LayerEditorDecoration>

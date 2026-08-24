@@ -49,6 +49,10 @@ namespace DeepCore.Game3D.Host.Instance
                 {
                     ProcessGUIMessage(act);
                 }
+                if (act is UIInteractiveAction mouse)
+                {
+                    ProcessHUDMessage(mouse);
+                }
                 if (act is ObjectAction oa)
                 {
                     var unit = act.sender as InstanceUnit;
@@ -56,7 +60,6 @@ namespace DeepCore.Game3D.Host.Instance
                     {
                         unit = mObjects.GetObject<InstanceUnit>(oa.object_id);
                     }
-                    event_OnProcessObjectAction?.Invoke(unit, oa);
                     if (unit != null)
                     {
                         unit.doAction(oa);
@@ -65,6 +68,7 @@ namespace DeepCore.Game3D.Host.Instance
                     {
                         log.Warn($"Can Not Found Object : {oa.object_id} : Drop Action : " + oa);
                     }
+                    event_OnProcessObjectAction?.Invoke(unit, oa);
                 }
                 else
                 {
@@ -77,7 +81,7 @@ namespace DeepCore.Game3D.Host.Instance
             }
         }
 
-      
+
         #endregion
         //-----------------------------------------------------------------------------------------------------------------------------------
         #region SEND
