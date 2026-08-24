@@ -18,6 +18,9 @@
 	  <EmbeddedResource Remove="TempProject\**" />
 	  <None Remove="TempProject\**" />
 	</ItemGroup>
+	<ItemGroup>
+	  <None Include="..\..\..\..\Temp\init_project.bat" Link="init_project.bat" />
+	</ItemGroup>
 	
 	
 	<ItemGroup>
