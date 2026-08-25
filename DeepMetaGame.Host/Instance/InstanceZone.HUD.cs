@@ -10,9 +10,9 @@ namespace DeepCore.Game3D.Host.Instance
 {
     partial class InstanceZone
     {
-        public InstanceUnit DraggingUnit { get; private set; }
-        private Vector3 draggingUnitOffset;
-        private void ProcessHUDMessage(UIInteractiveAction act)
+        public InstanceUnit DraggingUnit { get; protected set; }
+        protected Vector3 draggingUnitOffset;
+        protected virtual void ProcessHUDMessage(UIInteractiveAction act)
         {
 
             if (act is MouseDownAction mouseDown)
