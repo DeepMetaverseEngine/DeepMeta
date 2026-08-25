@@ -10,9 +10,6 @@
 		<AssemblyName>gamecli</AssemblyName>
 		<StartupObject>Program</StartupObject>
 		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-		<OutputPath>..\.outputs\</OutputPath>
-		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-		<AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
 	</PropertyGroup>
 	<PropertyGroup>
 		<PackageId>DeepMeta.$(AssemblyName)</PackageId>
@@ -37,6 +34,9 @@
 	  <Content Include="_Temp_.slnx">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\DeepCore\DeepCore.csproj" />
 	</ItemGroup>
 
 

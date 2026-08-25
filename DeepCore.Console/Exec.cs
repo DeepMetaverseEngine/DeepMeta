@@ -35,7 +35,7 @@ namespace DeepEditorConsole
                 {
                     if (!string.IsNullOrEmpty(e.Data))
                     {
-                        Console.WriteLine("ERROR: " + e.Data);
+                        Console.WriteLine(e.Data);
                     }
                 };
                 process.Start();

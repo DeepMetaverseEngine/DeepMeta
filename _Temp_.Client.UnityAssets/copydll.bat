@@ -10,19 +10,19 @@ SET DST_RUNTIME=%~dp0..\..\..\GameEditor\UnityZuma\Zuma_Data\Managed
 
 rem echo ----------------------------------------------------------------------------------
 echo - AOT Assets TO: %DST_ASSETS%
-xcopy /Y/E    %SRC_ASSETS1%\Assets\*    %DST_ASSETS%\
-xcopy /Y/E    %SRC_ASSETS2%\Assets\*    %DST_ASSETS%\
+rem xcopy /Y/E    %SRC_ASSETS1%\Assets\*    %DST_ASSETS%\
+rem xcopy /Y/E    %SRC_ASSETS2%\Assets\*    %DST_ASSETS%\
 
 echo ----------------------------------------------------------------------------------
 echo - AOT DLL TO: %DST_ASSETS%\Plugins\Library\
-xcopy /Y/E /EXCLUDE:%~dp0copydll.exclude.unity.txt    %TargetDir%*.dll    %DST_ASSETS%\Plugins\Library\
-xcopy /Y/E /EXCLUDE:%~dp0copydll.exclude.unity.txt    %TargetDir%*.pdb    %DST_ASSETS%\Plugins\Library\
+rem xcopy /Y/E /EXCLUDE:%~dp0copydll.exclude.unity.txt    %TargetDir%*.dll    %DST_ASSETS%\Plugins\Library\
+rem xcopy /Y/E /EXCLUDE:%~dp0copydll.exclude.unity.txt    %TargetDir%*.pdb    %DST_ASSETS%\Plugins\Library\
 
 echo ----------------------------------------------------------------------------------
 if EXIST %DST_RUNTIME% (
 echo - RUNTIME £º¸´ÖÆDLLµ½Runtime
-xcopy /Y/E /EXCLUDE:%~dp0copydll.exclude.unity.txt    %TargetDir%*.dll    %DST_RUNTIME%
-del /F %DST_RUNTIME%\DeepCore.UnityEditor.dll
+rem xcopy /Y/E /EXCLUDE:%~dp0copydll.exclude.unity.txt    %TargetDir%*.dll    %DST_RUNTIME%
+rem del /F %DST_RUNTIME%\DeepCore.UnityEditor.dll
 )
 echo ----------------------------------------------------------------------------------
 rem xcopy /Y/E /EXCLUDE:%~dp0\copydll.exclude.txt   %TargetDir%\*.dll       %~dp0\..\..\..\UnityRogueRun\Assets\Plugins\Import\
