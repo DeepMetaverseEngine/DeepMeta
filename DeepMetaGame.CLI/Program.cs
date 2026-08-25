@@ -91,6 +91,13 @@ Options:
             Exec.Run("git", $"git pull \"origin\"  master:master", DeepMetaPath);
             Exec.Run("git", $"git lfs pull", DeepMetaPath);
         }
+        if (!File.Exists(Path.Combine(root.FullName, ".gitattributes")))
+        {
+            var gitattributes = Resource.LoadFromAssembly(typeof(Program), ".gitattributes");
+            CFiles.WriteAllBytes(Path.Combine(root.FullName, ".gitattributes"), gitattributes);
+            var git_ignore = Resource.LoadFromAssembly(typeof(Program), ".gitignore");
+            CFiles.WriteAllBytes(Path.Combine(root.FullName, ".gitignore"), git_ignore);
+        }
         var SrcPath = Path.Combine(SlnPath, $"{projName}Src");
         if (!Directory.Exists(SrcPath))
         {
@@ -133,6 +140,10 @@ Options:
 
                     }
                 }
+                {
+                    var git_ignore = Resource.LoadFromAssembly(typeof(Program), ".gitignore");
+                    CFiles.WriteAllBytes(Path.Combine(SrcPath, ".gitignore"), git_ignore);
+                }
             }
             catch (Exception err)
             {
@@ -144,10 +155,12 @@ Options:
         var SlnFilePath = Path.Combine(SlnPath, $"{projName}.slnx");
         if (!Directory.Exists(SlnFilePath))
         {
-            var srcSLNX = Resource.LoadFromAssembly(typeof(Program), "_Temp_.slnx");
-            var text = CUtils.DecodeUTF8(srcSLNX, out var encoding);
-            text = text.ReplaceAll("_Temp_", projName);
-            CFiles.WriteAllText(SlnFilePath, text, encoding);
+            {
+                var srcSLNX = Resource.LoadFromAssembly(typeof(Program), "_Temp_.slnx");
+                var text = CUtils.DecodeUTF8(srcSLNX, out var encoding);
+                text = text.ReplaceAll("_Temp_", projName);
+                CFiles.WriteAllText(SlnFilePath, text, encoding);
+            }
         }
         if (!Directory.Exists(UnityPath))
         {

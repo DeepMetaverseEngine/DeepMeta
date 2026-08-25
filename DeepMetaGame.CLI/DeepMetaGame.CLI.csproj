@@ -20,20 +20,25 @@
 		<None Remove="TempProject\**" />
 	</ItemGroup>
 	<ItemGroup>
+		<None Remove=".gitignore" />
 		<None Remove="init_project.bat" />
 	</ItemGroup>
 	<ItemGroup>
 		<Compile Include="..\DeepCore.Console\Exec.cs" Link="Exec.cs" />
 	</ItemGroup>
 	<ItemGroup>
-		<Content Include="init_project.bat">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</Content>
+		<EmbeddedResource Include="init_project.bat">
+			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</EmbeddedResource>
 	</ItemGroup>
 	<ItemGroup>
+	  <EmbeddedResource Include=".gitignore" />
 	  <EmbeddedResource Include="_Temp_.slnx">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 	  </EmbeddedResource>
+	</ItemGroup>
+	<ItemGroup>
+	  <EmbeddedResource Include="..\..\..\.gitattributes" Link=".gitattributes" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\DeepCore\DeepCore.csproj" />
