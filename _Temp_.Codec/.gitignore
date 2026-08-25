@@ -1,0 +1,4 @@
+/generated_msg/*.cs
+/generated_msg/*/*.cs
+/generated_ref/*.cs
+/generated_ref/*/*.cs

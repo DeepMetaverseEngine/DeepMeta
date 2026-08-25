@@ -1,5 +1,0 @@
-+.(png|jpg)$;
--_cbb.png$;
--ui_edit\\res\\static\\item/;
--ui_edit\\res\\static\\white.png$;
--ui_edit\\res\\big_picture\\white.png$;

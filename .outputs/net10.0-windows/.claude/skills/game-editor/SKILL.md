@@ -1,1 +1,0 @@
-# Game Editor Development Guide 

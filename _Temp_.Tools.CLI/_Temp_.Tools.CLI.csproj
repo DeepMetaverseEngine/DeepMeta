@@ -1,0 +1,50 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFrameworks>net9.0</TargetFrameworks>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+		<Version>1.0.1</Version>
+		<AssemblyName>scope_cli</AssemblyName>
+		<Deterministic>true</Deterministic>
+		<Configurations>Debug;Release;Source</Configurations>
+	</PropertyGroup>
+	<ItemGroup>
+	  <Compile Remove="PXLangMap.cs" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Remove="copyres.bat" />
+	</ItemGroup>
+	<ItemGroup>
+	  <EmbeddedResource Include="copyres.bat" />
+	</ItemGroup>
+	<ItemGroup>
+	  <PackageReference Include="CsvHelper" Version="33.1.0" />
+	  <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\DeepMeta\DeepCore.Event.Debug\DeepCore.Event.Debug.csproj" />
+		<ProjectReference Include="..\..\DeepMeta\DeepCore.Event.Lua\DeepCore.Event.Lua.csproj" />
+		<ProjectReference Include="..\..\DeepMeta\DeepCore.Event\DeepCore.Event.csproj" />
+		<ProjectReference Include="..\..\DeepMeta\DeepCore.Geometry\DeepCore.Geometry.csproj" />
+		<ProjectReference Include="..\..\DeepMeta\DeepCore.GUI.Display\DeepCore.GUI.Display.csproj" />
+		<ProjectReference Include="..\..\DeepMeta\DeepCore.GUI.FairyGUI\DeepCore.GUI.FairyGUI.csproj" />
+		<ProjectReference Include="..\..\DeepMeta\DeepCore.GUI\DeepCore.GUI.csproj" />
+		<ProjectReference Include="..\..\DeepMeta\DeepCore.SharpZipLib\DeepCore.SharpZipLib.csproj" />
+		<ProjectReference Include="..\..\DeepMeta\DeepCore.Template.MoonSharp\DeepCore.Template.MoonSharp.csproj" />
+		<ProjectReference Include="..\..\DeepMeta\DeepCore.Template.NewtonJson\DeepCore.Template.NewtonJson.csproj" />
+		<ProjectReference Include="..\..\DeepMeta\DeepCore.Voxel\DeepCore.Voxel.csproj" />
+		<ProjectReference Include="..\..\DeepMeta\DeepCore\DeepCore.csproj" />
+		<ProjectReference Include="..\..\DeepMeta\DeepCrystal\DeepCrystal.csproj" />
+		<ProjectReference Include="..\..\DeepMeta\DeepTools.CodeGen\DeepTools.CodeGen.csproj" />
+		<ProjectReference Include="..\..\DeepMeta\DeepTools.XLS2Lang\DeepTools.XLS2Lang.csproj" />
+		<ProjectReference Include="..\..\DeepMeta\DeepMetaGame.Data\DeepMetaGame.Data.csproj" />
+		<ProjectReference Include="..\..\DeepMeta\DeepMetaGame.Display\DeepMetaGame.Display.csproj" />
+		<ProjectReference Include="..\..\DeepMeta\DeepMetaGame.Host\DeepMetaGame.Host.csproj" />
+		<ProjectReference Include="..\..\DeepMeta\DeepMetaGame.Slave\DeepMetaGame.Slave.csproj" />
+		<ProjectReference Include="..\..\DeepMeta\DeepMetaGame.Tools\DeepMetaGame.Tools.csproj" />
+		<ProjectReference Include="..\_Temp_.Battle\_Temp_.Battle.csproj" />
+		<ProjectReference Include="..\_Temp_.Codec\_Temp_.Codec.csproj" />
+	</ItemGroup>
+
+</Project>
