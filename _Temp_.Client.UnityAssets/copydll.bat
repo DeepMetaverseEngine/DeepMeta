@@ -6,7 +6,7 @@ SET SRC_ASSETS1=%~dp0..\..\DeepMeta\DeepCore.Unity.Assets
 SET SRC_ASSETS2=%~dp0..\..\DeepMeta\DeepMetaGame.UnityAssets
 
 SET DST_ASSETS=%~dp0..\..\..\ScopeUnity\Assets
-SET DST_RUNTIME=%~dp0..\..\..\GameEditor\UnityZuma\Zuma_Data\Managed
+SET DST_RUNTIME=%~dp0..\..\..\GameEditor\_Temp_Unity\_Temp__Data\Managed
 
 rem echo ----------------------------------------------------------------------------------
 echo - AOT Assets TO: %DST_ASSETS%

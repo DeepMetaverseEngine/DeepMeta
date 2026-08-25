@@ -2,12 +2,6 @@
 
 namespace _Temp_.Battle
 {
-    public static class Constants
-    {
-        public static byte FORCE_A = 1;
-        public static byte FORCE_B = 2;
-    }
-
     public enum MsgHead
     {
         //-----------------------------------------------------------

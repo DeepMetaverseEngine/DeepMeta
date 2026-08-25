@@ -31,9 +31,9 @@
 		</Content>
 	</ItemGroup>
 	<ItemGroup>
-	  <Content Include="_Temp_.slnx">
+	  <EmbeddedResource Include="_Temp_.slnx">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </Content>
+	  </EmbeddedResource>
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\DeepCore\DeepCore.csproj" />

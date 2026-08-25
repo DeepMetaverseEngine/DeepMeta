@@ -506,6 +506,19 @@ namespace DeepCore
             }
             return UTF8.GetString(data);
         }
+        public static string DecodeUTF8(byte[] data, out Encoding encoding)
+        {
+            if (data.Length > 3)
+            {
+                if ((data[0] == 0xEF) && (data[1] == 0xBB) && (data[2] == 0xBF))
+                {
+                    encoding = UTF8_BOM;
+                    return UTF8_BOM.GetString(data, 3, data.Length - 3);
+                }
+            }
+            encoding = UTF8;
+            return UTF8.GetString(data);
+        }
         public static byte[] EncodeUTF8(string src)
         {
             return UTF8.GetBytes(src);

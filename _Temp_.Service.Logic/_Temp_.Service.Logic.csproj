@@ -32,7 +32,7 @@
     <ProjectReference Include="..\..\DeepMeta\DeepCrystal\DeepCrystal.csproj" />
     <ProjectReference Include="..\..\DeepMeta\Gate.Data\Gate.Data.csproj" />
     <ProjectReference Include="..\..\DeepMeta\Gate.Server\Gate.Server.csproj" />
-    <ProjectReference Include="..\MMO.Server\MMO.Server.csproj" />
+    <ProjectReference Include="..\..\DeepMeta\MMO.Server\MMO.Server.csproj" />
     <ProjectReference Include="..\_Temp_.Battle\_Temp_.Battle.csproj" />
     <ProjectReference Include="..\_Temp_.Codec\_Temp_.Codec.csproj" />
     <ProjectReference Include="..\_Temp_.Server\_Temp_.Server.csproj" />

@@ -697,6 +697,20 @@ namespace DeepCore.IO
                 Path.Combine(workDir.FullName, src),
                 Path.Combine(workDir.FullName, dst), true);
         }
+        public static void ShellRename(DirectoryInfo workDir, string srcName, string dstName)
+        {
+            var src = new FileInfo(workDir.FullName + Path.DirectorySeparatorChar + srcName);
+            var dst = new FileInfo(workDir.FullName + Path.DirectorySeparatorChar + dstName);
+            src.CopyTo(dst.FullName);
+            src.Delete();
+        }
+        public static void ShellRename(string srcName, string dstName)
+        {
+            var src = new FileInfo(srcName);
+            var dst = new FileInfo(dstName);
+            src.CopyTo(dst.FullName);
+            src.Delete();
+        }
         //------------------------------------------------------------------------------------------------------------------------------------------
     }
 

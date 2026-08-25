@@ -59,11 +59,6 @@
 		<ProjectReference Include="..\..\DeepMeta\DeepOpenAI\DeepOpenAI.csproj" />
 		<ProjectReference Include="..\..\DeepMeta\Gate.Client\Gate.Client.csproj" />
 		<ProjectReference Include="..\..\DeepMeta\MMO.Client\MMO.Client.csproj" />
-		<ProjectReference Include="..\..\DeepEditorMain\DeepGameEditor3D.Main\DeepGameEditor3D.Main.csproj" />
-		<ProjectReference Include="..\..\DeepEditorMain\DeepGameEditor3D.MMO\DeepGameEditor3D.MMO.csproj" />
-		<ProjectReference Include="..\..\DeepEditorMain\DeepGameEditor3D.MMOServer\DeepGameEditor3D.MMOServer.csproj" />
-		<ProjectReference Include="..\..\DeepEditorMain\DeepGameEditor3D.Plugin3D\DeepGameEditor3D.Plugin3D.csproj" />
-		<ProjectReference Include="..\..\DeepEditorMain\DeepGameEditor3D.Unity3D\DeepGameEditor3D.Unity3D.csproj" />
 		<ProjectReference Include="..\_Temp_.Battle\_Temp_.Battle.csproj" />
 		<ProjectReference Include="..\_Temp_.Client\_Temp_.Client.csproj" />
 		<ProjectReference Include="..\_Temp_.Codec\_Temp_.Codec.csproj" />
@@ -81,6 +76,39 @@
 		<PackageReference Include="System.Text.Encoding.CodePages" Version="10.0.5" />
 	</ItemGroup>
 
+	<ItemGroup Condition="'$(Configuration)'!='Source'">
+		<Reference Include="DeepGameEditor3D.Main">
+			<HintPath>..\..\DeepMeta\.outputs\net9.0-windows\DeepGameEditor3D.AI.dll</HintPath>
+		</Reference>
+		<Reference Include="DeepGameEditor3D.Main">
+			<HintPath>..\..\DeepMeta\.outputs\net9.0-windows\DeepGameEditor3D.Main.dll</HintPath>
+		</Reference>
+		<Reference Include="DeepGameEditor3D.MMO">
+			<HintPath>..\..\DeepMeta\.outputs\net9.0-windows\DeepGameEditor3D.MMO.dll</HintPath>
+		</Reference>
+		<Reference Include="DeepGameEditor3D.MMOServer">
+			<HintPath>..\..\DeepMeta\.outputs\net9.0-windows\DeepGameEditor3D.MMOServer.dll</HintPath>
+		</Reference>
+		<Reference Include="DeepGameEditor3D.Plugin3D">
+			<HintPath>..\..\DeepMeta\.outputs\net9.0-windows\DeepGameEditor3D.Plugin3D.dll</HintPath>
+		</Reference>
+		<Reference Include="DeepGameEditor3D.Unity3D">
+			<HintPath>..\..\DeepMeta\.outputs\net9.0-windows\DeepGameEditor3D.Unity3D.dll</HintPath>
+		</Reference>
+		<Reference Include="DeepGameEditor3D.Unity3D.Ipc">
+			<HintPath>..\..\DeepMeta\.outputs\net9.0-windows\DeepGameEditor3D.Unity3D.Ipc.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
+
+	<ItemGroup Condition="'$(Configuration)'=='Source'">
+		<ProjectReference Include="..\..\DeepEditorMain\DeepGameEditor3D.Main\DeepGameEditor3D.Main.csproj" />
+		<ProjectReference Include="..\..\DeepEditorMain\DeepGameEditor3D.MMO\DeepGameEditor3D.MMO.csproj" />
+		<ProjectReference Include="..\..\DeepEditorMain\DeepGameEditor3D.MMOServer\DeepGameEditor3D.MMOServer.csproj" />
+		<ProjectReference Include="..\..\DeepEditorMain\DeepGameEditor3D.Plugin3D\DeepGameEditor3D.Plugin3D.csproj" />
+		<ProjectReference Include="..\..\DeepEditorMain\DeepGameEditor3D.Unity3D\DeepGameEditor3D.Unity3D.csproj" />
+	</ItemGroup>
+	
 	<ItemGroup>
 		<Compile Update="Properties\Resource1.Designer.cs">
 			<DesignTime>True</DesignTime>

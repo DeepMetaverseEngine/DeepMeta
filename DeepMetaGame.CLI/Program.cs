@@ -2,6 +2,10 @@
 using DeepCore;
 using DeepCore.IO;
 using DeepEditorConsole;
+using System.Reflection.Metadata;
+using System.Security.Cryptography;
+using System.Text;
+using static System.Net.Mime.MediaTypeNames;
 
 class Program
 {
@@ -44,7 +48,7 @@ Options:
                         return 0;
                 }
             }
-            Console.WriteLine(USAGE); 
+            Console.WriteLine(USAGE);
             return init(pargs, root, gitURL);
         }
         catch (Exception ex)
@@ -67,36 +71,89 @@ Options:
         var GameEditorPath = Path.Combine(root.FullName, "GameEditor");
         if (!Directory.Exists(GitPath))
         {
-            Console.ForegroundColor = ConsoleColor.Green;
             Exec.Run("git", "init");
-            Console.ResetColor();
         }
         if (!Directory.Exists(SlnPath))
         {
-            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("### Make Solution folder ###");
             Console.WriteLine(SlnPath);
             Directory.CreateDirectory(SlnPath);
-            Console.ResetColor();
         }
         else
         {
             Console.WriteLine($"Solution Folder : {SlnPath}");
         }
-        if (!Directory.Exists(Path.Combine(SlnPath, "DeepMeta")))
+        var DeepMetaPath = Path.Combine(SlnPath, "DeepMeta");
+        if (!Directory.Exists(DeepMetaPath))
         {
-            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("### Clone DeepMeta ###");
             Exec.Run("git", $"submodule add {gitURL} DeepMeta", SlnPath);
-            CFiles.ShellXCopy(root, $"{projName}SLN\\DeepMeta\\_Temp_*\\", $"{projName}SLN\\{projName}Src\\", "*.*");
-            Console.ResetColor();
+            Exec.Run("git", $"git pull \"origin\"  master:master", DeepMetaPath);
+            Exec.Run("git", $"git lfs pull", DeepMetaPath);
+        }
+        var SrcPath = Path.Combine(SlnPath, $"{projName}Src");
+        if (!Directory.Exists(SrcPath))
+        {
+            try
+            {
+                Console.WriteLine("### Copy Source Files ###");
+                var temp_dirs = new DirectoryInfo(DeepMetaPath).GetDirectories();
+                foreach (var dir in temp_dirs)
+                {
+                    if (dir.Name.StartsWith("_Temp_"))
+                    {
+                        var target_proj = $"{projName}SLN\\{projName}Src\\{dir.Name.Replace("_Temp_", projName)}";
+                        CFiles.ShellXCopy(root, $"{projName}SLN\\DeepMeta\\{dir.Name}", target_proj);
+                        var subfiles = new DirectoryInfo(target_proj).GetFiles("*", SearchOption.AllDirectories);
+                        foreach (var sub in subfiles)
+                        {
+                            if (sub.Name.StartsWith("_Temp_"))
+                            {
+                                var dstname = sub.Name.Replace("_Temp_", projName);
+                                Console.WriteLine($"    {sub.FullName} -> {dstname}");
+                                CFiles.ShellRename(sub.Directory, sub.Name, dstname);
+                                var dst = Path.Combine(sub.Directory.FullName, sub.Name.Replace("_Temp_", projName));
+                                var content = Resource.LoadData(dst);
+                                var text = CUtils.DecodeUTF8(content, out var encoding);
+                                text = text.ReplaceAll("_Temp_", projName);
+                                CFiles.WriteAllText(dst, text, encoding);
+                            }
+                            else if (sub.Name.EndsWith(".cs")
+                                || sub.Name.EndsWith(".txt") 
+                                || sub.Name.EndsWith(".bat") 
+                                || sub.Name.EndsWith(".json") 
+                                || sub.Name.EndsWith(".config"))
+                            {
+                                var content = Resource.LoadData(sub.FullName);
+                                var text = CUtils.DecodeUTF8(content, out var encoding);
+                                text = text.ReplaceAll("_Temp_", projName);
+                                CFiles.WriteAllText(sub, text, encoding);
+                            }
+                        }
+
+                    }
+                }
+            }
+            catch (Exception err)
+            {
+                CFiles.Delete(SrcPath);
+                Console.WriteLine($"Error: {err}");
+            }
+            //CFiles.ShellXCopy(root, $"{projName}SLN\\DeepMeta\\_Temp_*", $"{projName}SLN\\{projName}Src");
+        }
+        var SlnFilePath = Path.Combine(SlnPath, $"{projName}.slnx");
+        if (!Directory.Exists(SlnFilePath))
+        {
+            var srcSLNX = Resource.LoadFromAssembly(typeof(Program), "_Temp_.slnx");
+            var text = CUtils.DecodeUTF8(srcSLNX, out var encoding);
+            text = text.ReplaceAll("_Temp_", projName);
+            CFiles.WriteAllText(SlnFilePath, text, encoding);
         }
         if (!Directory.Exists(UnityPath))
         {
-            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("### Make Unity Project folder ###");
             Console.WriteLine(UnityPath);
             Directory.CreateDirectory(UnityPath);
-            Console.ResetColor();
         }
         else
         {
@@ -104,11 +161,9 @@ Options:
         }
         if (!Directory.Exists(GameEditorPath))
         {
-            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("### Make Game Editor folder ###");
             Console.WriteLine(GameEditorPath);
             Directory.CreateDirectory(GameEditorPath);
-            Console.ResetColor();
         }
         else
         {
