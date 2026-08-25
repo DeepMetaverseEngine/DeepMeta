@@ -84,7 +84,9 @@
 		<Project Path="_Temp_Src/_Temp_.Client.UnityAssets/_Temp_.Client.UnityAssets.csproj" />
 		<Project Path="_Temp_Src/_Temp_.Client.UnityPreview/_Temp_.Client.UnityPreview.csproj" />
 		<Project Path="_Temp_Src/_Temp_.Client/_Temp_.Client.csproj" />
-		<Project Path="_Temp_Src/_Temp_.Codec/_Temp_.Codec.csproj" />
+		<Project Path="_Temp_Src/_Temp_.Codec/_Temp_.Codec.csproj">
+			<BuildDependency Project="_Temp_Src/_Temp_.Gen/_Temp_.Gen.csproj" />
+		</Project>
 		<Project Path="_Temp_Src/_Temp_.Gen/_Temp_.Gen.csproj" />
 		<Project Path="_Temp_Src/_Temp_.Protocol/_Temp_.Protocol.csproj" />
 		<Project Path="_Temp_Src/_Temp_.Server.Main/_Temp_.ServerMain.csproj" />
