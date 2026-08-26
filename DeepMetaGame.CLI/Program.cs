@@ -93,9 +93,9 @@ Options:
         }
         if (!File.Exists(Path.Combine(root.FullName, ".gitattributes")))
         {
-            var gitattributes = Resource.LoadFromAssembly(typeof(Program), ".gitattributes");
+            var gitattributes = Resource.LoadFromAssembly(typeof(Program), "_gitattributes");
             CFiles.WriteAllBytes(Path.Combine(root.FullName, ".gitattributes"), gitattributes);
-            var git_ignore = Resource.LoadFromAssembly(typeof(Program), ".gitignore");
+            var git_ignore = Resource.LoadFromAssembly(typeof(Program), "_gitignore");
             CFiles.WriteAllBytes(Path.Combine(root.FullName, ".gitignore"), git_ignore);
         }
         var SrcPath = Path.Combine(SlnPath, $"{projName}Src");
@@ -141,7 +141,7 @@ Options:
                     }
                 }
                 {
-                    var git_ignore = Resource.LoadFromAssembly(typeof(Program), ".gitignore");
+                    var git_ignore = Resource.LoadFromAssembly(typeof(Program), "_gitignore");
                     CFiles.WriteAllBytes(Path.Combine(SrcPath, ".gitignore"), git_ignore);
                 }
             }
