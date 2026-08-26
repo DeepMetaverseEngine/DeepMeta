@@ -26,4 +26,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: gamecli
-        path: ${{ github.workspace }}/.output/gamecli.exe
+        path: ${{ github.workspace }}/.outputs/gamecli.exe
