@@ -25,5 +25,40 @@ jobs:
     - name: Upload Result
       uses: actions/upload-artifact@v4
       with:
-        name: gamecli
+        name: build-artifacts
         path: ${{ github.workspace }}/.outputs/gamecli.exe
+        
+  release:                                     # release 作业
+    needs: build                               # 依赖于 build 作业
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4     # 下载构建产物
+        with:
+          name: build-artifacts
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1        # 在 GitHub 上创建新 release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v1.0.0
+          release_name: Release v1.0.0
+          body: |
+            Release notes for v1.0.0
+          draft: false
+          prerelease: false
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1  # 将构建产物作为 release 资源上传
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: build/
+          asset_name: build-artifacts.zip
+          asset_content_type: application/zip
+
+          
