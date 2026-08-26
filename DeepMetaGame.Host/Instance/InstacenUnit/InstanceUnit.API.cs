@@ -371,7 +371,7 @@ namespace DeepCore.Game3D.Host.Instance
         }
         public EquipBuff AddBuff(int buffID, int buffLevel = 0)
         {
-            BuffTemplate buff = Cartridge.GetBuff(buffID, buffLevel);
+            BuffTemplate buff = Cartridge?.GetBuff(buffID, buffLevel);
             if (buff != null)
             {
                 return this.AddBuff(buff, buffLevel, this, null);
