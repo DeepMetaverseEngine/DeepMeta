@@ -59,7 +59,6 @@
 		<ProjectReference Include="..\..\DeepMeta\DeepOpenAI\DeepOpenAI.csproj" />
 		<ProjectReference Include="..\..\DeepMeta\Gate.Client\Gate.Client.csproj" />
 		<ProjectReference Include="..\..\DeepMeta\MMO.Client\MMO.Client.csproj" />
-		<ProjectReference Include="..\DeepMetaGame.Win32.Editor\DeepMetaGame.Win32.Editor.csproj" />
 		<ProjectReference Include="..\_Temp_.Battle\_Temp_.Battle.csproj" />
 		<ProjectReference Include="..\_Temp_.Client\_Temp_.Client.csproj" />
 		<ProjectReference Include="..\_Temp_.Codec\_Temp_.Codec.csproj" />
