@@ -72,6 +72,7 @@
     <Project Path="DeepTools.XLS2Lang/DeepTools.XLS2Lang.csproj" />
   </Folder>
   <Folder Name="/6.Editor/">
+    <Project Path="../DeepEditorMain/DeepGameEditor3D.AI/DeepGameEditor3D.AI.csproj" />
     <Project Path="../DeepEditorMain/DeepGameEditor3D.Main/DeepGameEditor3D.Main.csproj" />
     <Project Path="../DeepEditorMain/DeepGameEditor3D.MMO/DeepGameEditor3D.MMO.csproj" />
     <Project Path="../DeepEditorMain/DeepGameEditor3D.MMOServer/DeepGameEditor3D.MMOServer.csproj" />
