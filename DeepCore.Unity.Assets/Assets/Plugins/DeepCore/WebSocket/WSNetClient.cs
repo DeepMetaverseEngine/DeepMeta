@@ -411,7 +411,7 @@ namespace DeepCore.Net.WS
             if (intervalMS > 0)
             {
                 log.InfoFormat("start heartbeat : {0} ms", intervalMS);
-                this.heartbeat_timer = new SystemTimeInterval<WSWebSocketAdapter>().Init(heartbeat_interval_ms);
+                this.heartbeat_timer = new SystemTimeInterval<WSWebSocketAdapter>().Init(heartbeat_interval_ms, this);
             }
             else
             {
@@ -458,7 +458,7 @@ namespace DeepCore.Net.WS
             var timer = this.heartbeat_timer;
             if (timer != null && timer.Update())
             {
-                var so = timer.Tag;
+                var so = this;
                 if (so != null && websocket.State == WebSocketState.Open)
                 {
                     //log.Debug("check heartbeat");
