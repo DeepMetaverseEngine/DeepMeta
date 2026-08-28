@@ -11,6 +11,7 @@ using System.Linq;
 using System.Numerics;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using static System.Net.Mime.MediaTypeNames;
@@ -1099,6 +1100,7 @@ namespace DeepCore
 
         public static string ReplaceAll(this string str, string src, string dst)
         {
+            if (src == dst) return str;
             while (str.TryIndexOf(src, out var index))
             {
                 str = str.Substring(0, index) + dst + str.Substring(index + src.Length);
@@ -1107,6 +1109,7 @@ namespace DeepCore
         }
         public static string ReplaceAll(this string str, char src, char dst)
         {
+            if (src == dst) return str;
             while (str.TryIndexOf(src, out var index))
             {
                 str = str.Substring(0, index) + dst + str.Substring(index + 1);
@@ -1125,6 +1128,8 @@ namespace DeepCore
         }
         public static bool TryReplace(ref string str, char src, char dst, out int index)
         {
+            index = -1;
+            if (src == dst) return false;
             if (str.TryIndexOf(src, out index))
             {
                 str = str.Substring(0, index) + dst + str.Substring(index + 1);
