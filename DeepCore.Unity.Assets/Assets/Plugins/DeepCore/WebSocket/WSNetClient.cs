@@ -463,6 +463,10 @@ namespace DeepCore.Net.WS
                 send_object.InitWithSystemMessage(new SystemHeartbeat() { time = ctime });
                 await _start_send(send_object);
             }
+            catch (Exception e)
+            {
+                log.Error(e);
+            }
             finally
             {
                 if (ENABLE_SENDING_POOL) client.TaskQueue.Enqueue(send_object, static (r) => { r.Dispose(); });
@@ -493,8 +497,8 @@ namespace DeepCore.Net.WS
             var timer = this.heartbeat_timer;
             if (timer != null && timer.Update())
             {
-                var so = websocket;
-                if (so != null && so.State == WebSocketState.Open)
+                //var so = websocket;
+                //if (so != null && so.State == WebSocketState.Open)
                 {
                     log.Debug("check heartbeat");
                     var curtime = CUtils.TickTimeMS;
@@ -504,10 +508,8 @@ namespace DeepCore.Net.WS
                     //                     {
                     //                         _run_close(CloseReason.TimeOut);
                     //                     }
-                    //                     else
-                    {
-                        _send_heartbeat().Forget();
-                    }
+                    //                     else                 
+                    _send_heartbeat().Forget();                  
                 }
             }
         }
