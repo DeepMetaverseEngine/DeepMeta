@@ -93,13 +93,16 @@ namespace DeepCore.Game3D.Host.ZoneRuntime
         }
         public override void Update()
         {
-            if (!Pause)
+            if (this.Zone != null)
             {
-                this.Zone.Update(this.Layer.CurrentIntervalMS);
-            }
-            else
-            {
-                this.Zone.Update(0);
+                if (!Pause)
+                {
+                    this.Zone.Update(this.Layer.CurrentIntervalMS);
+                }
+                else
+                {
+                    this.Zone.Update(0);
+                }
             }
             base.Update();
         }

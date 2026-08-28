@@ -49,8 +49,11 @@ namespace DeepMetaGame.Unity.Preview.Preview
                 {
                     var deltaSEC = Time.deltaTime;
                     var intervalMS = deltaSEC * 1000;
-                    battle.battle.BeginUpdate(intervalMS);
-                    battle.battle.Update();
+                    if (battle.battle != null)
+                    {
+                        battle.battle.BeginUpdate(intervalMS);
+                        battle.battle.Update();
+                    }
                     battle.Update(intervalMS);
                 }
                 catch (Exception e)
@@ -110,29 +113,32 @@ namespace DeepMetaGame.Unity.Preview.Preview
             try
             {
                 this.firstFocus = false;
-                this.runtime = UnityIPC.HostFactory.CreatePreview(UnityIPC.Templates, UnityIPC.SlaveFactory, sd);
-                if (runtime != null)
+                this.battle = UnityBattleFactory.Instance.CreateBattle();
+                if (battle != null)
                 {
-                    this.battle = UnityBattleFactory.Instance.CreateBattle();
-                    UnityBattleConfig.ENABLE_BATTLE_DEBUG_GUI = false;
-                    var config = new UnityBattleConfig()
+                    this.runtime = UnityIPC.HostFactory.CreatePreview(UnityIPC.Templates, UnityIPC.SlaveFactory, sd);
+                    if (runtime != null)
                     {
-                        EffectLayerName = null,
-                        RayCastObjectLayerName = null,
-                        RayCastTerrainLayerName = null,
-                        Root = gameObject.transform,
-                        VoxelTemplateName = RTG.TempVoxel,
-                        SpellTemplateName = RTG.TempGizmoz,
-                        UnitTemplateName = RTG.TempGizmoz,
-                    };
-                    this.battle.OnStart += Battle_OnStart;
-                    this.battle.OnAddZoneObject += Battle_OnAddZoneObject;
-                    this.battle.Init(config, runtime);
-                    this.lastSceneData = Zone.SceneData;
-                    {
-                        //UnityZoneOnGUIRuntime.Init(Templates.Templates);
-                        var ongui = gameObject.AddComponent<UnityZoneOnGUIRuntime>();
-                        runtime.Layer.GUIRuntime = ongui;
+                        UnityBattleConfig.ENABLE_BATTLE_DEBUG_GUI = false;
+                        var config = new UnityBattleConfig()
+                        {
+                            EffectLayerName = null,
+                            RayCastObjectLayerName = null,
+                            RayCastTerrainLayerName = null,
+                            Root = gameObject.transform,
+                            VoxelTemplateName = RTG.TempVoxel,
+                            SpellTemplateName = RTG.TempGizmoz,
+                            UnitTemplateName = RTG.TempGizmoz,
+                        };
+                        this.battle.OnStart += Battle_OnStart;
+                        this.battle.OnAddZoneObject += Battle_OnAddZoneObject;
+                        this.battle.Init(config, runtime);
+                        this.lastSceneData = Zone.SceneData;
+                        {
+                            //UnityZoneOnGUIRuntime.Init(Templates.Templates);
+                            var ongui = gameObject.AddComponent<UnityZoneOnGUIRuntime>();
+                            runtime.Layer.GUIRuntime = ongui;
+                        }
                     }
                 }
             }
