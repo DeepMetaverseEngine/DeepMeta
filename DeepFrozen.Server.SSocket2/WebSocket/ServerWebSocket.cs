@@ -34,6 +34,7 @@ namespace DeepFrozen.Server.SSocket2.WebSocket
 {
     public class WSServerFactory : ServerFactory
     {
+        public static int HEARTBEAT_INTERVAL_SEC = 15;
         private static WSServerFactory s_instance;
         public static WSServerFactory WSInstance
         {
@@ -850,7 +851,7 @@ namespace DeepFrozen.Server.SSocket2.WebSocket
                     var rsp = new SystemHandshakeAck();
                     rsp.token = token;
                     rsp.remote_info = WSServer.Config.Name;
-                    rsp.heartbeat_interval_ms = Server.Options.IdleSessionTimeOut * 500;
+                    rsp.heartbeat_interval_ms = WSServerFactory.HEARTBEAT_INTERVAL_SEC * 1000;
                     send.InitWithSystemMessage(rsp);
                     return await this.InternalSend(send);
                 }
