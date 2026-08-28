@@ -265,9 +265,9 @@ namespace Gate.Server
                 }
             }
 
-            protected virtual void LoadServerList(         
-                HashMap<string, ServerInfo> serverList,     
-                HashMap<string, List<ServerInfo>> groupList,           
+            protected virtual void LoadServerList(
+                HashMap<string, ServerInfo> serverList,
+                HashMap<string, List<ServerInfo>> groupList,
                 List<ServerInfo> recommendList,
                 HashMap<string, string> addressMapping)
             {
@@ -647,21 +647,31 @@ namespace Gate.Server
                 var roleSnap = await snapMapping.LoadDataAsync();
                 // TODO 
             }
-
-            public virtual async Task<AccountData> GetOrCreateAccountDataAsync(MappingReference<AccountData> saveAcc, string accountName, string accountToken)
+            public class AccountDataInfo
+            {
+                public AccountData Account;
+                public bool IsNewAccount;
+            }
+            public virtual async Task<AccountDataInfo> GetOrCreateAccountDataAsync(MappingReference<AccountData> saveAcc, string accountName, string accountToken)
             {
                 if (await saveAcc.EnterLockAsync(out var token))
                 {
                     try
                     {
+                        var isNewAccount = false;
                         var accountData = await saveAcc.LoadOrCreateDataAsync(() =>
                         {
                             var ret = new AccountData();
                             ret.uuid = accountName;
                             ret.token = accountToken;
+                            isNewAccount = true;
                             return ret;
                         });
-                        return accountData;
+                        return new AccountDataInfo()
+                        {
+                            Account = accountData,
+                            IsNewAccount = isNewAccount
+                        };
                     }
                     finally
                     {
