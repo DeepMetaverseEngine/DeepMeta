@@ -500,7 +500,7 @@ namespace DeepCore.Net.WS
                 //var so = websocket;
                 //if (so != null && so.State == WebSocketState.Open)
                 {
-                    log.Debug("check heartbeat");
+                    log.Debug($"check heartbeat : ws state {websocket?.State}");
                     var curtime = CUtils.TickTimeMS;
                     int tick = (int)(curtime - last_heartbeat_chk);
                     last_heartbeat_chk = curtime;
