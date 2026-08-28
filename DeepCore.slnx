@@ -85,21 +85,4 @@
       <Build Solution="Debug|*" Project="false" />
     </Project>
   </Folder>
-  <Folder Name="/9.Templates/">
-    <Project Path="_Temp_.Battle/_Temp_.Battle.csproj" />
-    <Project Path="_Temp_.Client.Unity/_Temp_.Client.Unity.csproj" />
-    <Project Path="_Temp_.Client.UnityAssets/_Temp_.Client.UnityAssets.csproj" />
-    <Project Path="_Temp_.Client.UnityPreview/_Temp_.Client.UnityPreview.csproj" />
-    <Project Path="_Temp_.Client/_Temp_.Client.csproj" />
-    <Project Path="_Temp_.Codec/_Temp_.Codec.csproj">
-      <BuildDependency Project="_Temp_.Gen/_Temp_.Gen.csproj" />
-    </Project>
-    <Project Path="_Temp_.Gen/_Temp_.Gen.csproj" />
-    <Project Path="_Temp_.Protocol/_Temp_.Protocol.csproj" />
-    <Project Path="_Temp_.Server.Main/_Temp_.ServerMain.csproj" />
-    <Project Path="_Temp_.Server/_Temp_.Server.csproj" />
-    <Project Path="_Temp_.Service.Logic/_Temp_.Service.Logic.csproj" />
-    <Project Path="_Temp_.Tools.CLI/_Temp_.Tools.CLI.csproj" />
-    <Project Path="_Temp_.Win32Editor/_Temp_.Win32Editor.csproj" />
-  </Folder>
 </Solution>
