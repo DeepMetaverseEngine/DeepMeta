@@ -111,33 +111,35 @@ Options:
                     {
                         var target_proj = $"{projName}SLN\\{projName}Src\\{dir.Name.Replace("_Temp_", projName)}";
                         CFiles.ShellXCopy(root, $"{projName}SLN\\DeepMeta\\{dir.Name}", target_proj);
-                        var subfiles = new DirectoryInfo(target_proj).GetFiles("*", SearchOption.AllDirectories);
-                        foreach (var sub in subfiles)
+                        if (projName!= "_Temp_")
                         {
-                            if (sub.Name.StartsWith("_Temp_"))
+                            var subfiles = new DirectoryInfo(target_proj).GetFiles("*", SearchOption.AllDirectories);
+                            foreach (var sub in subfiles)
                             {
-                                var dstname = sub.Name.Replace("_Temp_", projName);
-                                Console.WriteLine($"    {sub.FullName} -> {dstname}");
-                                CFiles.ShellRename(sub.Directory, sub.Name, dstname);
-                                var dst = Path.Combine(sub.Directory.FullName, sub.Name.Replace("_Temp_", projName));
-                                var content = Resource.LoadData(dst);
-                                var text = CUtils.DecodeUTF8(content, out var encoding);
-                                text = text.ReplaceAll("_Temp_", projName);
-                                CFiles.WriteAllText(dst, text, encoding);
-                            }
-                            else if (sub.Name.EndsWith(".cs")
-                                || sub.Name.EndsWith(".txt") 
-                                || sub.Name.EndsWith(".bat") 
-                                || sub.Name.EndsWith(".json") 
-                                || sub.Name.EndsWith(".config"))
-                            {
-                                var content = Resource.LoadData(sub.FullName);
-                                var text = CUtils.DecodeUTF8(content, out var encoding);
-                                text = text.ReplaceAll("_Temp_", projName);
-                                CFiles.WriteAllText(sub, text, encoding);
+                                if (sub.Name.StartsWith("_Temp_"))
+                                {
+                                    var dstname = sub.Name.Replace("_Temp_", projName);
+                                    Console.WriteLine($"    {sub.FullName} -> {dstname}");
+                                    CFiles.ShellRename(sub.Directory, sub.Name, dstname);
+                                    var dst = Path.Combine(sub.Directory.FullName, sub.Name.Replace("_Temp_", projName));
+                                    var content = Resource.LoadData(dst);
+                                    var text = CUtils.DecodeUTF8(content, out var encoding);
+                                    text = text.ReplaceAll("_Temp_", projName);
+                                    CFiles.WriteAllText(dst, text, encoding);
+                                }
+                                else if (sub.Name.EndsWith(".cs")
+                                    || sub.Name.EndsWith(".txt")
+                                    || sub.Name.EndsWith(".bat")
+                                    || sub.Name.EndsWith(".json")
+                                    || sub.Name.EndsWith(".config"))
+                                {
+                                    var content = Resource.LoadData(sub.FullName);
+                                    var text = CUtils.DecodeUTF8(content, out var encoding);
+                                    text = text.ReplaceAll("_Temp_", projName);
+                                    CFiles.WriteAllText(sub, text, encoding);
+                                }
                             }
                         }
-
                     }
                 }
                 {
@@ -149,6 +151,7 @@ Options:
             {
                 CFiles.Delete(SrcPath);
                 Console.WriteLine($"Error: {err}");
+                return -1;
             }
             //CFiles.ShellXCopy(root, $"{projName}SLN\\DeepMeta\\_Temp_*", $"{projName}SLN\\{projName}Src");
         }

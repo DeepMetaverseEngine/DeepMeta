@@ -202,14 +202,15 @@ namespace Gate.Server.Service.Gate
             {
                 using (var saveAcc = new MappingReference<AccountData>(GateServerManager.Mapping.TYPE_ACCOUNT_DATA, accountUUID, this))
                 {
-                    var accountData = await GateServerManager.Mapping.GetOrCreateAccountDataAsync(saveAcc, accountUUID, login.c2s_token);
-                    if (accountData == null)
+                    var accountInfo = await GateServerManager.Mapping.GetOrCreateAccountDataAsync(saveAcc, accountUUID, login.c2s_token);
+                    if (accountInfo == null || accountInfo.Account == null)
                     {
                         return new EnterToken(login, new ClientEnterGateResponse()
                         {
                             s2c_code = ClientEnterGateResponse.CODE_NO_ACCOUNT,
                         });
                     }
+                    var accountData = accountInfo.Account;
                     if (!string.IsNullOrEmpty(login.c2s_clientInfo.walletAddress))
                     {
                         await GateServerManager.Mapping.TryRegistAccountWalletAsync(accountUUID, login.c2s_clientInfo.walletAddress, this);
@@ -265,6 +266,7 @@ namespace Gate.Server.Service.Gate
                     return new EnterToken(login, new ClientEnterGateResponse()
                     {
                         s2c_code = s2c_code,
+                        IsNewAccount = accountInfo.IsNewAccount,
                         s2c_accountUUID = accountUUID,
                         s2c_walletAddress = login.c2s_clientInfo.walletAddress,
                         s2c_connectAddress = connect.Sync.connectAddress,

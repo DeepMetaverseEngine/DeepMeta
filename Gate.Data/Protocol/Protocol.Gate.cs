@@ -35,25 +35,14 @@ namespace Gate.Data.Protocol
     [MessageType(Constants.MSG_START + 0x02)]
     public class ClientEnterGateResponse : Response, IGateProtocol
     {
-        [MessageCode("排队等待中！")]
-        public const int CODE_OK_IN_QUEUE = 201;
-        [MessageCode("没有连接服务器！")]
-        public const int CODE_NO_CONNECT_SERVER = 404;
-        [MessageCode("账户或密码错误！")]
-        public const int CODE_ACCOUNT_OR_PASSWORD = 501;
-        [MessageCode("账户不存在！")]
-        public const int CODE_NO_ACCOUNT = 502;
-        [MessageCode("服务器未开启！")]
-        public const int CODE_SERVER_NOT_OPEN = 503;
-
-        // H.Q.Cai 添加开始
-        /// <summary>
-        /// 排队已满
-        /// </summary>
-        [MessageCode("排队已满！")]
-        public const int CODE_SERVER_MAX_QUEUE = 504;
-        // H.Q.Cai 添加结束
-
+        //----------------------------------------------------------------------------------------------------------
+        [MessageCode("排队等待中！")] public const int CODE_OK_IN_QUEUE = 201;
+        [MessageCode("没有连接服务器！")] public const int CODE_NO_CONNECT_SERVER = 404;
+        [MessageCode("账户或密码错误！")] public const int CODE_ACCOUNT_OR_PASSWORD = 501;
+        [MessageCode("账户不存在！")] public const int CODE_NO_ACCOUNT = 502;
+        [MessageCode("服务器未开启！")] public const int CODE_SERVER_NOT_OPEN = 503;
+        [MessageCode("排队已满！")] public const int CODE_SERVER_MAX_QUEUE = 504;
+        //----------------------------------------------------------------------------------------------------------
         [DependOnProperty(nameof(s2c_code))] public bool IsInQueue { get => s2c_code == CODE_OK_IN_QUEUE; }
 
         [DependOnProperty(nameof(IsSuccess))] public string s2c_accountUUID;
@@ -65,6 +54,8 @@ namespace Gate.Data.Protocol
         [DependOnProperty(nameof(IsSuccess))] public string s2c_lastLoginToken;
         [DependOnProperty(nameof(IsSuccess))] public RoleIDSnap[] s2c_roleIDList;
         [DependOnProperty(nameof(IsSuccess))] public string s2c_platformAccount;
+        [DependOnProperty(nameof(IsSuccess))] public bool IsNewAccount;
+
         [DependOnProperty(nameof(IsInQueue))] public int s2c_queueCount;
         [DependOnProperty(nameof(IsInQueue))] public TimeSpan s2c_queuetTime;
 
