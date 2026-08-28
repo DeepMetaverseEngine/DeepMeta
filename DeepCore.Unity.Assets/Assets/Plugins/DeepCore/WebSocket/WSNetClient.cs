@@ -212,6 +212,129 @@ namespace DeepCore.Net.WS
                 connect_complete_tcs = null;
             }
         }
+        private bool _run_close(CloseReason reason, Action done = null, string message = null, Exception err = null)
+        {
+            _stop_heartbeat();
+            if (connect_complete_tcs != null)
+            {
+                try
+                {
+                    if (!connect_complete_tcs.Task.IsCompleted)
+                    {
+                        var ws = this.websocket;
+                        this.websocket = null;
+                        if (ws != null)
+                        {
+                            ws.OnError -= Websocket_OnError;
+                            ws.OnMessage -= Websocket_OnMessage;
+                            ws.OnClose -= Websocket_OnClose;
+                            ws.OnOpen -= Websocket_OnOpen;
+                            try
+                            {
+                                ws.CancelConnection();
+                            }
+                            catch { }
+                            try
+                            {
+                                if (ws.State == WebSocketState.Open || ws.State == WebSocketState.Connecting)
+                                {
+                                    ws.Close();
+                                }
+                            }
+                            catch { }
+                        }
+                        if (err != null)
+                        {
+                            connect_complete_tcs.TrySetException(err);
+                        }
+                        else
+                        {
+                            connect_complete_tcs.TrySetCanceled();
+                        }
+                    }
+                }
+                finally
+                {
+                    connect_complete_tcs = null;
+                    try { done?.Invoke(); }
+                    catch (Exception err3) { err3.PrintStackTrace(); }
+                }
+                return false;
+            }
+            if (err != null)
+            {
+                this.OnError?.Invoke(err);
+            }
+            {
+                var ws = this.websocket;
+                this.websocket = null;
+                if (ws != null)
+                {
+                    try
+                    {
+                        ws.OnError -= Websocket_OnError;
+                        ws.OnMessage -= Websocket_OnMessage;
+                        ws.OnClose -= Websocket_OnClose;
+                        ws.OnOpen -= Websocket_OnOpen;
+                        try
+                        {
+                            ws.CancelConnection();
+                        }
+                        catch { }
+                        if (ws.State == WebSocketState.Open || ws.State == WebSocketState.Connecting)
+                        {
+                            try
+                            {
+                                ws.Close().ContinueWith(t =>
+                                {
+                                    try { done?.Invoke(); }
+                                    catch (Exception err3) { err3.PrintStackTrace(); }
+                                    try { OnDisconnected?.Invoke(reason, message); }
+                                    catch (Exception err3) { err3.PrintStackTrace(); }
+                                });
+                            }
+                            catch (Exception err2)
+                            {
+                                err2.PrintStackTrace();
+                                try { done?.Invoke(); }
+                                catch (Exception err3) { err3.PrintStackTrace(); }
+                                try { OnDisconnected?.Invoke(reason, message); }
+                                catch (Exception err3) { err3.PrintStackTrace(); }
+                            }
+                        }
+                        else
+                        {
+                            try { done?.Invoke(); }
+                            catch (Exception err3) { err3.PrintStackTrace(); }
+                            try { OnDisconnected?.Invoke(reason, message); }
+                            catch (Exception err3) { err3.PrintStackTrace(); }
+                        }
+                    }
+                    catch
+                    {
+                        try { done?.Invoke(); }
+                        catch (Exception err3) { err3.PrintStackTrace(); }
+                        try { OnDisconnected?.Invoke(reason, message); }
+                        catch (Exception err3) { err3.PrintStackTrace(); }
+                    }
+                    finally
+                    {
+                        try
+                        {
+                            ws.Dispose();
+                        }
+                        catch { }
+                    }
+                    return true;
+                }
+                else
+                {
+                    try { done?.Invoke(); }
+                    catch (Exception err3) { err3.PrintStackTrace(); }
+                }
+            }
+            return false;
+        }
 
         private async Task _start_send(ISerializable msg, MessageType msgType, uint send_id)
         {
@@ -271,95 +394,6 @@ namespace DeepCore.Net.WS
         {
             recv_object.BeginBody();
             recv_object.BufferPosition = recv_object.BodyStartPistion;
-        }
-        private bool _run_close(CloseReason reason, Action done = null, string message = null, Exception err = null)
-        {
-            if (connect_complete_tcs != null)
-            {
-                if (!connect_complete_tcs.Task.IsCompleted)
-                {
-                    if (err != null)
-                    {
-                        connect_complete_tcs.TrySetException(err);
-                    }
-                    else
-                    {
-                        connect_complete_tcs.TrySetCanceled();
-                    }
-                }
-                connect_complete_tcs = null;
-            }
-            if (err != null)
-            {
-                this.OnError?.Invoke(err);
-            }
-            _stop_heartbeat();
-            var ws = this.websocket;
-            this.websocket = null;
-            if (ws != null)
-            {
-                try
-                {
-                    ws.OnError -= Websocket_OnError;
-                    ws.OnMessage -= Websocket_OnMessage;
-                    ws.OnClose -= Websocket_OnClose;
-                    ws.OnOpen -= Websocket_OnOpen;
-                    try
-                    {
-                        ws.CancelConnection();
-                    }
-                    catch { }
-                    if (ws.State == WebSocketState.Open || ws.State == WebSocketState.Connecting)
-                    {
-                        try
-                        {
-                            ws.Close().ContinueWith(t =>
-                            {
-                                try { done?.Invoke(); }
-                                catch (Exception err3) { err3.PrintStackTrace(); }
-                                try { OnDisconnected?.Invoke(reason, message); }
-                                catch (Exception err3) { err3.PrintStackTrace(); }
-                            });
-                        }
-                        catch (Exception err2)
-                        {
-                            err2.PrintStackTrace();
-                            try { done?.Invoke(); }
-                            catch (Exception err3) { err3.PrintStackTrace(); }
-                            try { OnDisconnected?.Invoke(reason, message); }
-                            catch (Exception err3) { err3.PrintStackTrace(); }
-                        }
-                    }
-                    else
-                    {
-                        try { done?.Invoke(); }
-                        catch (Exception err3) { err3.PrintStackTrace(); }
-                        try { OnDisconnected?.Invoke(reason, message); }
-                        catch (Exception err3) { err3.PrintStackTrace(); }
-                    }
-                }
-                catch
-                {
-                    try { done?.Invoke(); }
-                    catch (Exception err3) { err3.PrintStackTrace(); }
-                    try { OnDisconnected?.Invoke(reason, message); }
-                    catch (Exception err3) { err3.PrintStackTrace(); }
-                }
-                finally
-                {
-                    try
-                    {
-                        ws.Dispose();
-                    }
-                    catch { }
-                }
-                return true;
-            }
-            else
-            {
-                done?.Invoke();
-            }
-            return false;
         }
         //-------------------------------------------------------------------------------------------------------------------------------
         private SystemTimeInterval<WSWebSocketAdapter> heartbeat_timer;
@@ -466,11 +500,11 @@ namespace DeepCore.Net.WS
                     var curtime = CUtils.TickTimeMS;
                     int tick = (int)(curtime - last_heartbeat_chk);
                     last_heartbeat_chk = curtime;
-//                     if ((curtime - last_heartbeat_r2c) > heartbeat_interval_ms * 4)
-//                     {
-//                         _run_close(CloseReason.TimeOut);
-//                     }
-//                     else
+                    //                     if ((curtime - last_heartbeat_r2c) > heartbeat_interval_ms * 4)
+                    //                     {
+                    //                         _run_close(CloseReason.TimeOut);
+                    //                     }
+                    //                     else
                     {
                         _send_heartbeat().Forget();
                     }
