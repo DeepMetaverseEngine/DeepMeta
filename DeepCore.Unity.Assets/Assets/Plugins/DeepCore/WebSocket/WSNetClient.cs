@@ -423,6 +423,7 @@ namespace DeepCore.Net.WS
             var send_object = msg_pool.AllocSend();
             try
             {
+                log.Debug("send heartbeat");
                 var ctime = CUtils.TickTimeMS;
                 last_heartbeat_c2r = ctime;
                 send_object.InitWithSystemMessage(new SystemHeartbeat() { time = ctime });
@@ -435,7 +436,7 @@ namespace DeepCore.Net.WS
         }
         private void _received_heartbeat(MessagePool.RecvMessage recv_object)
         {
-            //log.Debug("received heartbeat");
+            log.Debug("received heartbeat");
             var sysmsg = recv_object.ReadBodySystemMessage() as SystemHeartbeat;
             var ctime = CUtils.TickTimeMS;
             if (sysmsg != null)
@@ -461,15 +462,15 @@ namespace DeepCore.Net.WS
                 var so = websocket;
                 if (so != null && so.State == WebSocketState.Open)
                 {
-                    //log.Debug("check heartbeat");
+                    log.Debug("check heartbeat");
                     var curtime = CUtils.TickTimeMS;
                     int tick = (int)(curtime - last_heartbeat_chk);
                     last_heartbeat_chk = curtime;
-                    if ((curtime - last_heartbeat_r2c) > heartbeat_interval_ms * 4)
-                    {
-                        _run_close(CloseReason.TimeOut);
-                    }
-                    else
+//                     if ((curtime - last_heartbeat_r2c) > heartbeat_interval_ms * 4)
+//                     {
+//                         _run_close(CloseReason.TimeOut);
+//                     }
+//                     else
                     {
                         _send_heartbeat().Forget();
                     }
