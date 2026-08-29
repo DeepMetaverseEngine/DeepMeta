@@ -95,18 +95,18 @@ namespace DeepMetaGame.Unity.BattleView
             oldPos = this.transform.position;
         }
 
-//         protected override GameObject OnCreateGizmos()
-//         {
-//             return BattleGizmos.CreateGizmos(this.info,
-//                 parent.GetObject(layerSpell.Launcher?.ObjectID)?.transform,
-//                 parent.GetObject(layerSpell.Sender?.ObjectID)?.transform,
-//                 parent.GetObject(layerSpell.Target?.ObjectID)?.transform);
-//         }
-//         protected override void OnUpdateGizmos(GameObject childGizmos)
-//         {
-//             BattleGizmos.UpdateGizmos(childGizmos, info, layerSpell.Distance, layerSpell.BodySize);
-//             base.OnUpdateGizmos(childGizmos);
-//         }
+        //         protected override GameObject OnCreateGizmos()
+        //         {
+        //             return BattleGizmos.CreateGizmos(this.info,
+        //                 parent.GetObject(layerSpell.Launcher?.ObjectID)?.transform,
+        //                 parent.GetObject(layerSpell.Sender?.ObjectID)?.transform,
+        //                 parent.GetObject(layerSpell.Target?.ObjectID)?.transform);
+        //         }
+        //         protected override void OnUpdateGizmos(GameObject childGizmos)
+        //         {
+        //             BattleGizmos.UpdateGizmos(childGizmos, info, layerSpell.Distance, layerSpell.BodySize);
+        //             base.OnUpdateGizmos(childGizmos);
+        //         }
 
 
         //----------------------------------------------------------------------------------------------------------------------------
@@ -117,15 +117,15 @@ namespace DeepMetaGame.Unity.BattleView
         {
             //if (!string.IsNullOrEmpty(layerSpell.Info.FileName))
             {
-                //this.Retain();
-                //layerSpell.Retain();
+                this.Retain();
+                layerSpell.Retain();
                 this.assetLoading = UnityBattleFactory.Resource.LoadSpellResource(this, static (spell, res, err) =>
                 {
                     try
                     {
                         if (res != null)
                         {
-                            if (spell.IsDisposing || spell.layerSpell.IsDisposing)
+                            if (spell.IsDisposing || spell.layerSpell == null || spell.layerSpell.IsDisposing)
                             {
                                 res.Dispose();
                                 return;
@@ -147,8 +147,8 @@ namespace DeepMetaGame.Unity.BattleView
                     }
                     finally
                     {
-                        //spell.layerSpell.Release();
-                        //spell.Release();
+                        spell.layerSpell.Release();
+                        spell.Release();
                     }
                 });
             }
@@ -165,7 +165,7 @@ namespace DeepMetaGame.Unity.BattleView
             {
                 ModelWrap.Dispose();
                 ModelWrap = null;
-            }         
+            }
         }
         protected override void OnUpdateResource()
         {

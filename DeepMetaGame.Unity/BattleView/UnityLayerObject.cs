@@ -85,6 +85,7 @@ namespace DeepMetaGame.Unity.BattleView
         internal void Init(LayerObject zobj, GameObject parent)
         {
             layerObject = zobj;
+            layerObject.Retain();
             gameObject.name = zobj.Name;
             //gameObject.transform.SetParent(parent.transform, false);
             zone.SetParentNode(this, parent.transform);
@@ -105,6 +106,7 @@ namespace DeepMetaGame.Unity.BattleView
             CleanHPBar();
             OnDisposing();
             if (gameObject) gameObject.SetActive(false);
+            layerObject?.Release();
             layerObject = null;
         }
         internal void Update(float deltaMS)
