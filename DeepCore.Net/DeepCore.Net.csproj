@@ -22,14 +22,17 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="FuncData\**" />
+    <Compile Remove="HttpClient\**" />
     <Compile Remove="Lua\**" />
     <Compile Remove="MPQ\**" />
     <Compile Remove="Pomelo\**" />
     <EmbeddedResource Remove="FuncData\**" />
+    <EmbeddedResource Remove="HttpClient\**" />
     <EmbeddedResource Remove="Lua\**" />
     <EmbeddedResource Remove="MPQ\**" />
     <EmbeddedResource Remove="Pomelo\**" />
     <None Remove="FuncData\**" />
+    <None Remove="HttpClient\**" />
     <None Remove="Lua\**" />
     <None Remove="MPQ\**" />
     <None Remove="Pomelo\**" />
