@@ -409,7 +409,7 @@ namespace DeepGame3D.Unity.BattleView
         }
         private void LoadResource()
         {
-            //this.Retain();
+            this.Retain();
             this.assetLoading = UnityBattleFactory.Resource.LoadEffectResource(this, static (effect, res, err) =>
             {
                 try
@@ -441,7 +441,7 @@ namespace DeepGame3D.Unity.BattleView
                 }
                 finally
                 {
-                    //effect.Release();
+                    effect.Release();
                 }
             });
         }
