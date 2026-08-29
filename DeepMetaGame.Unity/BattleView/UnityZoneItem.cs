@@ -51,29 +51,29 @@ namespace DeepMetaGame.Unity.BattleView
                     {
                         if (res != null)
                         {
-                            if (item.IsDisposing || item.layerItem.IsDisposing)
+                            if (item.IsDisposing || item.layerItem == null || item.layerItem.IsDisposing)
                             {
                                 res.Dispose();
                                 return;
                             }
                             item.ModelWrap = res;
-//                             var ares = item.layerItem.AResource;
-//                             {
-// //                                 var scale = item.layerItem.AResource.BodyScale;
-// //                                 var bodyH = item.layerObject.BodyHeight;
-// //                                 var va = ares.BodyVoxelAnchor;
-// //                                 var space3D = item.Space;
-// //                                 var v = space3D.BattleToUnityVoxelAnchorOffset(bodyH, va);
-// //                                 if (res.transform != null)
-// //                                 {
-// //                                     res.beginLocalPosition = v;
-// //                                     res.beginLocalScale = new Vector3(scale, scale, scale);
-// //                                 }
-// //                                 else
-// //                                 {
-// //                                     Debug.LogWarning($"Item Res …Ë÷√ ß∞‹ transform  = null : {item.layerItem.Info} : {item.layerItem.AResource.FileName}");
-// //                                 }
-//                             }
+                            //                             var ares = item.layerItem.AResource;
+                            //                             {
+                            // //                                 var scale = item.layerItem.AResource.BodyScale;
+                            // //                                 var bodyH = item.layerObject.BodyHeight;
+                            // //                                 var va = ares.BodyVoxelAnchor;
+                            // //                                 var space3D = item.Space;
+                            // //                                 var v = space3D.BattleToUnityVoxelAnchorOffset(bodyH, va);
+                            // //                                 if (res.transform != null)
+                            // //                                 {
+                            // //                                     res.beginLocalPosition = v;
+                            // //                                     res.beginLocalScale = new Vector3(scale, scale, scale);
+                            // //                                 }
+                            // //                                 else
+                            // //                                 {
+                            // //                                     Debug.LogWarning($"Item Res …Ë÷√ ß∞‹ transform  = null : {item.layerItem.Info} : {item.layerItem.AResource.FileName}");
+                            // //                                 }
+                            //                             }
                         }
                         else if (err != null)
                         {

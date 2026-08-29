@@ -118,7 +118,7 @@ namespace DeepGame3D.Unity.BattleView
                 {
                     if (res != null)
                     {
-                        if (unit.IsDisposing || unit.layerUnit.IsDisposing)
+                        if (unit.IsDisposing || unit.layerUnit == null || unit.layerUnit.IsDisposing)
                         {
                             res.Dispose();
                             return;
