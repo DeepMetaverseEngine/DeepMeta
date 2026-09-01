@@ -407,7 +407,7 @@ namespace DeepMetaGame.Data
                 }
                 else
                 {
-                    log.Info($"Regist Properties Type : {type}");
+                    // log.Info($"Regist Properties Type : {type}");
                 }
                 propMap.Put(a, type);
             }
