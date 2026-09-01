@@ -32,8 +32,8 @@ namespace DeepCore.Unity3D.Voxel
         [SerializeField] public bool splitVoxels = false;
         [SerializeField] public bool singleLayer = false;
         [SerializeField] public bool autoBindMeshCollider = false;
-        [SerializeField] public bool onlyMeshCollider = false;
-        [SerializeField] public float raycastLimit = 2000;
+        [SerializeField] public bool onlyMeshCollider = true;
+        [SerializeField] public float raycastLimit = 20000;
 
 
         [SerializeField] public string[] ignoreLayers;

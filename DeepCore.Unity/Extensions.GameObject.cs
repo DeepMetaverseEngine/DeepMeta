@@ -330,6 +330,11 @@ namespace DeepCore.Unity
             }
             return t;
         }
+        public static bool TryGetComponents<T>(this GameObject self, out T[] com) where T : Component
+        {
+            com = self.GetComponents<T>();
+            return com != null && com.Length > 0;
+        }
 
         //--------------------------------------------------------------------------------------------------------------
 
