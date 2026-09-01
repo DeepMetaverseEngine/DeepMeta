@@ -110,8 +110,8 @@ namespace DeepGame3D.Unity.BattleView
         protected virtual void InitResource()
         {
             this.AResBody = layerUnit.Info.Abilities.GetComponentAs<UnitResourceBodyAbility>();
-            //this.Retain();
-            //this.layerUnit.Retain();
+            this.Retain();
+            this.layerUnit.Retain();
             this.assetLoading = UnityBattleFactory.Resource.LoadUnitResource(this, layerUnit.AResource?.FileName, static (unit, res, err) =>
             {
                 try
@@ -134,8 +134,8 @@ namespace DeepGame3D.Unity.BattleView
                 }
                 finally
                 {
-                    //unit.layerUnit.Release();
-                    //unit.Release();
+                    unit.layerUnit.Release();
+                    unit.Release();
                 }
             });
             if (capsuleCollider != null)

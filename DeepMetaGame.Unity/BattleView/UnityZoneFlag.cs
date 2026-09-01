@@ -56,7 +56,7 @@ namespace DeepMetaGame.Unity.BattleView
             //this.ResourceOffset = offset.ToUnity().VoxelToUnity();
             // if (!string.IsNullOrEmpty(resourceID))
             {
-                //this.Retain();
+                this.Retain();
                 this.assetLoading = UnityBattleFactory.Resource.LoadFlagResource(this, (flag, res, err) =>
                 {
                     try
@@ -84,7 +84,7 @@ namespace DeepMetaGame.Unity.BattleView
                     }
                     finally
                     {
-                        //flag.Release();
+                        flag.Release();
                     }
                 });
             }

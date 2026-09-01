@@ -43,8 +43,8 @@ namespace DeepMetaGame.Unity.BattleView
         {
             //if (!string.IsNullOrEmpty(layerItem.AResource?.FileName))
             {
-                //this.Retain();
-                //layerItem.Retain();
+                this.Retain();
+                layerItem.Retain();
                 this.assetLoading = UnityBattleFactory.Resource.LoadItemResource(this, static (item, res, err) =>
                 {
                     try
@@ -82,8 +82,8 @@ namespace DeepMetaGame.Unity.BattleView
                     }
                     finally
                     {
-                        //item.layerItem.Release();
-                        //item.Release();
+                        item.layerItem.Release();
+                        item.Release();
                     }
                 });
             }
