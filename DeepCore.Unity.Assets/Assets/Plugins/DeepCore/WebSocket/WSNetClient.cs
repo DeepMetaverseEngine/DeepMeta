@@ -214,6 +214,9 @@ namespace DeepCore.Net.WS
         }
         private bool _run_close(CloseReason reason, Action done = null, string message = null, Exception err = null)
         {
+            log.Error($"[WebSocket] RunClose  reason={reason}, message={message ?? "<null>"}, " +
+                     $"state={websocket?.State}, handshake={IsHandshake}, " +
+                     $"totalRecvBytes={TotalRecvBytes}, totalSentBytes={TotalSentBytes}");
             _stop_heartbeat();
             if (connect_complete_tcs != null)
             {
