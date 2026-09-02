@@ -558,6 +558,7 @@ namespace DeepFrozen.Server.SSocket2.WebSocket
                     {
                         Logger.LogError(err, err.Message);
                         await DisconnectAsync(err.Message);
+                        return;
                     }
                     finally
                     {
