@@ -889,6 +889,7 @@ namespace DeepFrozen.Server.SSocket2.WebSocket
             private long sent_bytes = 0;
             private long recv_bytes = 0;
             private EndPoint endpoint;
+            private int disconnecting = 0;
             //------------------------------------------------------------------------------
             string ISession.ID => this.SessionID;
             EndPoint ISession.RemoteAddress => endpoint;
@@ -903,6 +904,10 @@ namespace DeepFrozen.Server.SSocket2.WebSocket
             }
             public async Task<bool> DisconnectAsync(string reason)
             {
+                if (Interlocked.CompareExchange(ref disconnecting, 1, 0) != 0)
+                {
+                    return false;
+                }
                 await SendKick(reason);
                 try
                 {
