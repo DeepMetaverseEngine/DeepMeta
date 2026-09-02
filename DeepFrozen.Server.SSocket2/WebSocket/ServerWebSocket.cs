@@ -811,19 +811,26 @@ namespace DeepFrozen.Server.SSocket2.WebSocket
             {
                 if (this.State == SessionState.Connected)
                 {
-                    var sendObject = send.SendingObject;
-                    try
+                    if (!this.Connection.CloseReason.HasValue)
                     {
-                        var len = send.BufferLength;
-                        await base.SendAsync(new Memory<byte>(send.Buffer, 0, len));
-                        event_OnSent?.Invoke(this, sendObject);
-                        sent_bytes += len;
-                        if (TRACE_PROTOCOL) Logger.LogInformation("Sent --------> " + send);
-                        return true;
+                        var sendObject = send.SendingObject;
+                        try
+                        {
+                            var len = send.BufferLength;
+                            await base.SendAsync(new Memory<byte>(send.Buffer, 0, len));
+                            event_OnSent?.Invoke(this, sendObject);
+                            sent_bytes += len;
+                            if (TRACE_PROTOCOL) Logger.LogInformation("Sent --------> " + send);
+                            return true;
+                        }
+                        catch (Exception err)
+                        {
+                            WSServer.cb_OnSessionError(this, err);
+                        }
                     }
-                    catch (Exception err)
+                    else
                     {
-                        WSServer.cb_OnSessionError(this, err);
+                        WSServer.log.Warn($"InternalSend: Connection[{this.SessionID}] is Closed >>>{this.Connection.CloseReason}<<<");
                     }
                 }
                 return false;
