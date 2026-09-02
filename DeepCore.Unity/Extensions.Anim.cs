@@ -6,76 +6,79 @@ using UnityEngine;
 
 namespace DeepCore.Unity
 {
-//         public static class ExtensionMethods
-//         {
-//             public static TaskAwaiter GetAwaiter(this AsyncOperation asyncOp)
-//             {
-//                 var tcs = new TaskCompletionSource<bool>();
-//                 asyncOp.completed += obj => { tcs.SetResult(asyncOp.isDone); };
-//                 return ((Task)tcs.Task).GetAwaiter();
-//             }
-//             public static Task Async(this AsyncOperation asyncOp)
-//             {
-//                 var tcs = new TaskCompletionSource<bool>();
-//                 asyncOp.completed += obj => { tcs.SetResult(asyncOp.isDone); };
-//                 return tcs.Task;
-//             }
-//         }
-//     
+    //         public static class ExtensionMethods
+    //         {
+    //             public static TaskAwaiter GetAwaiter(this AsyncOperation asyncOp)
+    //             {
+    //                 var tcs = new TaskCompletionSource<bool>();
+    //                 asyncOp.completed += obj => { tcs.SetResult(asyncOp.isDone); };
+    //                 return ((Task)tcs.Task).GetAwaiter();
+    //             }
+    //             public static Task Async(this AsyncOperation asyncOp)
+    //             {
+    //                 var tcs = new TaskCompletionSource<bool>();
+    //                 asyncOp.completed += obj => { tcs.SetResult(asyncOp.isDone); };
+    //                 return tcs.Task;
+    //             }
+    //         }
+    //     
 
     public static partial class UnityExtensions
     {
         //--------------------------------------------------------------------------------------------------------------
-        public static bool TryGetAnimatorStates(this GameObject gameObject, out AnimationClipInfo[] ret)
+        public static bool TryGetAnimatorStates(this GameObject gameObject, ref AnimationClipInfo[] ret)
         {
-            return TryGetAnimatorStates(gameObject, out var a1, out var a2, out ret);
+            return TryGetAnimatorStates(gameObject, out var a1, out var a2, ref ret);
         }
-        public static bool TryGetAnimatorStates(this GameObject gameObject, out Animator a1, out Animation a2, out AnimationClipInfo[] ret)
+        public static bool TryGetAnimatorStates(this GameObject gameObject, out Animator a1, out Animation a2, ref AnimationClipInfo[] ret)
         {
             a1 = null; a2 = null;
-            if (gameObject.TryGetComponentInChildren<Animator>(out a1))
+            if (ret == null)
             {
-                if (a1.runtimeAnimatorController != null)
+                if (gameObject.TryGetComponentInChildren<Animator>(out a1))
                 {
-                    var clips = a1?.runtimeAnimatorController?.animationClips;
-                    if (clips != null)
+                    if (a1.runtimeAnimatorController != null)
                     {
-                        var list = new List<AnimationClipInfo>(clips.Length);
-                        foreach (var clip in clips)
+                        var clips = a1?.runtimeAnimatorController?.animationClips;
+                        if (clips != null)
                         {
-                            if (clip != null && !string.IsNullOrEmpty(clip.name))
+                            var list = new List<AnimationClipInfo>(clips.Length);
+                            foreach (var clip in clips)
                             {
-                                list.Add(new AnimationClipInfo()
+                                if (clip != null && !string.IsNullOrEmpty(clip.name))
                                 {
-                                    name = clip.name,
-                                    duration = clip.length,
-                                });
+                                    list.Add(new AnimationClipInfo()
+                                    {
+                                        name = clip.name,
+                                        duration = clip.length,
+                                    });
+                                }
                             }
+                            ret = list.ToArray();
+                            return true;
                         }
-                        ret = list.ToArray();
-                        return true;
                     }
                 }
-            }
-            if (gameObject.TryGetComponentInChildren<Animation>(out a2))
-            {
-                var count = a2.GetClipCount();
-                var list = new List<AnimationClipInfo>(count);
-                foreach (var clip in a2.ToGenericList<AnimationState>())
+                if (gameObject.TryGetComponentInChildren<Animation>(out a2))
                 {
-                    if (clip != null && !string.IsNullOrEmpty(clip.name))
+                    var count = a2.GetClipCount();
+                    var list = new List<AnimationClipInfo>(count);
+                    foreach (var clip in a2.ToGenericList<AnimationState>())
                     {
-                        list.Add(new AnimationClipInfo()
+                        if (clip != null && !string.IsNullOrEmpty(clip.name))
                         {
-                            name = clip.name,
-                            duration = clip.length,
-                        });
+                            list.Add(new AnimationClipInfo()
+                            {
+                                name = clip.name,
+                                duration = clip.length,
+                            });
+                        }
                     }
+                    ret = list.ToArray();
+                    return true;
                 }
-                ret = list.ToArray();
-                return true;
+                ret = null;
             }
-            ret = null;
             return false;
         }
 
@@ -101,13 +104,16 @@ namespace DeepCore.Unity
         {
             //动画片段时间长度
             var length = 0f;
-            var clips = animator.ToGenericList<AnimationState>();
-            foreach (var clip in clips)
+            //var clips = animator.ToGenericList<AnimationState>();
+            foreach (var e in animator)
             {
-                if (clip.name.Equals(stateName))
+                if (e is AnimationState clip)
                 {
-                    length = clip.length;
-                    break;
+                    if (clip.name.Equals(stateName))
+                    {
+                        length = clip.length;
+                        break;
+                    }
                 }
             }
             return (int)(length * 1000);
@@ -135,13 +141,18 @@ namespace DeepCore.Unity
         {
             //动画片段时间长度
             var length = 0f;
-            var clips = animator.ToGenericList<AnimationState>();
-            foreach (var clip in clips)
+           // var clips = animator.ToGenericList<AnimationState>();
+            foreach (var e in animator)
             {
-                if (clip.name.Equals(stateName))
+                if (e is AnimationState clip)
                 {
-                    length = clip.length;
-                    break;
+                    {
+                        if (clip.name.Equals(stateName))
+                        {
+                            length = clip.length;
+                            break;
+                        }
+                    }
                 }
             }
             return length;

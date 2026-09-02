@@ -1,5 +1,6 @@
 ﻿using DeepCore.IO;
 using DeepCore.Unity;
+using DeepCore.Unity.ResourceSnap;
 using DeepCore.Unity.ResourceViewer;
 using DeepCore.Unity3D.AB;
 using DeepCore.Xml;
@@ -23,11 +24,12 @@ namespace DeepMetaGame.Unity.Resource
                 var name = DeepCore.IO.Resource.GetFileNameWithoutExtension(file);
                 var wrap = ABSystem.GetWrapGO(file, name, null);
                 if (Application.isEditor) { 
-                    wrap.gameObject.AddComponent<ResourceInfo>(); 
+                    wrap.gameObject.AddComponent<ResourceInfo>();
                 }
+                AnimationClipInfo[] clips = null;
                 var meta = new ResourceMeta();
-                wrap.gameObject.TryGetParticleDurationMS(out meta.TotalEffectTimeMS, out meta.TotalEffectLoop);
-                wrap.gameObject.TryGetAnimatorStates(out var clips);
+                wrap.gameObject.TryGetParticleDurationMS(out meta.TotalEffectTimeMS, out meta.TotalEffectLoop);      
+                wrap.gameObject.TryGetAnimatorStates(ref clips);
                 meta.Animates = Array.ConvertAll(clips, t => new AnimationMeta()
                 {
                     StateName = t.name,

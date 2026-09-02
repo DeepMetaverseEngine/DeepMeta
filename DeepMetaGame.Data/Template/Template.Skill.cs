@@ -235,11 +235,10 @@ namespace DeepMetaGame.Data.Template
         public int ActionResId { get => Action != null ? Action.ActionResId : 0; }
 
 
-        [Desc("动作", "Action")]
-        public UnitActionKeyFrame Action = new UnitActionKeyFrame();
+        [Desc("动作", "Action")] public UnitActionKeyFrame Action = new UnitActionKeyFrame();
 
-        [Desc("动作对应的特效，通常用作刀光", "Action")]
-        public LaunchEffect ActionEffect;
+        [Desc("动作对应的特效，通常用作刀光", "Action")] public LaunchEffect ActionEffect;
+
         [Desc("动作对应的特效名字，通常用作刀光", "Action")]
         public string ActionEffectFileName
         {
@@ -253,27 +252,17 @@ namespace DeepMetaGame.Data.Template
 
 
 
-        [Desc("移动可取消动作", "状态")]
-        public bool IsCancelable = false;
-        [Desc("技能可取消动作", "状态")]
-        public bool IsCancelableBySkill = false;
+        [Desc("移动可取消动作", "状态")] public bool IsCancelable = false;
+        [Desc("技能可取消动作", "状态")] public bool IsCancelableBySkill = false;
 
-        [Desc("是否进入霸体状态，不会被打断", "状态")]
-        public bool IsNoneBlock = false;
-        [Desc("动作期间是否无碰撞", "状态")]
-        public bool IsNoneTouch = false;
-        [Desc("动作中是否面向目标", "状态")]
-        public bool IsFaceToTarget = false;
-        [Desc("动作是否隐身", "状态")]
-        public bool IsInvisible = false;
-        [Desc("动作中是否可以控制移动", "状态")]
-        public bool IsControlMoveable = false;
-        [Desc("动作中可以控制转向", "状态")]
-        public bool IsControlFaceable = false;
+        [Desc("是否进入霸体状态，不会被打断", "状态")] public bool IsNoneBlock = false;
+        [Desc("动作期间是否无碰撞", "状态")] public bool IsNoneTouch = false;
+        [Desc("动作中是否面向目标", "状态")] public bool IsFaceToTarget = false;
+        [Desc("动作是否隐身", "状态")] public bool IsInvisible = false;
+        [Desc("动作中是否可以控制移动", "状态")] public bool IsControlMoveable = false;
+        [Desc("动作中可以控制转向", "状态")] public bool IsControlFaceable = false;
 
-        [DependOnProperty(nameof(IsFaceToTarget))]
-        [Desc("转身速度（弧度/秒）", "状态")]
-        public float TurnSpeedSEC = float.NaN;
+        [DependOnProperty(nameof(IsFaceToTarget))][Desc("转身速度（弧度/秒）", "状态")] public float TurnSpeedSEC = float.NaN;
         [DependOnProperty(nameof(IsFaceToTarget))]
         [Desc("转身速度（角度/秒）", "状态")]
         public float TurnSpeedSEC360

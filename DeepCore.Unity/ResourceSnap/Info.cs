@@ -41,9 +41,9 @@ namespace DeepCore.Unity.ResourceSnap
                     effectLoop = EffectLoop,
                 };
             }
-            if (go.TryGetAnimatorStates(out var a1, out var a2, out var anims))
+            if (go.TryGetAnimatorStates(out var a1, out var a2, ref ret.animations))
             {
-                ret.animations = anims;
+                //ret.animations = anims;
             }
 //             if (go.TryGetComponentInChildren<Unity3D.Voxel.VoxelAABB>(out var aabb))
 //             {

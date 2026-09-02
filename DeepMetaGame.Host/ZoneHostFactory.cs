@@ -30,6 +30,7 @@ namespace DeepCore.Game3D.Host
     [Reflectible]
     public abstract class ZoneHostFactory : IBattleFactory
     {
+        public Logger log { get; private set; } = new LazyLogger("ZoneHostFactory");
         //         private static ZoneHostFactory instance;
         //         public static ZoneHostFactory Factory
         //         {
@@ -74,7 +75,7 @@ namespace DeepCore.Game3D.Host
         /// <param name="log"></param>
         public virtual void BindLogger(Logger log)
         {
-
+            this.log = log;
         }
         //-------------------------------------------------------------------------------------------------------------------------------
         #region Instance Zone
@@ -372,14 +373,24 @@ namespace DeepCore.Game3D.Host
                 if (dataroot.Templates.DefaultConfig.PREVIEW_SCENE != 0)
                 {
                     sd = dataroot.LoadScene(dataroot.Templates.DefaultConfig.PREVIEW_SCENE);
+                    log.Info($"Load Preview Scene {dataroot.Templates.DefaultConfig.PREVIEW_SCENE} from dataroot.");
                 }
             }
-            if (sd != null)
+            if (sd == null)
             {
-                var z = this.CreatePreviewBattle(dataroot, slave, sd);
-                return z;
+                sd = new SceneData();
+                log.Warn($"Create Preview Scene from new SceneData.");
             }
-            return null;
+            var z = this.CreatePreviewBattle(dataroot, slave, sd);
+            if (z != null)
+            {
+                log.Info($"Create Preview Battle {z} from dataroot.");
+            }
+            else
+            {
+                log.Warn("Create Preview Battle failed from dataroot.");
+            }
+            return z;
         }
         protected virtual LocalBattle CreatePreviewBattle(EditorTemplates dataroot, ZoneSlaveFactory slave, SceneData sd)
         {

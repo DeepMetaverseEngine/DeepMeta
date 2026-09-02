@@ -341,7 +341,7 @@ namespace DeepMetaGame.Unity
             public Animator Animator { get; private set; }
             public Animation Animation { get; private set; }
             public ISpine Spine { get; private set; }
-            public HashMap<string, PlayableDirector> Playables { get; private set; }
+            public HashMap<string, PlayableDirector> Playables { get; } = new HashMap<string, PlayableDirector>(0);
             public UnityZoneUnit unit => base.layerObj;
             public virtual SimpleUnitRes Init(UnityZoneUnit unit, IWrapAssetsGO res)
             {
@@ -369,7 +369,6 @@ namespace DeepMetaGame.Unity
                     }
                     if (res.transform.TryGetComponentsInChildren<PlayableDirector>(out var playables, true))
                     {
-                        this.Playables = new HashMap<string, PlayableDirector>();
                         foreach (var playable in playables)
                         {
                             this.Playables.Put(playable.name, playable);
@@ -389,12 +388,12 @@ namespace DeepMetaGame.Unity
             protected override void Disposing()
             {
                 base.Disposing();
+                Playables.Clear();
                 Spine = null;
                 Animator = null;
                 Animation = null;
-                Playables = null;
             }
-            protected virtual bool TryPlaySpine(string StateName, float speed, bool loop, float NormalizeTime)
+            protected virtual bool TryPlaySpine(UnityActionStatus status, string StateName, float speed, bool loop, float NormalizeTime)
             {
                 if (this.Spine != null)
                 {
@@ -414,9 +413,9 @@ namespace DeepMetaGame.Unity
                 }
                 return false;
             }
-            protected virtual bool TryPlayPlayable(string StateName, float speed, bool loop, float NormalizeTime)
+            protected virtual bool TryPlayPlayable(UnityActionStatus status, string StateName, float speed, bool loop, float NormalizeTime)
             {
-                if (Playables != null && Playables.TryGetValue(StateName, out var playable))
+                if (!string.IsNullOrEmpty(StateName) && Playables != null && Playables.TryGetValue(StateName, out var playable))
                 {
                     foreach (var p in Playables.Values)
                     {
@@ -432,40 +431,99 @@ namespace DeepMetaGame.Unity
                 }
                 return false;
             }
-            protected virtual bool TryPlayAnimator(string StateName, float speed, bool loop, float NormalizeTime)
+            protected virtual bool TryPlayAnimator(UnityActionStatus status, string StateName, float speed, bool loop, float NormalizeTime)
             {
                 if (this.Animator)
                 {
-                    if (!string.IsNullOrEmpty(StateName) /*&& this.Animator.HasState(0, Animator.StringToHash(StateName))*/)
+                    try
                     {
                         this.Animator.enabled = true;
                         this.Animator.speed = speed;
-                        try
                         {
-                            if (NormalizeTime > 0)
+                            string layerName = status?.LayerName;
+                            float layerWeight = status?.LayerWeight ?? -1f;
+                            var layer = -1;
+                            if (!string.IsNullOrEmpty(layerName))
                             {
-                                this.Animator.CrossFade(StateName, NormalizeTime);
+                                layer = this.Animator.GetLayerIndex(layerName);
                             }
-                            else
+                            if (layerWeight >= 0 && layer >= 0)
                             {
-                                this.Animator.Play(StateName);
+                                this.Animator.SetLayerWeight(layer, layerWeight);
                             }
-                            return true;
+                            if (!string.IsNullOrEmpty(StateName) /*&& this.Animator.HasState(0, Animator.StringToHash(StateName))*/)
+                            {
+                                if (NormalizeTime > 0)
+                                {
+                                    this.Animator.CrossFade(StateName, NormalizeTime, layer);
+                                }
+                                else
+                                {
+                                    this.Animator.Play(StateName, layer);
+                                }
+                            }
                         }
-                        catch (Exception err)
+                        if (status?.CurrentAction?.ActionState != null)
                         {
-                            Debug.LogWarning($"{StateName} : {err.Message}");
+                            foreach (var action in status.CurrentAction.ActionState)
+                            {
+                                string layerName = action.Layer;
+                                float layerWeight = action.LayerWeight;
+                                var layer = -1;
+                                if (!string.IsNullOrEmpty(layerName))
+                                {
+                                    layer = this.Animator.GetLayerIndex(layerName);
+                                }
+                                if (layerWeight >= 0 && layer >= 0)
+                                {
+                                    this.Animator.SetLayerWeight(layer, layerWeight);
+                                }
+                                if (!string.IsNullOrEmpty(action.StateName))
+                                {
+                                    if (NormalizeTime > 0)
+                                    {
+                                        this.Animator.CrossFade(action.StateName, NormalizeTime, layer);
+                                    }
+                                    else
+                                    {
+                                        this.Animator.Play(action.StateName, layer);
+                                    }
+                                }
+                            }
                         }
+                        if (status?.CurrentAction?.ActionParams != null)
+                        {
+                            foreach (var param in status.CurrentAction.ActionParams)
+                            {
+                                if (string.IsNullOrEmpty(param.ParamName) == false)
+                                {
+                                    switch (param.ValueType)
+                                    {
+                                        case UnitActionDefinitionMap.UnitActionKeyFrame.ParamType.Boolean:
+                                            Animator.SetBool(param.ParamName, param.BoolValue); break;
+                                        case UnitActionDefinitionMap.UnitActionKeyFrame.ParamType.Float:
+                                            Animator.SetFloat(param.ParamName, param.FloatValue); break;
+                                        case UnitActionDefinitionMap.UnitActionKeyFrame.ParamType.Integer: 
+                                            Animator.SetInteger(param.ParamName, param.IntValue); break;
+                                    }
+                                }
+                                if (!string.IsNullOrEmpty(param.Trigger)) Animator.SetTrigger(param.Trigger);
+                            }
+                        }
+                        //                         else
+                        //                         {
+                        //                             this.Animator.enabled = false;
+                        //                         }
                     }
-                    else
+                    catch (Exception err)
                     {
-                        this.Animator.enabled = false;
+                        Debug.LogWarning($"{StateName} : {err.Message}");
                     }
                     return true;
                 }
                 return false;
             }
-            protected virtual bool TryPlayAnimation(string StateName, float speed, bool loop, float NormalizeTime)
+            protected virtual bool TryPlayAnimation(UnityActionStatus status, string StateName, float speed, bool loop, float NormalizeTime)
             {
                 if (this.Animation)
                 {
@@ -499,7 +557,7 @@ namespace DeepMetaGame.Unity
                 }
                 return false;
             }
-            protected virtual bool TryPlayAssets(string StateName, float speed, bool loop, float NormalizeTime)
+            protected virtual bool TryPlayAssets(UnityActionStatus status, string StateName, float speed, bool loop, float NormalizeTime)
             {
                 if (assets.AssetsTemplate.PlayAnim(assets, StateName, loop, speed))
                 {
@@ -507,15 +565,15 @@ namespace DeepMetaGame.Unity
                 }
                 return false;
             }
-            protected virtual bool PlayInternal(string StateName, float speed, bool loop, float NormalizeTime)
+            protected virtual bool PlayInternal(UnityActionStatus status, string StateName, float speed, bool loop, float NormalizeTime)
             {
                 try
                 {
-                    if (TryPlaySpine(StateName, speed, loop, NormalizeTime)) return true;
-                    if (TryPlayPlayable(StateName, speed, loop, NormalizeTime)) return true;
-                    if (TryPlayAnimator(StateName, speed, loop, NormalizeTime)) return true;
-                    if (TryPlayAnimation(StateName, speed, loop, NormalizeTime)) return true;
-                    if (TryPlayAssets(StateName, speed, loop, NormalizeTime)) return true;
+                    if (TryPlaySpine(status, StateName, speed, loop, NormalizeTime)) return true;
+                    if (TryPlayPlayable(status, StateName, speed, loop, NormalizeTime)) return true;
+                    if (TryPlayAnimator(status, StateName, speed, loop, NormalizeTime)) return true;
+                    if (TryPlayAnimation(status, StateName, speed, loop, NormalizeTime)) return true;
+                    if (TryPlayAssets(status, StateName, speed, loop, NormalizeTime)) return true;
                 }
                 catch (Exception err)
                 {
@@ -525,24 +583,24 @@ namespace DeepMetaGame.Unity
             }
             public override void PlayAnim(string actionName, float speed, bool loop)
             {
-                PlayInternal(actionName, speed, loop, 0);
+                PlayInternal(null, actionName, speed, loop, 0);
             }
             public override void PlayAnim(UnitActionStatus main, string StateName, float speed, bool loop)
             {
-                PlayInternal(StateName, speed, loop, 0);
+                PlayInternal(null, StateName, speed, loop, 0);
             }
             public override void PlayAnim(UnityActionStatus state)
             {
-                PlayInternal(state.StateName, state.Speed, state.IsLoop, state.NormalizeTime);
+                PlayInternal(state, state.StateName, state.Speed, state.IsLoop, state.NormalizeTime);
             }
             public virtual void StopAnim()
             {
                 try
                 {
-//                     if (this.Spine != null)
-//                     {
-//                         this.Spine.playing = false;
-//                     }
+                    //                     if (this.Spine != null)
+                    //                     {
+                    //                         this.Spine.playing = false;
+                    //                     }
                     if (this.Animator)
                     {
                         this.Animator.enabled = false;

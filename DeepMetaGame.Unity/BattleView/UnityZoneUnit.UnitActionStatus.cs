@@ -15,6 +15,7 @@ using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 using static DeepCore.Colors;
 using static DeepCore.Game3D.Slave.Layer.LayerUnit;
+using static DeepMetaGame.Data.Misc.UnitActionDefinitionMap;
 
 namespace DeepGame3D.Unity.BattleView
 {
@@ -273,7 +274,9 @@ namespace DeepGame3D.Unity.BattleView
             public float Speed { get; set; } = 1f;
             public bool IsLoop { get; set; } = false;
             public string Key { get; set; } = string.Empty;
-            //public abstract UnitActionDefinitionMap.UnitActionKeyFrame CurrentAction { get; }
+            public string LayerName { get; set; } = string.Empty;
+            public float LayerWeight { get; set; } = -1f;
+            public abstract UnitActionDefinitionMap.UnitActionKeyFrame CurrentAction { get; }
             protected UnityActionStatus() { }
             protected virtual UnityActionStatus Init(UnityZoneUnit owner, DeepMetaGame.Data.Misc.UnitActionStatus status)
             {
@@ -291,6 +294,8 @@ namespace DeepGame3D.Unity.BattleView
                 this.Speed = 1f;
                 this.IsLoop = false;
                 this.Key = string.Empty;
+                this.LayerName = string.Empty;
+                this.LayerWeight = -1f;
             }
             protected override void Destructing()
             {
@@ -337,6 +342,8 @@ namespace DeepGame3D.Unity.BattleView
                     this.StateName = act.ActionName;
                     this.NormalizeTime = act.CrossFadeTimeMS / 1000f;
                     this.IsLoop = act.Cycle;
+                    this.LayerName = act.ActionLayer;
+                    this.LayerWeight = act.ActionLayerWeight;
                     this.PlayAnim();
                 }
             }
@@ -348,6 +355,7 @@ namespace DeepGame3D.Unity.BattleView
             private LayerUnit.ISkillAction skillAction;
             public LayerUnit.ISkillAction SkillAction { get { return skillAction; } }
             public SkillTemplate Data { get { return skillAction.SkillData; } }
+            public override UnitActionDefinitionMap.UnitActionKeyFrame CurrentAction { get=> skillAction?.CurrentAction?.Action; }
             public static SkillActionStatus Alloc(UnityZoneUnit owner)
             {
                 var ret = owner.zone.objectPool.AllocOrCreateAutoRelease(static t => new SkillActionStatus());
@@ -364,7 +372,6 @@ namespace DeepGame3D.Unity.BattleView
                 base.Disposing();
                 skillAction = null;
             }
-            public UnitActionDefinitionMap.UnitActionKeyFrame CurrentAction => this.skillAction?.CurrentAction?.Action;
             protected override void OnSpeedChange()
             {
                 base.OnSpeedChange();
@@ -391,7 +398,9 @@ namespace DeepGame3D.Unity.BattleView
                         this.IsLoop = skillAction.CurrentAction.Action.Cycle;
                     }
                     this.Speed *= skillAction.FastActionRate;
-                    this.StateName = skillAction.CurrentActionName;                  
+                    this.StateName = skillAction.CurrentActionName;          
+                    this.LayerName = skillAction.CurrentAction?.Action?.ActionLayer;
+                    this.LayerWeight = skillAction.CurrentAction?.Action?.ActionLayerWeight ?? -1f;
                 }
                 if (this.skillAction?.CurrentAction?.ActionEffect != null)
                 {
@@ -415,6 +424,7 @@ namespace DeepGame3D.Unity.BattleView
             protected double mCurrentPassTime;
             protected UnityZoneUnit.AppendModelWrap mCustomModel;
             protected UnityEffectPlay mEffect;
+            public override UnitActionDefinitionMap.UnitActionKeyFrame CurrentAction => mCurrentAction;
             public static DefinedActionStatus Alloc(UnityZoneUnit owner, UnitActionDefinitionMap.UnitAction data)
             {
                 var ret = owner.zone.objectPool.AllocOrCreateAutoRelease(static t => new DefinedActionStatus());
@@ -450,8 +460,6 @@ namespace DeepGame3D.Unity.BattleView
                 this.mCurrentOverTime = 0;
                 this.mCurrentPassTime = 0;
             }
-
-            public UnitActionDefinitionMap.UnitActionKeyFrame CurrentAction => mCurrentAction;
             protected override void OnStart(object args)
             {
                 //base.OnStart(args);
@@ -522,6 +530,7 @@ namespace DeepGame3D.Unity.BattleView
         {
             private UnitActionStatus st;
             private string actionName;
+            public override UnitActionKeyFrame CurrentAction => null;
             public static CustomActionStatus Alloc(UnityZoneUnit owner, UnitActionStatus st, string actionName)
             {
                 var ret = owner.zone.objectPool.AllocOrCreateAutoRelease(static t => new CustomActionStatus());

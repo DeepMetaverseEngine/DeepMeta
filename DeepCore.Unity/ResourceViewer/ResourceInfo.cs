@@ -32,7 +32,7 @@ namespace DeepCore.Unity.ResourceViewer
         void Start()
         {
             this.gameObject.TryGetParticleDuration(out EffectDurationTime, out EffectLoop);
-            this.gameObject.TryGetAnimatorStates(out OwnerAnimator, out OwnerAnimation, out AnimateStates);
+            this.gameObject.TryGetAnimatorStates(out OwnerAnimator, out OwnerAnimation, ref AnimateStates);
         }
         public void Refresh()
         {
@@ -47,10 +47,10 @@ namespace DeepCore.Unity.ResourceViewer
                 this.gameObject.TryGetParticleDurationMS(out var ms, out var loop);
                 sb.AppendLine($"duration:{ms}  loop:{loop}");
             }
-            if (gameObject.TryGetAnimatorStates(out OwnerAnimator, out OwnerAnimation, out var clips))
+            if (gameObject.TryGetAnimatorStates(out OwnerAnimator, out OwnerAnimation, ref AnimateStates))
             {
                 sb.AppendLine("----Animate----");
-                foreach (var clip in clips)
+                foreach (var clip in AnimateStates)
                 {
                     sb.AppendLine(clip.name + " : " + clip.durationMS);
                 }
