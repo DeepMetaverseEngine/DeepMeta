@@ -374,12 +374,12 @@ namespace DeepCore.Game3D.Host
                     sd = dataroot.LoadScene(dataroot.Templates.DefaultConfig.PREVIEW_SCENE);
                 }
             }
-            if (sd == null)
+            if (sd != null)
             {
-                sd = new SceneData();
+                var z = this.CreatePreviewBattle(dataroot, slave, sd);
+                return z;
             }
-            var z = this.CreatePreviewBattle(dataroot, slave, sd);
-            return z;
+            return null;
         }
         protected virtual LocalBattle CreatePreviewBattle(EditorTemplates dataroot, ZoneSlaveFactory slave, SceneData sd)
         {

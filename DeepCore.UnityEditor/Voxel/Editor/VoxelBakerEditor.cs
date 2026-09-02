@@ -1,4 +1,5 @@
-﻿using DeepCore.Unity;
+﻿using DeepCore.IO;
+using DeepCore.Unity;
 using DeepCore.Unity3D.Impl;
 using DeepCore.Unity3D.Voxel;
 using DeepCore.UnityEditor.Expose;
@@ -165,6 +166,14 @@ namespace DeepCore.UnityEditor.Voxel
                                 SceneManager.GetActiveScene().name.ToLower() + ".voxt");
             try
             {
+                if (new DirectoryInfo(Application.dataPath).TryFindParentDirectory(Path.Combine("GameEditor"), out var editorRoot))
+                {
+                    voxtPath = new FileInfo(editorRoot.FullName + "/vox/" +SceneManager.GetActiveScene().name.ToLower() + ".voxt");
+                }
+                else if (new DirectoryInfo(Application.dataPath).TryFindParentDirectory(Path.Combine("Data", "GameEditor"), out editorRoot))
+                {
+                    voxtPath = new FileInfo(editorRoot.FullName + "/vox/" + SceneManager.GetActiveScene().name.ToLower() + ".voxt");
+                }
                 if (config.transform.TryGetComponentInChildren<VoxelTest>(out var test))
                 {
                     GameObject.DestroyImmediate(test.gameObject);

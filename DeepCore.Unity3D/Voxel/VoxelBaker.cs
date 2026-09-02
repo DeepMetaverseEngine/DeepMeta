@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using static DeepCore.Unity3D.Voxel.VoxelBaker.RayTestObjectGroup;
 
 namespace DeepCore.Unity3D.Voxel
 {
@@ -51,6 +52,7 @@ namespace DeepCore.Unity3D.Voxel
             {
                 var old_queriesHitBackfaces = Physics.queriesHitBackfaces;
                 Physics.queriesHitBackfaces = true;
+                var existingColliders = new HashMap<Collider, bool>();
                 var addingMeshColliders = new HashMap<GameObject, MeshCollider>();
                 {
                     if (config.autoBindMeshCollider)
@@ -60,13 +62,38 @@ namespace DeepCore.Unity3D.Voxel
                             o.transform.ForEachDeep(t =>
                             {
                                 var go = t.gameObject;
-                                if (go.TryGetComponent<MeshRenderer>(out var render))
+                                if (go.TryGetComponents<Collider>(out var colliders))
                                 {
-                                    if (!go.TryGetComponent<MeshCollider>(out var collider))
+                                    // 屏蔽现有的MeshCollider，避免重复碰撞
+                                    foreach (var c in colliders)
                                     {
-                                        collider = go.AddComponent<MeshCollider>();
-                                        addingMeshColliders.Add(go, collider);
+                                        existingColliders.Put(c, c.enabled);
+                                        c.enabled = false;
                                     }
+                                }
+                                if (go.TryGetComponent<MeshRenderer>(out var renderer))
+                                {
+                                    addingMeshColliders.Add(go, go.AddComponent<MeshCollider>());
+                                }
+                            });
+                        }
+                    }
+                    else if (config.onlyMeshCollider)
+                    {
+                        foreach (var o in aabb.gameObject.scene.GetRootGameObjects())
+                        {
+                            o.transform.ForEachDeep(t =>
+                            {
+                                var go = t.gameObject;
+                                if (go.TryGetComponents<Collider>(out var colliders))
+                                {
+                                    // 屏蔽现有的MeshCollider，避免重复碰撞
+                                    foreach (var c in colliders)
+                                    {
+                                        existingColliders.Put(c, c.enabled);
+                                        c.enabled = false;
+                                    }
+                                    addingMeshColliders.Add(go, go.AddComponent<MeshCollider>());
                                 }
                             });
                         }
@@ -79,13 +106,21 @@ namespace DeepCore.Unity3D.Voxel
                 finally
                 {
                     Physics.queriesHitBackfaces = old_queriesHitBackfaces;
-                    if (addingMeshColliders != null)
+                    if (addingMeshColliders.Count > 0)
                     {
                         foreach (var kv in addingMeshColliders)
                         {
                             MeshCollider.DestroyImmediate(kv.Value);
                         }
                         addingMeshColliders.Clear();
+                    }
+                    if (existingColliders.Count > 0)
+                    {
+                        foreach (var kv in existingColliders)
+                        {
+                            kv.Key.enabled = kv.Value;
+                        }
+                        existingColliders.Clear();
                     }
                     if (raytestTextures != null)
                     {
@@ -332,31 +367,31 @@ namespace DeepCore.Unity3D.Voxel
             public float Downward { get; private set; }
             public bool BaseLine { get; private set; }
             public float Height { get => Upward - Downward; }
-            public RayTestObjectHits(VoxelBaker baker, int ix, int iy, RaycastHit hit)
+            public RayTestObjectHits(VoxelBaker baker, int ix, int iy, VoxelCastHit hit)
             {
                 this.iX = ix;
                 this.iY = iy;
-                this.transform = hit.transform;
-                this.collider = hit.collider;
+                this.transform = hit.hit.transform;
+                this.collider = hit.hit.collider;
                 var v = hit.point;
                 this.Upward = v.y;
                 this.Downward = v.y;
                 {
-                    if (baker.TryGetObjectColor(in hit, out var baseColor, out var is_baseline))
+                    if (baker.TryGetObjectColor(in hit.hit, out var baseColor, out var is_baseline))
                     {
                         this.Color = baseColor;
                         this.BaseLine = is_baseline;
                     }
                 }
             }
-            public void UpdateHit(VoxelBaker baker, RaycastHit hit)
+            public void UpdateHit(VoxelBaker baker, VoxelCastHit hit)
             {
                 var v = hit.point;
                 this.Downward = Mathf.Min(this.Downward, v.y);
                 this.Upward = Mathf.Max(this.Upward, v.y);
                 if (this.Color == 0)
                 {
-                    if (baker.TryGetObjectColor(in hit, out var baseColor, out var is_baseline))
+                    if (baker.TryGetObjectColor(in hit.hit, out var baseColor, out var is_baseline))
                     {
                         this.Color = baseColor;
                         this.BaseLine = is_baseline;
@@ -399,19 +434,21 @@ namespace DeepCore.Unity3D.Voxel
             {
                 dicts.Clear();
                 dicts = null;
-            }
-
+            }            
             public VoxelNodeData[] RayTestObjects()
             {
                 var width = config.width;
                 var xc = baker.startPos.x + (ix + 0.5f) * width;
                 var yc = baker.startPos.y + (iy + 0.5f) * width;
                 {
-                    var min = Mathf.Min(config.raycastLimit, -config.raycastLimit);
-                    var max = Mathf.Max(config.raycastLimit, -config.raycastLimit);
-                    var hitted = new List<RaycastHit>();
-                    VoxelCast(hitted, xc, yc, min, max);
-                    foreach (var hit in hitted) { AddObject(hit); }
+                    var _min = -config.raycastLimit / 2;
+                    var _max = -_min;
+                    var min = Mathf.Min(_min, _max);
+                    var max = Mathf.Max(_min, _max);
+                    {
+                        var hitted = VoxelCast(xc, yc, min, max);
+                        foreach (var hit in hitted) { AddObject(hit); }
+                    }
                 }
                 var voxels = new List<VoxelNodeData>();
                 if (config.singleLayer)
@@ -458,8 +495,14 @@ namespace DeepCore.Unity3D.Voxel
                 }
                 return voxels.ToArray();
             }
-            private void VoxelCast(List<RaycastHit> hitted, float xc, float yc, float minY, float maxY)
+            public class VoxelCastHit
             {
+                public RaycastHit hit;
+                public Vector3 point;
+            }
+            private List<VoxelCastHit> VoxelCast(float xc, float yc, float minY, float maxY)
+            {
+                List<RaycastHit> hitted = new List<RaycastHit>();
                 var width = config.width;
                 var r = Math.Min(config.rayWidth / 2f, width / 2f);
                 {
@@ -478,13 +521,16 @@ namespace DeepCore.Unity3D.Voxel
                     BoxCast(xc, yc, minY, maxY, hitted);
                 }
                 hitted.Sort((a, b) => CMath.GetDirect(b.point.y - a.point.y));
+
+                return hitted.ConvertAll(h => new VoxelCastHit() { hit = h, point = h.point });
             }
             private void BoxCast(float x, float z, float minY, float maxY, List<RaycastHit> hitted)
             {
+                var d = Mathf.Abs(minY - maxY);
                 var r = Math.Min(config.rayWidth / 2f, config.width / 2f);
                 {
                     var from = new Vector3(x, maxY, z);
-                    var hits = Physics.BoxCastAll(from, Vector3.one * r, Vector3.down, Quaternion.identity, Mathf.Infinity, baker.layerMask);
+                    var hits = Physics.BoxCastAll(from, Vector3.one * r, Vector3.down, Quaternion.identity, d, baker.layerMask, QueryTriggerInteraction.Collide);
                     hitted.AddRange(hits);
                     //                     Array.Sort(hits, (a, b) => CMath.GetDirect(b.point.y - a.point.y));
                     //                     foreach (var item in hits)
@@ -494,7 +540,7 @@ namespace DeepCore.Unity3D.Voxel
                 }
                 {
                     var from = new Vector3(x, minY, z);
-                    var hits = Physics.BoxCastAll(from, Vector3.one * r, Vector3.up, Quaternion.identity, Mathf.Infinity, baker.layerMask);
+                    var hits = Physics.BoxCastAll(from, Vector3.one * r, Vector3.up, Quaternion.identity, d, baker.layerMask, QueryTriggerInteraction.Collide);
                     hitted.AddRange(hits);
                     //                     Array.Sort(hits, (a, b) => CMath.GetDirect(b.point.y - a.point.y));
                     //                     foreach (var item in hits)
@@ -505,9 +551,10 @@ namespace DeepCore.Unity3D.Voxel
             }
             private void RayCast(float x, float z, float minY, float maxY, List<RaycastHit> hitted)
             {
+                var d = Mathf.Abs(minY - maxY);
                 {
                     var from = new Vector3(x, maxY, z);
-                    var hits = Physics.RaycastAll(from, Vector3.down, Mathf.Infinity, baker.layerMask);
+                    var hits = Physics.RaycastAll(from, Vector3.down, d, baker.layerMask, QueryTriggerInteraction.Collide);
                     hitted.AddRange(hits);
                     //                   Array.Sort(hits, (a, b) => CMath.GetDirect(b.point.y - a.point.y));
                     //                     foreach (var item in hits)
@@ -517,7 +564,7 @@ namespace DeepCore.Unity3D.Voxel
                 }
                 {
                     var from = new Vector3(x, minY, z);
-                    var hits = Physics.RaycastAll(from, Vector3.up, Mathf.Infinity, baker.layerMask);
+                    var hits = Physics.RaycastAll(from, Vector3.up, d, baker.layerMask, QueryTriggerInteraction.Collide);
                     hitted.AddRange(hits);
                     //                    Array.Sort(hits, (a, b) => CMath.GetDirect(b.point.y - a.point.y));
                     //                     foreach (var item in hits)
@@ -527,24 +574,24 @@ namespace DeepCore.Unity3D.Voxel
                 }
             }
 
-            private void AddObject(RaycastHit hit)
+            private void AddObject(VoxelCastHit hit)
             {
                 if (config.onlyMeshCollider)
                 {
-                    if (hit.collider is not MeshCollider)
+                    if (hit.hit.collider is not MeshCollider)
                     {
                         return;
                     }
                 }
                 var v = hit.point;
-                if (dicts.TryGetValue(hit.transform, out var hits))
+                if (dicts.TryGetValue(hit.hit.transform, out var hits))
                 {
                     hits.UpdateHit(baker, hit);
                 }
                 else
                 {
                     hits = new RayTestObjectHits(baker, ix, iy, hit);
-                    dicts.Add(hit.transform, hits);
+                    dicts.Add(hit.hit.transform, hits);
                     baker.total_hits.Add(hits);
                 }
                 if (totalUpward < v.y || this.totalColor == 0)
@@ -569,7 +616,7 @@ namespace DeepCore.Unity3D.Voxel
                     UnityEngine.Debug.Log($"{ix},{iy}:({startZ},{endZ},{step}):开始掏空体素");
                     for (float z = startZ; z > endZ; z -= step)
                     {
-                        var touches = Physics.OverlapBox(new Vector3(xc, z, yc), new Vector3(r, h, r), Quaternion.identity, baker.layerMask);
+                        var touches = Physics.OverlapBox(new Vector3(xc, z, yc), new Vector3(r, h, r), Quaternion.identity, baker.layerMask, QueryTriggerInteraction.Collide);
                         if (touches != null && touches.Length > 0 && touches.TryIndexOf(obj.collider, out var index))
                         {
                             if (curLayer != null)
