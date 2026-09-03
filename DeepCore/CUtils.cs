@@ -1126,6 +1126,7 @@ namespace DeepCore
             }
             return str;
         }
+
         public static bool TryReplace(ref string str, char src, char dst, out int index)
         {
             index = -1;
@@ -1138,6 +1139,38 @@ namespace DeepCore
             return false;
         }
 
+        public static int TryReplaceAll(ref string str, string src, string dst)
+        {
+            if (src == dst) return 0;
+            int count = 0;
+            while (str.TryIndexOf(src, out var index))
+            {
+                str = str.Substring(0, index) + dst + str.Substring(index + src.Length);
+                count++;
+            }
+            return count;
+        }
+        public static int TryReplaceAll(ref string str, char src, char dst)
+        {
+            if (src == dst) return 0;
+            int count = 0;
+            while (str.TryIndexOf(src, out var index))
+            {
+                str = str.Substring(0, index) + dst + str.Substring(index + 1);
+                count++;
+            }
+            return count;
+        }
+        public static int TryReplaceAll<ST>(ref string str, ST st, string src, Func<ST, int, string> tostring)
+        {
+            int count = 0;
+            while (str.TryIndexOf(src, out var index))
+            {
+                str = str.Substring(0, index) + tostring(st, count) + str.Substring(index + src.Length);
+                count++;
+            }
+            return count;
+        }
 
 
         public static bool TryIndexOf(this string str, char ch, out int index, int start, int count)

@@ -57,7 +57,9 @@ namespace DeepCore.IO
             name = name.Replace('|', @override);
             return name;
         }
-        public delegate bool Filter(FileInfo src);
+        public delegate bool FileFilter(FileInfo src);
+        public delegate bool DirectoryFilter(DirectoryInfo src);
+
         public static List<FileInfo> ListAllFiles(DirectoryInfo dir, string[] fileNames, bool hierarchy = true)
         {
             List<FileInfo> list = new List<FileInfo>();
@@ -99,19 +101,19 @@ namespace DeepCore.IO
                 }
             }
         }
-        public static List<FileInfo> ListAllFiles(DirectoryInfo dir, Filter filter, bool hierarchy = true)
+        public static List<FileInfo> ListAllFiles(DirectoryInfo dir, FileFilter filter, bool hierarchy = true)
         {
             List<FileInfo> list = new List<FileInfo>();
             ListAllFiles(list, dir, filter, hierarchy);
             return list;
         }
-        public static List<FileInfo> ListAllFiles(string dir, Filter filter, bool hierarchy = true)
+        public static List<FileInfo> ListAllFiles(string dir, FileFilter filter, bool hierarchy = true)
         {
             List<FileInfo> list = new List<FileInfo>();
             ListAllFiles(list, new DirectoryInfo(dir), filter, hierarchy);
             return list;
         }
-        public static void ListAllFiles(List<FileInfo> list, DirectoryInfo dir, Filter filter, bool hierarchy = true)
+        public static void ListAllFiles(List<FileInfo> list, DirectoryInfo dir, FileFilter filter, bool hierarchy = true)
         {
             if (dir.Exists)
             {
@@ -131,7 +133,7 @@ namespace DeepCore.IO
                 }
             }
         }
-        public static void ListAllFiles(List<FileInfo> list, string dir, Filter filter, bool hierarchy = true)
+        public static void ListAllFiles(List<FileInfo> list, string dir, FileFilter filter, bool hierarchy = true)
         {
             ListAllFiles(list, new DirectoryInfo(dir), filter, hierarchy);
         }
@@ -174,6 +176,58 @@ namespace DeepCore.IO
 
         //----------------------------------------------------------------------------------------------------------------------------------
 
+        public static FileInfo FindFile(this DirectoryInfo dir, FileFilter find, bool hierarchy = true)
+        {
+            if (dir.Exists)
+            {
+                {
+                    foreach (var sub in dir.GetFiles())
+                    {
+                        if (find(sub))
+                        {
+                            return sub;
+                        }
+                    }
+                }
+                if (hierarchy)
+                {
+                    foreach (var sub in dir.GetDirectories())
+                    {
+                        if (FindFile(sub, find, hierarchy) is FileInfo ret)
+                        {
+                            return ret;
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+        public static DirectoryInfo FindDirectory(this DirectoryInfo dir, DirectoryFilter find, bool hierarchy = true)
+        {
+            if (dir.Exists)
+            {
+                {
+                    foreach (var sub in dir.GetDirectories())
+                    {
+                        if (find(sub))
+                        {
+                            return sub;
+                        }
+                    }
+                }
+                if (hierarchy)
+                {
+                    foreach (var sub in dir.GetDirectories())
+                    {
+                        if (FindDirectory(sub, find, hierarchy) is DirectoryInfo ret)
+                        {
+                            return ret;
+                        }
+                    }
+                }
+            }
+            return null;
+        }
         //----------------------------------------------------------------------------------------------------------------------------------
         //         public static void WriteAllBytes(this IExternalizableFactory factory, string path, object data)
         //         {
@@ -319,7 +373,7 @@ namespace DeepCore.IO
             System.IO.File.Copy(srcFile, df.FullName, overwrite);
         }
         public static void DirectoryCopy(string sourceDirName, string destDirName,
-            Filter filter = null,
+            FileFilter filter = null,
             bool copySubDirs = true,
             bool _override = true,
             AtomicInteger progress = null)

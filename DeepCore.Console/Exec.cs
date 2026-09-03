@@ -8,12 +8,16 @@ namespace DeepEditorConsole
 {
     public static class Exec
     {
+        public static ConsoleColor ForegroundColor = ConsoleColor.Green;
         public static int Run(string cmd, string args)
         {
             return Run(cmd, args, Environment.CurrentDirectory);
         }
         public static int Run(string cmd, string args, string workingDirectory)
         {
+            Console.ForegroundColor = ForegroundColor;
+            Console.WriteLine($"{cmd} {args}");
+            Console.ResetColor();
             try
             {
                 var process = new System.Diagnostics.Process();
@@ -24,6 +28,7 @@ namespace DeepEditorConsole
                 process.StartInfo.RedirectStandardOutput = true;
                 process.StartInfo.RedirectStandardError = true;
                 process.StartInfo.CreateNoWindow = true;
+                process.StartInfo.Verb = "runas";
                 process.OutputDataReceived += (sender, e) =>
                 {
                     if (!string.IsNullOrEmpty(e.Data))
@@ -49,6 +54,14 @@ namespace DeepEditorConsole
                 Console.WriteLine("Exception: " + ex.Message);
                 return -1;
             }
+        }
+        public static int Cmd(string cmd, string args)
+        {
+            return Cmd(cmd, args, Environment.CurrentDirectory);
+        }
+        public static int Cmd(string cmd, string args, string workingDirectory)
+        {
+            return Run("cmd", $"/C {cmd} {args}", workingDirectory);
         }
     }
 }
