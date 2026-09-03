@@ -57,7 +57,136 @@ Options:
             return -1;
         }
     }
+    static int init(Properties pargs, DirectoryInfo root, string gitURL)
+    {
+        var projName = root.Name;
+        Environment.CurrentDirectory = root.FullName;
+        Console.WriteLine($"Current Path: {root.FullName}");
+        Console.WriteLine($"Current Project Name: {projName}");
 
+        var GitPath = Path.Combine(root.FullName, ".git");
+        var SlnPath = Path.Combine(root.FullName, $"{projName}SLN");
+        var UnityPath = Path.Combine(root.FullName, $"{projName}Unity");
+        var GameEditorPath = Path.Combine(root.FullName, "GameEditor");
+        if (!Directory.Exists(GitPath))
+        {
+            Exec.Run("git", "init");
+        }
+        if (!Directory.Exists(SlnPath))
+        {
+            Console.WriteLine("### Make Solution folder ###");
+            Console.WriteLine(SlnPath);
+            Directory.CreateDirectory(SlnPath);
+        }
+        else
+        {
+            Console.WriteLine($"Solution Folder : {SlnPath}");
+        }
+        var DeepMetaPath = Path.Combine(SlnPath, "DeepMeta");
+        if (!Directory.Exists(DeepMetaPath))
+        {
+            Console.WriteLine("### Clone DeepMeta ###");
+            Exec.Run("git", $"submodule add {gitURL} DeepMeta", SlnPath);
+            Exec.Run("git", $"git pull \"origin\"  master:master", DeepMetaPath);
+            Exec.Run("git", $"git lfs pull", DeepMetaPath);
+        }
+        if (!File.Exists(Path.Combine(root.FullName, ".gitattributes")))
+        {
+            var gitattributes = Resource.LoadFromAssembly(typeof(Program), "_gitattributes");
+            CFiles.WriteAllBytes(Path.Combine(root.FullName, ".gitattributes"), gitattributes);
+            var git_ignore = Resource.LoadFromAssembly(typeof(Program), "_gitignore");
+            CFiles.WriteAllBytes(Path.Combine(root.FullName, ".gitignore"), git_ignore);
+        }
+        var SrcPath = Path.Combine(SlnPath, $"{projName}Src");
+        if (!Directory.Exists(SrcPath))
+        {
+            try
+            {
+                Console.WriteLine("### Copy Source Files ###");
+                var temp_dirs = new DirectoryInfo(DeepMetaPath).GetDirectories();
+                foreach (var dir in temp_dirs)
+                {
+                    if (dir.Name.StartsWith("_Temp_"))
+                    {
+                        var target_proj = $"{projName}SLN\\{projName}Src\\{dir.Name.Replace("_Temp_", projName)}";
+                        CFiles.ShellXCopy(root, $"{projName}SLN\\DeepMeta\\{dir.Name}", target_proj);
+                        if (projName != "_Temp_")
+                        {
+                            var subfiles = new DirectoryInfo(target_proj).GetFiles("*", SearchOption.AllDirectories);
+                            foreach (var sub in subfiles)
+                            {
+                                if (sub.Name.StartsWith("_Temp_"))
+                                {
+                                    var dstname = sub.Name.Replace("_Temp_", projName);
+                                    Console.WriteLine($"    {sub.FullName} -> {dstname}");
+                                    CFiles.ShellRename(sub.Directory, sub.Name, dstname);
+                                    var dst = Path.Combine(sub.Directory.FullName, sub.Name.Replace("_Temp_", projName));
+                                    var content = Resource.LoadData(dst);
+                                    var text = CUtils.DecodeUTF8(content, out var encoding);
+                                    text = text.ReplaceAll("_Temp_", projName);
+                                    CFiles.WriteAllText(dst, text, encoding);
+                                }
+                                else if (sub.Name.EndsWith(".cs")
+                                    || sub.Name.EndsWith(".txt")
+                                    || sub.Name.EndsWith(".bat")
+                                    || sub.Name.EndsWith(".json")
+                                    || sub.Name.EndsWith(".config"))
+                                {
+                                    var content = Resource.LoadData(sub.FullName);
+                                    var text = CUtils.DecodeUTF8(content, out var encoding);
+                                    text = text.ReplaceAll("_Temp_", projName);
+                                    CFiles.WriteAllText(sub, text, encoding);
+                                }
+                            }
+                        }
+                    }
+                }
+                {
+                    var git_ignore = Resource.LoadFromAssembly(typeof(Program), "_gitignore");
+                    CFiles.WriteAllBytes(Path.Combine(SrcPath, ".gitignore"), git_ignore);
+                }
+            }
+            catch (Exception err)
+            {
+                CFiles.Delete(SrcPath);
+                Console.WriteLine($"Error: {err}");
+                return -1;
+            }
+            //CFiles.ShellXCopy(root, $"{projName}SLN\\DeepMeta\\_Temp_*", $"{projName}SLN\\{projName}Src");
+        }
+        var SlnFilePath = Path.Combine(SlnPath, $"{projName}.slnx");
+        if (!Directory.Exists(SlnFilePath))
+        {
+            {
+                var srcSLNX = Resource.LoadFromAssembly(typeof(Program), "_Temp_.slnx");
+                var text = CUtils.DecodeUTF8(srcSLNX, out var encoding);
+                text = text.ReplaceAll("_Temp_", projName);
+                CFiles.WriteAllText(SlnFilePath, text, encoding);
+            }
+        }
+        if (!Directory.Exists(UnityPath))
+        {
+            Console.WriteLine("### Make Unity Project folder ###");
+            Console.WriteLine(UnityPath);
+            Directory.CreateDirectory(UnityPath);
+        }
+        else
+        {
+            Console.WriteLine($"Unity Project Folder : {UnityPath}");
+        }
+        if (!Directory.Exists(GameEditorPath))
+        {
+            Console.WriteLine("### Make Game Editor folder ###");
+            Console.WriteLine(GameEditorPath);
+            Directory.CreateDirectory(GameEditorPath);
+        }
+        else
+        {
+            Console.WriteLine($"Game Editor Folder : {GameEditorPath}");
+        }
+        return 0;
+    }
+    /*
     static int init(Properties pargs, DirectoryInfo root, string gitURL)
     {
         var projName = root.Name;
@@ -187,7 +316,7 @@ Options:
         }
         return 0;
     }
-
+     */
 
 
 }

@@ -323,7 +323,12 @@ namespace DeepCore.Game3D.Slave.Layer
             if (HostObject is IZoneUnit hostUnit)
             {
                 this.mLocalPos.ForceSetPos(this.mRemotePos.Value = hostUnit.Position.Value);
-                this.mDirection.ForceSync(hostUnit.Direction, hostUnit.BodyDirection);
+                //this.mDirection.ForceSync(hostUnit.Direction, hostUnit.BodyDirection);
+                this.mDirection.SyncFace(hostUnit.Direction, true);
+                this.mDirection.SyncBody(hostUnit.BodyDirection, true);
+                var trunFaceSpeed = mTurnFaceSpeedSEC * FastMoveRate;
+                var trunBodySpeed = mTurnBodySpeedSEC * FastMoveRate;
+                mDirection.Update(intervalMS, trunFaceSpeed, trunBodySpeed);
                 this.LayerUpward = hostUnit.LayerUpward; 
                 this.ForceSyncCurrentState(hostUnit.CurrentActionStatus, hostUnit.CurrentActionSubstate, null);
             }
