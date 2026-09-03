@@ -63,7 +63,7 @@ namespace DeepMetaGame.Data.Misc
             [Desc("播放时间（如果多段动作，则需要指定每段时间）", "动画")] public int TimeMS = 1000;
             //-----------------------------------------------------------------
             [Desc("动作资源Id", "1.State")] public int ActionResId { get { if (Parser.TryParseInt(ActionName, out var resId)) return resId; return 0; } }
-            [Desc("动作名", "1.State"), ResourceID(ResourceType.Animation)] public string ActionName { get => DefaultState?.StateName; set => DefaultState?.StateName = value; } 
+            [Desc("动作名", "1.State")] public string ActionName { get => DefaultState?.StateName; set => DefaultState?.StateName = value; } 
             [Desc("动作分层", "1.State")] public string ActionLayer { get => DefaultState?.LayerName; set => DefaultState?.LayerName = value; }
             [Desc("动作分层权重", "1.State")] public float ActionLayerWeight { get => DefaultState?.LayerWeight ?? 0; set => DefaultState?.LayerWeight = value; } 
             [Desc("是否淡出", "1.State")] public int CrossFadeTimeMS { get => DefaultState?.CrossFadeTimeMS ?? 0; set => DefaultState?.CrossFadeTimeMS = value; }

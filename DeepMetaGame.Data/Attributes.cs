@@ -147,7 +147,7 @@ namespace DeepMetaGame.Data
     /// <summary>
     /// 标识 Field 字段为资源文件
     /// </summary>
-    [AttributeUsage(AttributeTargets.Field)]
+    [AttributeUsage(AttributeTargets.Field| AttributeTargets.Property)]
     public class ResourceIDAttribute : System.Attribute
     {
         public ResourceType ResType { get; }
