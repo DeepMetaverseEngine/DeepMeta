@@ -236,7 +236,7 @@ namespace DeepMetaGame.Data
         MapBlockBrush,
         UnitActionDefinitionMap,
         UnitAction,
-        UnitActionKeyFrame, UnitActionKeyFrameState, UnitActionKeyFrameParam,
+        UnitActionKeyFrame, UnitActionKeyFrameState, UnitActionKeyFrameParam, UnitActionKeyFrameTrigger,
         UnitAnimation,
         UnitAttachment,
         UnitFlyOpt,

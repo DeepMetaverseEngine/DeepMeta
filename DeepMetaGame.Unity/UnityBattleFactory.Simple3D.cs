@@ -439,6 +439,7 @@ namespace DeepMetaGame.Unity
                     {
                         this.Animator.enabled = true;
                         this.Animator.speed = speed;
+                        //if (status?.CurrentAction?.DefaultState != null)
                         {
                             string layerName = status?.LayerName;
                             float layerWeight = status?.LayerWeight ?? -1f;
@@ -451,7 +452,7 @@ namespace DeepMetaGame.Unity
                             {
                                 this.Animator.SetLayerWeight(layer, layerWeight);
                             }
-                            if (!string.IsNullOrEmpty(StateName) /*&& this.Animator.HasState(0, Animator.StringToHash(StateName))*/)
+                            if (!string.IsNullOrEmpty(StateName))
                             {
                                 if (NormalizeTime > 0)
                                 {
@@ -463,11 +464,11 @@ namespace DeepMetaGame.Unity
                                 }
                             }
                         }
-                        if (status?.CurrentAction?.ActionState != null)
+                        if (status?.CurrentAction?.SubStates != null)
                         {
-                            foreach (var action in status.CurrentAction.ActionState)
+                            foreach (var action in status.CurrentAction.SubStates)
                             {
-                                string layerName = action.Layer;
+                                string layerName = action.LayerName;
                                 float layerWeight = action.LayerWeight;
                                 var layer = -1;
                                 if (!string.IsNullOrEmpty(layerName))
@@ -503,11 +504,27 @@ namespace DeepMetaGame.Unity
                                             Animator.SetBool(param.ParamName, param.BoolValue); break;
                                         case UnitActionDefinitionMap.UnitActionKeyFrame.ParamType.Float:
                                             Animator.SetFloat(param.ParamName, param.FloatValue); break;
-                                        case UnitActionDefinitionMap.UnitActionKeyFrame.ParamType.Integer: 
+                                        case UnitActionDefinitionMap.UnitActionKeyFrame.ParamType.Integer:
                                             Animator.SetInteger(param.ParamName, param.IntValue); break;
                                     }
                                 }
-                                if (!string.IsNullOrEmpty(param.Trigger)) Animator.SetTrigger(param.Trigger);
+                            }
+                        }
+                        if (status?.CurrentAction?.ActionTriggers != null)
+                        {
+                            foreach (var trigger in status.CurrentAction.ActionTriggers)
+                            {
+                                if (string.IsNullOrEmpty(trigger.TriggerName) == false)
+                                {
+                                    if (trigger.Enable)
+                                    {
+                                        this.Animator.SetTrigger(trigger.TriggerName);
+                                    }
+                                    else
+                                    {
+                                        this.Animator.ResetTrigger(trigger.TriggerName);
+                                    }
+                                }
                             }
                         }
                         //                         else
