@@ -60,46 +60,51 @@ namespace DeepMetaGame.Data.Misc
         public class UnitActionKeyFrame : ISerializable, IKeyFrame, IPropertiesOwner
         {
             int IKeyFrame.FrameMS => TimeMS;
-            [Desc("动作资源Id", "动画")] public int ActionResId { get { if (Parser.TryParseInt(ActionName, out var resId)) return resId; return 0; } }
-            [Desc("动作名", "动画"), ResourceID(ResourceType.Animation)] public string ActionName = "f_idle";
-            [Desc("动作状参数", "动画"), NotNull] public ArrayList<Param> ActionParams = new ArrayList<Param>();
-            [Desc("动作状态组", "动画"), NotNull] public ArrayList<State> ActionState = new ArrayList<State>();
             [Desc("播放时间（如果多段动作，则需要指定每段时间）", "动画")] public int TimeMS = 1000;
+            //-----------------------------------------------------------------
+            [Desc("动作资源Id", "1.State")] public int ActionResId { get { if (Parser.TryParseInt(ActionName, out var resId)) return resId; return 0; } }
+            [Desc("动作名", "1.State"), ResourceID(ResourceType.Animation)] public string ActionName { get => DefaultState?.StateName; set => DefaultState?.StateName = value; } 
+            [Desc("动作分层", "1.State")] public string ActionLayer { get => DefaultState?.LayerName; set => DefaultState?.LayerName = value; }
+            [Desc("动作分层权重", "1.State")] public float ActionLayerWeight { get => DefaultState?.LayerWeight ?? 0; set => DefaultState?.LayerWeight = value; } 
+            [Desc("是否淡出", "1.State")] public int CrossFadeTimeMS { get => DefaultState?.CrossFadeTimeMS ?? 0; set => DefaultState?.CrossFadeTimeMS = value; }
+            [Desc("默认状态", "1.State"), NotNull] public Layer DefaultState = new Layer();
+            [Desc("分层状态", "1.State"), NotNull] public ArrayList<Layer> SubStates = new ArrayList<Layer>();
+            //-----------------------------------------------------------------
+            [Desc("动作参数", "2.Param"), NotNull] public ArrayList<Param> ActionParams = new ArrayList<Param>();
+            [Desc("动作触发器", "2.Param"), NotNull] public ArrayList<Trigger> ActionTriggers = new ArrayList<Trigger>();
+            //-----------------------------------------------------------------
             [Desc("是否循环", "动画")] public bool Cycle = true;
-            [Desc("是否淡出", "动画")] public int CrossFadeTimeMS;
             [Desc("播放速度", "动画")] public float Speed = 1f;
-            [Desc("动作分层", "动画")] public string ActionLayer;
-            [Desc("动作分层权重", "动画")] public float ActionLayerWeight = 1f;
             [Desc("子状态起效", "动画")] public string SubStateKey;
             [Desc("循环播几次", "动画")] public int RepeatCount = 0;
-            [Desc("声音名", "声音"), ResourceID(ResourceType.Sound_Effect)] public string SoundName;
             [Desc("绑定的特效", "动画")] public LaunchEffect ActionEffect;
+            [Desc("声音名", "声音"), ResourceID(ResourceType.Sound_Effect)] public string SoundName;
+            //-----------------------------------------------------------------
             [Desc("Tag")] public string Tag = "";
             [Desc("自定义动作")] public IKeyFrameProperties CustomAction;
             IPropertiesData IPropertiesOwner.PropertiesData => CustomAction;
+            //-----------------------------------------------------------------
             public UnitActionKeyFrame()
             {
                 CustomAction = ZoneDataFactory.Factory.CreateProperties<IKeyFrameProperties>(this);
             }
-
-
             public override string ToString()
             {
                 return $"{ActionName}";
             }
-
             [Desc("动作帧状态")]
             [MessageType(BattleConstants.UnitActionKeyFrameState)]
-            public class State
+            public class Layer
             {
-                [Desc("动作名", "动画")] public string StateName;
-                [Desc("动作分层", "动画")] public string Layer;
+                [Desc("动作名", "动画"), ResourceID(ResourceType.Animation)] public string StateName = "Idle";
+                [Desc("动作分层", "动画")] public string LayerName;
                 [Desc("动作分层权重", "动画")] public float LayerWeight = -1f;
+                [Desc("是否淡出", "动画")] public int CrossFadeTimeMS;
                 public override string ToString()
                 {
                     var sb = new System.Text.StringBuilder();
                     if (!string.IsNullOrEmpty(StateName)) sb.Append($"StateName:{StateName} ");
-                    if (!string.IsNullOrEmpty(Layer)) sb.Append($"Layer:{Layer} ");
+                    if (!string.IsNullOrEmpty(LayerName)) sb.Append($"LayerName:{LayerName} ");
                     if (LayerWeight >= 0f) sb.Append($"LayerWeight:{LayerWeight} ");
                     return sb.ToString().TrimEnd();
                 }
@@ -117,11 +122,10 @@ namespace DeepMetaGame.Data.Misc
                 [DependOnProperty(nameof(IsFloat))] public float FloatValue;
                 [DependOnProperty(nameof(IsInteger))] public int IntValue;
                 [DependOnProperty(nameof(IsBoolean))] public bool BoolValue;
-                public string Trigger;
                 public override string ToString()
                 {
                     var sb = new System.Text.StringBuilder();
-                    sb.Append($"{ParamName} : ");
+                    sb.Append($"{ParamName}:");
                     if (IsFloat) sb.Append($"{FloatValue}");
                     if (IsInteger) sb.Append($"{IntValue}");
                     if (IsBoolean) sb.Append($"{BoolValue}");
@@ -130,6 +134,18 @@ namespace DeepMetaGame.Data.Misc
                 public bool IsFloat => ValueType == ParamType.Float;
                 public bool IsInteger => ValueType == ParamType.Integer;
                 public bool IsBoolean => ValueType == ParamType.Boolean;
+            }
+            [Desc("动作帧触发器")]
+            [MessageType(BattleConstants.UnitActionKeyFrameTrigger)]
+            public class Trigger
+            {                
+                public string TriggerName;
+                public bool Enable;
+                public override string ToString()
+                {
+                    var e = Enable ? "On" : "Off";
+                    return $"{TriggerName}:{e}";
+                }
             }
         }
 
