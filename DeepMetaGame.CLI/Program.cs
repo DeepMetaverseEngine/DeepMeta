@@ -15,8 +15,8 @@ Options:
   -root=<path>         Specify the root directory for the project
 ";
 
-    static string TEMPLATE_GIT_URL = "git@git.code.tencent.com:DeepMeta/DeepTemplate.git";
-    static string DEEPMETA_GIT_URL = "git@git.code.tencent.com:DeepMeta/DeepMeta.git";
+    static string TEMPLATE_GIT_URL = "git@github.com:DeepMetaverseEngine/DeepTemplate.git";//"git@git.code.tencent.com:DeepMeta/DeepTemplate.git";
+    static string DEEPMETA_GIT_URL = "git@github.com:DeepMetaverseEngine/DeepMeta.git";//"git@git.code.tencent.com:DeepMeta/DeepMeta.git";
 
 
     [STAThread]
@@ -65,13 +65,13 @@ Options:
         {
             Console.WriteLine("Exception: " + ex.Message);
             Console.WriteLine(USAGE);
+            return -1;
         }
         finally
         {
             Console.WriteLine($"Press Any Key To Exit.");
             Console.ReadKey();
         }
-        return -1;
     }
     const string TEMP_NAME = "_Temp_";
     static int init(Properties pargs, DirectoryInfo root)
@@ -228,33 +228,48 @@ Options:
     static int rename_editor(Properties pargs, DirectoryInfo root, string projName)
     {
         var editor_dir = new DirectoryInfo(Path.Combine(root.FullName, $"GameEditor"));
-        if (replace_all(new FileInfo(Path.Combine(root.FullName, $"GameEditor.bat")), TEMP_NAME, projName))
+        //if (replace_all(new FileInfo(Path.Combine(root.FullName, $"GameEditor.bat")), TEMP_NAME, projName))
         {
-            while (editor_dir.FindFile(d => d.Name.StartsWith(TEMP_NAME)) is FileInfo tempFile)
+            var list = CFiles.ListAllFiles(editor_dir, d => d.Name.StartsWith(TEMP_NAME));
+            //while (editor_dir.FindFile(d => d.Name.StartsWith(TEMP_NAME)) is FileInfo tempFile)
+            foreach (var tempFile in list)
             {
-                var projDir = new FileInfo(Path.Combine(tempFile.Directory.FullName, tempFile.Name.Replace(TEMP_NAME, projName)));
-                var code = Exec.Cmd("ren", $"\"{tempFile.FullName}\" \"{projDir.Name}\"");
-                if (code != 0)
+                var dstFile = new FileInfo(Path.Combine(tempFile.Directory.FullName, tempFile.Name.Replace(TEMP_NAME, projName)));
+                if (tempFile.Name.EndsWith(".dll") ||
+                    tempFile.Name.EndsWith(".exe") ||
+                    tempFile.Name.EndsWith(".pdb") ||
+                    tempFile.Name.EndsWith(".config") ||
+                    tempFile.Name.EndsWith(".json"))
                 {
-                    return code;
+                    var code = Exec.Cmd("copy", $" /y \"{tempFile.FullName}\" \"{dstFile.FullName}\"");
+                    if (code != 0)
+                    {
+                        return code;
+                    }
+                    replace_all(dstFile, TEMP_NAME, projName);
                 }
+                //                 else
+                //                 {
+                //                     var code = Exec.Cmd("ren", $"\"{tempFile.FullName}\" \"{projDir.Name}\"");
+                //                     if (code != 0)
+                //                     {
+                //                         return code;
+                //                     }
+                //                 }
             }
             // Replace content in all relevant files
             {
                 var subfiles = editor_dir.GetFiles("*", SearchOption.AllDirectories);
                 foreach (var sub in subfiles)
                 {
-                    if (sub.Name.EndsWith(".cs")
-                        || sub.Name.EndsWith(".xml")
-                        || sub.Name.EndsWith(".csproj")
-                        || sub.Name.EndsWith(".bat")
-                        || sub.Name.EndsWith(".json")
-                        || sub.Name.EndsWith(".config"))
+                    if (sub.Name.EndsWith(".cs") || 
+                        sub.Name.EndsWith(".xml") || 
+                        sub.Name.EndsWith(".csproj") ||
+                        sub.Name.EndsWith(".bat"))
                     {
                         replace_all(sub, TEMP_NAME, projName);
                     }
                 }
-                ;
             }
         }
         return 0;

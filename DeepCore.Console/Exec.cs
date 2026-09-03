@@ -15,11 +15,10 @@ namespace DeepEditorConsole
         }
         public static int Run(string cmd, string args, string workingDirectory)
         {
-            Console.ForegroundColor = ForegroundColor;
-            Console.WriteLine($"{cmd} {args}");
-            Console.ResetColor();
             try
             {
+                Console.ForegroundColor = ForegroundColor;
+                Console.WriteLine($"{cmd} {args}");
                 var process = new System.Diagnostics.Process();
                 process.StartInfo.FileName = cmd;
                 process.StartInfo.Arguments = args;
@@ -53,6 +52,10 @@ namespace DeepEditorConsole
             {
                 Console.WriteLine("Exception: " + ex.Message);
                 return -1;
+            }
+            finally
+            {
+                Console.ResetColor();
             }
         }
         public static int Cmd(string cmd, string args)
